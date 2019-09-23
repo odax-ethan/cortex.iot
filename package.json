@@ -1,0 +1,19 @@
+{
+  "name": "corext.iot",
+  "version": "0.0.1",
+  "description": "a node based iot infustructure",
+  "main": "cortex.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/odax-ethan/corext.iot.git"
+  },
+  "author": "Ethan Drory @ Odax Systems",
+  "license": "SEE LICENSE IN <filename>",
+  "bugs": {
+    "url": "https://github.com/odax-ethan/corext.iot/issues"
+  },
+  "homepage": "https://github.com/odax-ethan/corext.iot#readme"
+}
