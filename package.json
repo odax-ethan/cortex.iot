@@ -1,14 +1,14 @@
 {
   "name": "corext.iot",
-  "version": "0.1.0-alpha",
+  "version": "0.0.1",
   "description": "a node based iot infustructure",
   "main": "cortex.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "browser-refresh server.js",
     "css-build": "node-sass --omit-source-map-url scr/styles/masterStyle.scss scr/template/masterStyle.css",
-    "css-watch": "npm run css-build -- --watch",
-    "start": "npm run css-watch"
+   "css-watch": "npm run css-build -- --watch",
+   "start": "npm run css-watch"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/odax-ethan/corext.iot#readme",
   "dependencies": {
-    "pouchdb": "7.1.1",
+    "pouchdb" : "7.1.1",
     "@lasso/marko-taglib": "^1.0.15",
     "browser-refresh": "^1.7.3",
     "browser-refresh-taglib": "^1.1.0",
