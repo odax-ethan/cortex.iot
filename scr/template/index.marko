@@ -1,0 +1,37 @@
+<lasso-page />
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>marko-express</title>
+  <lasso-head />
+</head>
+
+<body>
+  <app-sample name=data.name />
+  You have ${data.count} new messages!
+
+  <if(data.colors && data.colors.length)>
+    <ul>
+    <for|color, index| of=data.colors>
+      <li style=`color: ${color}`>${color}</li>
+    </for>
+    </ul>
+  </if>
+  <else>
+      <div>No colors!</div>
+  </else>
+
+  <lasso-body />
+
+      <!--
+    Page will automatically refresh any time a template is modified
+    if launched using the browser-refresh Node.js process launcher:
+    https://github.com/patrick-steele-idem/browser-refresh
+    -->
+  <browser-refresh />
+</body>
+
+</html>
