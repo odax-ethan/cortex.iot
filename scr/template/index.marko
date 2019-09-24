@@ -10,19 +10,23 @@
 </head>
 
 <body>
-  <app-sample name=data.name />
-  You have ${data.count} new messages!
 
-  <if(data.colors && data.colors.length)>
-    <ul>
-    <for|color, index| of=data.colors>
-      <li style=`color: ${color}`>${color}</li>
-    </for>
-    </ul>
-  </if>
-  <else>
-      <div>No colors!</div>
-  </else>
+<div.box>
+    <app-sample name=data.name />
+    You have ${data.count} new messages!
+
+    <if(data.colors && data.colors.length)>
+      <ul>
+      <for|color, index| of=data.colors>
+        <li style=`color: ${color}`>${color}</li>
+      </for>
+      </ul>
+    </if>
+    <else>
+        <div>No colors!</div>
+    </else>
+</div>
+
 
   <lasso-body />
 

@@ -5,7 +5,7 @@ require('marko/node-require');
 const express = require('express');
 const markoPress = require('marko/express'); //enable res.marko
 const lassoWare = require('lasso/middleware');
-const indexTemplate = require('./index.marko');
+const indexTemplate = require('./scr/template/index.marko');
 
 const port = 8080;
 const isProduction = (process.env.NODE_ENV === 'production');
@@ -35,7 +35,7 @@ app.get('/', function (req, res) {
 
 app.listen(port, function () {
     console.log('Server started! Try it out:\nhttp://localhost:' + port + '/');
-    
+
     if (process.send) {
         process.send('online');
     }
