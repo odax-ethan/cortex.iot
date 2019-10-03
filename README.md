@@ -94,4 +94,8 @@ No known complications
 
 
 
-[🐐](odax-ethan)
+[⚗️](odax-ethan)
+
+minor updates = 🔨
+major update = 🔧
+new feature = 🛠
