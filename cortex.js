@@ -5,7 +5,8 @@ require('marko/node-require');
 const express = require('express');
 const markoPress = require('marko/express'); //enable res.marko
 const lassoWare = require('lasso/middleware');
-const indexTemplate = require('./scr/template/index.marko');
+
+const hubtemplate = require('./scr/templates/hub/index.marko');
 
 const port = 8080;
 const isProduction = (process.env.NODE_ENV === 'production');
@@ -26,7 +27,7 @@ app.use(markoPress());
 app.use(lassoWare.serveStatic());
 
 app.get('/', function (req, res) {
-    res.marko(indexTemplate, {
+    res.marko(hubtemplate, {
         name: 'Frank',
         count: 30,
         colors: ['red', 'green', 'blue']

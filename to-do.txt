@@ -1,6 +1,0 @@
-TO DO:
-
-// add lasso-sass vs node-sass prebuild
-
-// add socket.io directlty to client
-// add font awesome for node.js
