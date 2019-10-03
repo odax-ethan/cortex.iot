@@ -1,5 +1,5 @@
-# Cortex.iot
-a node.js/Javascript based iot infustructure
+# Cortex.iot 
+commuminity edition node.js/Javascript based iot infustructure
 
 ## Why?
 Cortex.iot was build due to the frustration of building custom systems for iot infrastructure and UI.  
