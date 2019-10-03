@@ -81,7 +81,7 @@ No known complications
 
 
 
-[⚗️](odax-ethan)
+[⚗️](odax-ethan) [Ethan Drory](www.drorydesign.com) 
 
 minor updates = 🔨
 major update = 🔧
