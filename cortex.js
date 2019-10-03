@@ -7,10 +7,20 @@ const express = require('express');
 const markoPress = require('marko/express'); //enable res.marko
 const lassoWare = require('lasso/middleware');
 const ip = require('ip'); // include ip
+const five = require("johnny-five");
+
+const EventEmitter = require('events');
+class systemEmitter extends EventEmitter {}
+const sensorEmitter = new systemEmitter(); //create event for the sensors
+const statusEmitter = new systemEmitter(); //create event for status
 
 const hubtemplate = require('./scr/templates/hub/index.marko');
 const settingstemplate = require('./scr/templates/settings/index.marko');
 const accounttemplate = require('./scr/templates/account/index.marko');
+const documentationtemplate = require('./scr/templates/documentation/index.marko');
+const feedbacktemplate = require('./scr/templates/feedback/index.marko');
+
+const {systemConfig} = require(__dirname +'/scr/config/systemConfig.js'); //cortex support components
 
 const isProduction = (process.env.NODE_ENV === 'production');
 
@@ -31,7 +41,7 @@ const port = 8080; // define system port
 
 /////////////////////// systems are loaded => now action ///////////////////////
 
-const mySystem = new System // create system class for current system
+const mySystem = new System(systemConfig) // create system class for current system
 const app = express();
 app.use(markoPress());
 app.use(lassoWare.serveStatic());
@@ -60,9 +70,41 @@ app.get('/account', function (req, res) {
     });
 });
 
-app.listen(port, hostIP, function () {
+app.get('/documentation', function (req, res) {
+    res.marko(documentationtemplate, {
+        name: 'Frank',
+        count: 30,
+        colors: ['red', 'green', 'blue']
+    });
+});
+
+app.get('/feedback', function (req, res) {
+    res.marko(feedbacktemplate, {
+        name: 'Frank',
+        count: 30,
+        colors: ['red', 'green', 'blue']
+    });
+});
+
+const systemApp  = app.listen(port, hostIP, function () {
   console.log('Server started! Try it out:\nhttp://'+ systemIP +':' + port + '/');
     if (process.send) {
       process.send('online');
     }
 });
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+new five.Boards(mySystem.portConfig()).on("ready", function() {
+      // test for each instance of board test againt deveice generators
+      this.each(function(board) {
+
+
+
+      }); //end of each.board
+});
+
+
+///////////////////////////////////////////////////////////////////////////////
