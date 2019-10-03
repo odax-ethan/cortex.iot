@@ -1,4 +1,4 @@
-# Cortex.iot 
+# Cortex.iot
 commuminity edition node.js/Javascript based iot infustructure
 
 ## Why?
@@ -52,7 +52,7 @@ Marko.js built by EBay.com was our choice for front-end system due to ease of in
 Pouchdb has become an unexpected choice for use in cortex.iot but due to its ability to work anywhere node.js can without the need for another supporting system. Which has made it invaluable.
 * [Bulma](bulma.io)
 Bulma is the base for the css system with some new extra goodies. We use node-sass to build the css files. You can style your system any way you like.
-* [Express.js](express.com) **check this correct url**
+* [Express.js](express.com)
 Express provides extra systems on to of the node http module which provide useful utility.
 
 ## Installation
@@ -81,7 +81,7 @@ No known complications
 
 
 
-[⚗️](odax-ethan) [Ethan Drory](www.drorydesign.com) 
+[⚗️](odax-ethan) [Ethan Drory](www.drorydesign.com)
 
 minor updates = 🔨
 major update = 🔧
