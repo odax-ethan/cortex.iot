@@ -1,14 +1,5 @@
-@@ -1,4 +1,104 @@
-# corext.iot
- a node based iot infustructure
-GitHub description
-
-[![Build Status](https://travis-ci.com/odax-ethan/cortex.iot.svg?branch=master)](https://travis-ci.com/odax-ethan/cortex.iot)
-
-
 # Cortex.iot
-A node based iot system
-
+a node.js/Javascript based iot infustructure
 
 ## Why?
 Cortex.iot was build due to the frustration of building custom systems for iot infrastructure and UI.  
@@ -47,11 +38,7 @@ Cortex.iot community is the underlying opensource system that makes up cortex.io
 ## How?
 Two vs One.  It is worth noting that cortex.iot is one discrete stand alone system (web server + embedded hardware logic controller + frontend renderer + data base ).  Data flows directly to the sever via the Firmata Protocol from the hardware. All logic happens on the local server and is stored locally. The system can be interacted with via any web browser ( on your phone , computer, etc ) as long as you are on the local network.
 
-This is in contrast to a system which has logic programmed on the embedded hardware that transmits data to a cloud server.  The server then sends the datat to a phone or desktop and requires to download an app or what ever you want call it... to interact with the data.
-
-Are these two things all that different? Yes and no. Yes, they fundamentally same because they produce the same end result using the same systems: a interactive ui on a users screen. But they are so fundamentally different because in the latter example you have generally program each element of the system discretely ( embedded hardware, server, client, database ) in a different language. In the first example, all of these system elements are basically all programmed in Javascript*.
-
-> *  the client uses html and css to style and place elements. The actual Firmata protocol is written in c++, but users interact with it via Javascript.  
+This is in contrast to a system which has logic program each element of the system discretely ( embedded hardware, server, client, database ) in a different language.
 
 
 ## Parts
