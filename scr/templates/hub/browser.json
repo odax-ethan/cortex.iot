@@ -1,0 +1,8 @@
+{
+  "dependencies": [
+    {
+      "type": "js",
+      "url": "/socket.io/socket.io.js"
+    }
+  ]
+}

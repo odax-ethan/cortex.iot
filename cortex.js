@@ -8,11 +8,11 @@ const markoPress = require('marko/express'); //enable res.marko
 const lassoWare = require('lasso/middleware');
 const ip = require('ip'); // include ip
 const five = require("johnny-five");
+var io = require('socket.io')
+
 
 const EventEmitter = require('events');
-class systemEmitter extends EventEmitter {}
-const sensorEmitter = new systemEmitter(); //create event for the sensors
-const statusEmitter = new systemEmitter(); //create event for status
+
 
 const hubtemplate = require('./scr/templates/hub/index.marko');
 const settingstemplate = require('./scr/templates/settings/index.marko');
@@ -43,6 +43,8 @@ const port = 8080; // define system port
 
 const mySystem = new System(systemConfig) // create system class for current system
 const app = express();
+const server = require('http').Server(app); // create http server instance through express
+
 app.use(markoPress());
 app.use(lassoWare.serveStatic());
 
@@ -93,18 +95,59 @@ const systemApp  = app.listen(port, hostIP, function () {
     }
 });
 
-
-////////////////////////////////////////////////////////////////////////////////
-
-
-new five.Boards(mySystem.portConfig()).on("ready", function() {
-      // test for each instance of board test againt deveice generators
-      this.each(function(board) {
+const ioSystem = io(systemApp)
 
 
+//////////////////////// johnny-five ////////////////////////////////////////////
 
-      }); //end of each.board
+const systemPorts = mySystem.portConfig()
+if ( systemPorts.length > 0) {
+  console.log("connecting to devices...");
+  new five.Boards(systemPorts).on("ready", function() {
+        // test for each instance of board test againt deveice generators
+        this.each(function(board) {
+
+
+        }); //end of each.board
+  });
+
+} else {
+  console.log("no devices to connect to...");
+}
+
+
+
+////////////// socket.io ACTIONS ///////////////////////////////////////////////
+
+ioSystem.on('connection', function(socket){
+  console.log('a user connected');
+
+
+  statusEmitter.on('systemStatus', (x) => {
+      socket.emit('systemStatus',  x );
+  })
+
+
+  socket.on('disconnect', function(){
+     console.log('user disconnected');
+     
+     statusEmitter.removeListener('systemStatus', (x) => {
+         socket.emit('systemStatus',  x );
+     })
+
+      // rr.removeListener("refresh-"+boardname, refreshHandler);
+  });
+
 });
 
+///////////// events ///////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////////
+class systemEmitter extends EventEmitter {}
+const sensorEmitter = new systemEmitter(); //create event for the sensors
+const statusEmitter = new systemEmitter(); //create event for status
+
+//sensor base event
+statusEmitter.on('new', (data) => {
+  // console.log(data);
+  statusEmitter.emit('sensor-socket-update', data)
+})
