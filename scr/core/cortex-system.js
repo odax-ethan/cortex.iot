@@ -1,38 +1,57 @@
+// create masterdata Base
+const EventEmitter = require('events');
+const statusEmitter = new EventEmitter(); //create event for status
 
+//sensor base event
+statusEmitter.on('newEvent', (data) => {
+  console.log(data);
+  // statusEmitter.emit('sensor-socket-update', data)
+})
+//////////////////////////////////////////////////////////////////////////////////
+var PouchDB = require('pouchdb');
+const {systemConfigTemplate} = require('../config/systemConfig.js'); //cortex support components
+//create database
+var masterDB = new PouchDB('masterDB');
+
+let getSystemConfig = masterDB.get('systemConfig').catch(function (err) {
+   if (err.name === 'not_found') {
+     // emit event - no System Config found -  creating a new a new system.
+     statusEmitter.emit('newEvent', "no System Config found -  creating a new a new system.")
+     //console.log(systemConfigTemplate);
+     return masterDB.put(systemConfigTemplate)
+   } else { // hm, some other error
+     throw err;
+   }
+ }).then(function (doc) {
+   // emit event - system variafied database and cortex may start
+   statusEmitter.emit('newEvent', "system variafied database and cortex may start")
+   return doc
+ }).catch(function (err) {
+   // handle any errors
+   throw err;
+ });
+
+
+function deleteSystemConfig() {
+
+  masterDB.get('systemConfig').then(function (doc) {
+       statusEmitter.emit('newEvent', "deleted settings... to restore settings relaunch Cortex.iot")
+      return masterDB.remove(doc);
+  });
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////
 class System {
-  constructor(systemConfig) {
-    this.systemConfig = systemConfig;
-    this.nodes = this.systemConfig.nodes
+  constructor(data) {
 
-    const nodeConfig = this.systemConfig.nodes
-
-    this.ports = []; // ports array that will be used to fill the j5 board
-    this.nodeIDs = [] // create array of just node/port ids
-    // fill ports[]
-    for (var i = 0; i < nodeConfig.length; i++) {
-      this.nodeIDs.push(this.nodes[i].id) // fill nodeIDs[]
-      this.ports.push(this.nodes[i]) // fill ports[]
-    }
-
-    console.log("done building System Constructor");
   } // end of the constructor
 
-  hello() {
-    console.log("get out");
+  config(){
+    return this.config
   }
-
-  portConfig() {
-    return this.ports
-  }
-
-  nodeIDs() {
-    return this.nodeIDs
-  }
-
-
-
 } // end of Syetem Class
+/////////////////////////////////////////////////////////////////////////////////
 
-
-
-module.exports = { System };
+module.exports = { System, statusEmitter, getSystemConfig, deleteSystemConfig };
