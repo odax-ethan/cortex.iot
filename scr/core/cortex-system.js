@@ -1,18 +1,19 @@
-// create masterdata Base
-const EventEmitter = require('events');
-const statusEmitter = new EventEmitter(); //create event for status
+// this contains the database.
+// this contains the logic which triggers events in Johnny-Five
+var five = require("johnny-five");
 
-//sensor base event
-statusEmitter.on('newEvent', (data) => {
-  console.log(data);
-  // statusEmitter.emit('sensor-socket-update', data)
-})
-//////////////////////////////////////////////////////////////////////////////////
-var PouchDB = require('pouchdb');
+
+const { relayerTimerTest, timerLogicTester } = require('./cortex-logic.js'); //cortex events / listeners components
+const { statusEmitter } = require('./cortex-events.js'); //cortex events / listeners components
+const PouchDB = require('pouchdb');
 const {systemConfigTemplate} = require('../config/systemConfig.js'); //cortex support components
+
 //create database
 var masterDB = new PouchDB('masterDB');
 
+//////////////////////////////////////////////////////////////////////////////////
+
+//get system Settings
 let getSystemConfig = masterDB.get('systemConfig').catch(function (err) {
    if (err.name === 'not_found') {
      // emit event - no System Config found -  creating a new a new system.
@@ -33,25 +34,50 @@ let getSystemConfig = masterDB.get('systemConfig').catch(function (err) {
 
 
 function deleteSystemConfig() {
-
   masterDB.get('systemConfig').then(function (doc) {
        statusEmitter.emit('newEvent', "deleted settings... to restore settings relaunch Cortex.iot")
-      return masterDB.remove(doc);
+       return masterDB.remove(doc);
   });
-
 }
 
-
 //////////////////////////////////////////////////////////////////////////////////
+
+
 class System {
-  constructor(data) {
+  constructor(systemConfig) {
+    this.systemConfig = systemConfig
+    this.devices = this.systemConfig.devices
+    this.nodes = this.systemConfig.nodes
+    this.nodeCOUNT = this.nodes.length; // named nodeConfig length
+    this.timerTESTrate = this.systemConfig.timerTESTrate
+
 
   } // end of the constructor
 
-  config(){
-    return this.config
+
+  generator(){
+
+    new five.Boards(this.nodes).on("ready", function() {
+
+      console.log("BOARD CONNECTED:");
+      // Boards are initialized!
+
+      // test sequence for relays
+      // array of relay objects - with array of time state objects.
+      
+
+
+
+
+
+
+    });
+
   }
+
 } // end of Syetem Class
+
+
 /////////////////////////////////////////////////////////////////////////////////
 
-module.exports = { System, statusEmitter, getSystemConfig, deleteSystemConfig };
+module.exports = { System, getSystemConfig, deleteSystemConfig };

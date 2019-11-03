@@ -5,9 +5,12 @@ const markoPress = require('marko/express'); //enable res.marko
 const lassoWare = require('lasso/middleware');
 const ip = require('ip'); // include ip
 const five = require("johnny-five");
-var io = require('socket.io')
+var serverIO = require('socket.io')
 
-const {System, statusEmitter, getSystemConfig, deleteSystemConfig} = require(__dirname +'/scr/core/cortex-system.js'); //cortex support components
+const { socketListener } = require(__dirname +'/scr/core/cortex-sockets.js'); //cortex sockets components
+const { statusEmitter } = require(__dirname +'/scr/core/cortex-events.js'); //cortex events / listeners components
+const {System, getSystemConfig, deleteSystemConfig} = require(__dirname +'/scr/core/cortex-system.js'); //cortex support & database components
+
 const hubtemplate = require('./scr/templates/hub/index.marko');
 const settingstemplate = require('./scr/templates/settings/index.marko');
 const accounttemplate = require('./scr/templates/account/index.marko');
@@ -31,12 +34,12 @@ const systemIP  = ip.address(); // get systems local ip
 const hostIP = '0.0.0.0'; // express needs a blank ip to dynamically define itself
 const port = 8080; // define system port
 let cortexConfig // create variables to hold cortexConfig as a global
+let myCortex // create variable for holding new System
 
 // finished loading system and defining global
 statusEmitter.emit('newEvent', "underlying system loaded")
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-
 
 new Promise((resolve, reject) => {
     statusEmitter.emit('newEvent', "Initializing cortex system")
@@ -49,6 +52,7 @@ new Promise((resolve, reject) => {
       statusEmitter.emit('newEvent', "system configuration loaded")
       // console.log(data);
       cortexConfig = data
+      myCortex = new System(data)
     }
 })
 .catch(() => {
@@ -67,7 +71,7 @@ new Promise((resolve, reject) => {
     //send home pages to general search
     app.get('/', function (req, res) {
       res.marko(hubtemplate, {
-          name: cortexConfig.admin,
+          systemConfig: cortexConfig,
       });
       // console.log('search:', req.params.search)
     });
@@ -109,5 +113,10 @@ new Promise((resolve, reject) => {
         }
     });
 
-    const ioSystem = io(systemApp)
+    socketListener(systemApp, cortexConfig ); // fires the entire socket.io listern -> go to scr/core/cortex-sockets
+
+    setTimeout(function () {
+      myCortex.generator()
+    }, 1000);
+
 });

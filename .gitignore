@@ -96,3 +96,5 @@ typings/
 *.cmd
 node-sass
 nodemon
+*.ldb
+*.old
