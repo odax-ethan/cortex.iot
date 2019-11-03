@@ -1,0 +1,16 @@
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+  var txt;
+  if (confirm("this can not be undone \n to reset system restart it to create new system Cofnig")) {
+    alert("system Config deleted \n restart system for new system Config")
+  } else {
+    console.log("Event cancelled")
+    //txt = "You pressed Cancel!";
+  }
+  document.getElementById("demo").innerHTML = txt;
+}
+</script>

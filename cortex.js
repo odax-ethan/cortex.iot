@@ -9,7 +9,7 @@ var serverIO = require('socket.io')
 
 const { socketListener } = require(__dirname +'/scr/core/cortex-sockets.js'); //cortex sockets components
 const { statusEmitter } = require(__dirname +'/scr/core/cortex-events.js'); //cortex events / listeners components
-const {System, getSystemConfig, deleteSystemConfig} = require(__dirname +'/scr/core/cortex-system.js'); //cortex support & database components
+const { System, getSystemConfig, deleteSystemConfig } = require(__dirname +'/scr/core/cortex-system.js'); //cortex support & database components
 
 const hubtemplate = require('./scr/templates/hub/index.marko');
 const settingstemplate = require('./scr/templates/settings/index.marko');
@@ -116,7 +116,9 @@ new Promise((resolve, reject) => {
     socketListener(systemApp, cortexConfig ); // fires the entire socket.io listern -> go to scr/core/cortex-sockets
 
     setTimeout(function () {
-      myCortex.generator()
+
+      myCortex.generateSystem()
+
     }, 1000);
 
 });
