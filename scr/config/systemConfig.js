@@ -20,7 +20,8 @@ exports.systemConfigTemplate = {
       }
      ],
     devices: [
-
+       { deviceID: "sensor2", deviceTYPE:"thermometer", devicePIN: 6, deviceNODE:"testboard", controller: "DS18B20", freq: 9000000},
+       { deviceID: "growLight", deviceTYPE:"relay", devicePIN: 8, deviceNODE:"testboard", relayType: "NO" }
     ],
     timers: [
     ] // list of all devices in the system

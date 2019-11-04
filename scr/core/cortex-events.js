@@ -1,17 +1,17 @@
 // create masterdata Base
 const EventEmitter = require('events');
-const statusEmitter = new EventEmitter(); //create event for status
+const systemEmitter = new EventEmitter(); //create event for status
 
 /////////////////////////////////////
 
 
 //sensor base event
-statusEmitter.on('newEvent', (data) => {
+systemEmitter.on('newEvent', (data) => {
   console.log(data);
-  // statusEmitter.emit('sensor-socket-update', data)
+  // systemEmitter.emit('sensor-socket-update', data)
 })
 //////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////
 
-module.exports = { statusEmitter };
+module.exports = { systemEmitter };

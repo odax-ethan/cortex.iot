@@ -1,0 +1,62 @@
+
+<if(input.systemDevices)>
+<for|devices| of=input.systemDevices>
+  <if(devices.deviceTYPE === "relay")>
+      <li.box>
+          <article class="media">
+              <figure class="media-left">
+                <p id="${devices.deviceID}-state" >Getting State</p>
+              </figure>
+              <div class="media-content">
+                  <div class="content">
+                      <p>
+                          <strong> ${devices.deviceID}</strong>
+                          <br/>
+                          <small>@ PIN: ${devices.devicePIN}</small>
+                      </p>
+                  </div>
+                  <!-- <nav class="level is-mobile">
+                      <div class="level-left">
+                          <a class="level-item">
+
+                          </a>
+                      </div>
+                  </nav> -->
+              </div>
+              <div class="media-right">
+                  <a onclick="relayOverRide('${devices.deviceID}')">
+                      <span class="icon has-text-warning">
+                          <i class="far fa-dot-circle"/>
+                      </span>
+                  </a>
+                  <a href="/settings">
+                      <span class="icon has-text-info">
+                          <i class="far fa-edit"/>
+                      </span>
+                  </a>
+              </div>
+          </article>
+      </li>
+  </if>
+</for>
+</if>
+<else>
+    <div>No Devices!</div>
+</else>
+
+
+<!-- <p id="demo"></p> -->
+
+<script>
+ var socket = io();
+
+// socket.on("systemConfig", function(systemConfig){
+//    document.getElementById("demo").innerText = systemConfig.opperationName
+// })
+
+  function relayOverRide(target) {
+      socket.emit("relay-overRide" , target)
+  }
+
+
+</script>

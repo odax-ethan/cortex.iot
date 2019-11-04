@@ -1,0 +1,46 @@
+<div class="tile is-ancestor">
+    <div class="tile is-vertical is-8">
+        <div class="tile">
+            <div class="tile is-parent is-vertical">
+                <article class="tile is-child notification ">
+                  <p.subtitle>Cortex.iot System</p>
+                    <app-system-read-out systemConfig = input.systemConfig ></app-system-read-out>
+                </article>
+                <article class="tile is-child notification ">
+                    <p class="title">...tiles</p>
+                    <p class="subtitle">Event List</p>
+                </article>
+            </div>
+            <div class="tile is-parent">
+                <article class="tile is-child notification ">
+                    <p class="title">Device tile</p>
+                    <hr />
+                    <p class="subtitle">Relays</p>
+                    <app-relay-bank systemDevices = input.systemDevices></app-relay-bank>
+                    <hr />
+                    <p class="subtitle">Sensors</p>
+                </article>
+            </div>
+        </div>
+        <div class="tile is-parent">
+            <article class="tile is-child notification ">
+                <p class="title">Wide tile</p>
+                <p class="subtitle">Aligned with the right tile</p>
+                <div class="content">
+                    <!-- Content -->
+                </div>
+            </article>
+        </div>
+    </div>
+    <div class="tile is-parent">
+        <article class="tile is-child notification ">
+            <div class="content">
+                <p class="title">Tall tile</p>
+                <p class="subtitle">With even more content</p>
+                <div class="content">
+                    <!-- Content -->
+                </div>
+            </div>
+        </article>
+    </div>
+</div>

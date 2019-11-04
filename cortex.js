@@ -8,7 +8,7 @@ const five = require("johnny-five");
 var serverIO = require('socket.io')
 
 const { socketListener } = require(__dirname +'/scr/core/cortex-sockets.js'); //cortex sockets components
-const { statusEmitter } = require(__dirname +'/scr/core/cortex-events.js'); //cortex events / listeners components
+const { systemEmitter } = require(__dirname +'/scr/core/cortex-events.js'); //cortex events / listeners components
 const { System, getSystemConfig, deleteSystemConfig } = require(__dirname +'/scr/core/cortex-system.js'); //cortex support & database components
 
 const hubtemplate = require('./scr/templates/hub/index.marko');
@@ -37,29 +37,29 @@ let cortexConfig // create variables to hold cortexConfig as a global
 let myCortex // create variable for holding new System
 
 // finished loading system and defining global
-statusEmitter.emit('newEvent', "underlying system loaded")
+systemEmitter.emit('newEvent', "underlying system loaded")
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 new Promise((resolve, reject) => {
-    statusEmitter.emit('newEvent', "Initializing cortex system")
+    systemEmitter.emit('newEvent', "Initializing cortex system")
     resolve(getSystemConfig);
 })
 .then((data) => {
     if (!data) {
        throw new Error('no data');
     } else {
-      statusEmitter.emit('newEvent', "system configuration loaded")
-      // console.log(data);
+      systemEmitter.emit('newEvent', "system configuration loaded")
+      console.log(data);
       cortexConfig = data
       myCortex = new System(data)
     }
 })
 .catch(() => {
-    statusEmitter.emit('newEvent', "Error while loading system configuration")
+    systemEmitter.emit('newEvent', "Error while loading system configuration")
 })
 .then(() => {
-    statusEmitter.emit('newEvent', "starting secondary system")
+    systemEmitter.emit('newEvent', "starting secondary system")
 
     //console.log(cortexConfig);
     const app = express();
@@ -72,6 +72,7 @@ new Promise((resolve, reject) => {
     app.get('/', function (req, res) {
       res.marko(hubtemplate, {
           systemConfig: cortexConfig,
+          systemDevices: cortexConfig.devices
       });
       // console.log('search:', req.params.search)
     });
@@ -82,22 +83,24 @@ new Promise((resolve, reject) => {
       switch (req.params.search) {
         case "settings":
             res.marko(settingstemplate, {
-                // name: 'Frank',
+              systemConfig: cortexConfig,
+              systemNodes: cortexConfig.nodes,
+              systemDevices: cortexConfig.devices
             });
           break;
         case "account":
             res.marko(accounttemplate, {
-                // name: 'Frank',
+                systemConfig: cortexConfig
             });
           break;
         case "feedback":
             res.marko(feedbacktemplate, {
-                // name: 'Frank',
+              systemConfig: cortexConfig
             });
           break;
         case "documentation":
             res.marko(documentationtemplate, {
-                // name: 'Frank',
+              systemConfig: cortexConfig
             });
           break;
         default:

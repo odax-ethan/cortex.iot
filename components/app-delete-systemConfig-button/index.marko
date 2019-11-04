@@ -1,16 +1,17 @@
-<button onclick="myFunction()">Try it</button>
-
-<p id="demo"></p>
-
+<button class="button is-danger is-outlined"  onclick="deleteSystemConfig()">Delete System Config</button>
 <script>
-function myFunction() {
-  var txt;
-  if (confirm("this can not be undone \n to reset system restart it to create new system Cofnig")) {
-    alert("system Config deleted \n restart system for new system Config")
+
+var socket = io();
+
+function deleteSystemConfig() {
+  if (confirm("this can not be undone \nTo reset system restart it to create new system Config")) {
+    socket.emit('delete-system-config')
+    alert("System Config deleted! \nRestart system for new system Config")
   } else {
     console.log("Event cancelled")
     //txt = "You pressed Cancel!";
   }
-  document.getElementById("demo").innerHTML = txt;
 }
+
+
 </script>

@@ -7,12 +7,16 @@
   <meta charset="UTF-8" />
   <title>settings</title>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js'></script>
- <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   <lasso-head />
 </head>
 
 <body>
 
+<div class="box">
+  <app-settings-all systemConfig = data.systemConfig   systemNodes = data.systemNodes  systemDevices = data.systemDevices></app-settings-all>
+</div>
+<app-delete-systemConfig-button></app-delete-systemConfig-button>
 
   <lasso-body />
 

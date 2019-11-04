@@ -1,11 +1,10 @@
-
+<p id="demo"></p>
 
 <script>
-  // var socket = io();
+ var socket = io();
 
-  let deleteSystemConfig = (params) => {
-    alert("Hello! I am an alert box!");
-  };
-
+ socket.on("systemConfig", function(systemConfig){
+    document.getElementById("demo").innerText = systemConfig.opperationName
+ })
 
 </script>
