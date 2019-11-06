@@ -1,0 +1,50 @@
+
+
+<div class="field is-horizontal">
+  <div class="field-label is-small">
+    <label class="label">New Node Name</label>
+  </div>
+  <div class="field-body">
+    <div class="field">
+      <div class="control">
+        <input class="input is-small" type="text" placeholder="Node Name" id="newNodeName">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="field is-horizontal">
+  <div class="field-label is-small">
+    <label class="label">New Node Name</label>
+  </div>
+  <div class="field-body">
+    <div class="field">
+      <div class="control">
+        <input class="input is-small" type="text" placeholder="Node Serial" id="newNodeSerial" >
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="button is-success is-outlined" onclick="saveNode()">Create New Node</button>
+
+
+
+<script>
+ var socket = io();
+
+ function saveNode() {
+
+   var newNodeName = document.getElementById("newNodeName").value
+   var newNodeSerial = document.getElementById("newNodeSerial").value
+
+   var data =   {
+      id: newNodeName,
+      port: newNodeSerial
+   }
+
+   socket.emit("save-new-node", data)
+  newNode()
+ }
+
+
+</script>

@@ -33,11 +33,59 @@ let getSystemConfig = masterDB.get('systemConfig').catch(function (err) {
  });
 
 
-function deleteSystemConfig() {
+function resetSystemConfig() {
   masterDB.get('systemConfig').then(function (doc) {
        systemEmitter.emit('newEvent', "deleted settings... to restore settings relaunch Cortex.iot")
        return masterDB.remove(doc);
   });
+
+
+  masterDB.get('systemConfig').catch(function (err) {
+     if (err.name === 'not_found') {
+       // emit event - no System Config found -  creating a new a new system.
+       systemEmitter.emit('newEvent', "no System Config found -  creating a new a new system.")
+       //console.log(systemConfigTemplate);
+       return masterDB.put(systemConfigTemplate)
+     } else { // hm, some other error
+       throw err;
+     }
+   }).then(function (doc) {
+     // emit event - system variafied database and cortex may start
+     systemEmitter.emit('newEvent', "system Configuration has been reset")
+     setTimeout(function () {
+     }, 5000);
+     return doc
+   }).catch(function (err) {
+     // handle any errors
+     throw err;
+   });
+
+
+}
+
+
+function createNode(newDataOBJ) {
+  masterDB.get('systemConfig').catch(function (err) {
+     if (err.name === 'not_found') {
+       // emit event - no System Config found -  creating a new a new system.
+       systemEmitter.emit('newEvent', "no System Config found -  creating a new a new system.")
+       //console.log(systemConfigTemplate);
+       return masterDB.put(systemConfigTemplate)
+     } else { // hm, some other error
+       throw err;
+     }
+   }).then(function (doc) {
+     var nodeAraay = doc.nodes
+     nodeAraay.push(newDataOBJ)
+     doc.nodes = nodeAraay
+     masterDB.put(doc)
+     // emit event - system variafied database and cortex may start
+     systemEmitter.emit('newEvent', `added new Node: ${newDataOBJ.id}`)
+     return doc
+   }).catch(function (err) {
+     // handle any errors
+     throw err;
+   });
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -236,4 +284,4 @@ class System {
 
 /////////////////////////////////////////////////////////////////////////////////
 
-module.exports = { System, getSystemConfig, deleteSystemConfig };
+module.exports = { System, getSystemConfig, resetSystemConfig, createNode };

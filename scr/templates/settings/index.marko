@@ -14,9 +14,23 @@
 <body>
 
 <div class="box">
-  <app-settings-all systemConfig = data.systemConfig   systemNodes = data.systemNodes  systemDevices = data.systemDevices></app-settings-all>
+  <app-settings systemConfig = data.systemConfig   systemNodes = data.systemNodes  systemDevices = data.systemDevices></app-settings>
 </div>
-<app-delete-systemConfig-button></app-delete-systemConfig-button>
+
+<article class="message is-warning">
+  <div class="message-header">
+    <p>Danger Zone</p>
+  </div>
+  <div class="message-body">
+  <div class="box">
+    <p.subtitle>Reset system Configuration</p>
+      <app-delete-systemConfig-button></app-delete-systemConfig-button>
+  </div>
+  </div>
+</article>
+
+
+
 
   <lasso-body />
 

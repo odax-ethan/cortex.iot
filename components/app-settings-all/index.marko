@@ -88,6 +88,12 @@
 <else>
   <div>No Current Nodes!</div>
 </else>
+
+<button class="button is-success is-outlined" onclick="newNode()">Create New Node</button>
+
+
+
+
 <hr/>
 
 <p.title>Device</p>
@@ -129,7 +135,32 @@
       </div>
   </li>
 </for>
+<app-device-template></app-device-template>
 </if>
 <else>
     <div>No Devices!</div>
 </else>
+
+
+
+
+
+
+
+<div class="modal" id="nodeModal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+        <div.box><app-node-template></app-node-template></div>
+  </div>
+  <button class="modal-close is-large" aria-label="close" onclick="newNode()"></button>
+</div>
+
+
+<script>
+
+function newNode() {
+  var element = document.getElementById("nodeModal");
+  element.classList.toggle("is-active");
+}
+
+</script>

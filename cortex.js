@@ -6,6 +6,7 @@ const lassoWare = require('lasso/middleware');
 const ip = require('ip'); // include ip
 const five = require("johnny-five");
 var serverIO = require('socket.io')
+const open = require('open');
 
 const { socketListener } = require(__dirname +'/scr/core/cortex-sockets.js'); //cortex sockets components
 const { systemEmitter } = require(__dirname +'/scr/core/cortex-events.js'); //cortex events / listeners components
@@ -110,7 +111,12 @@ new Promise((resolve, reject) => {
 
 
     const systemApp  = app.listen(port, hostIP, function () {
+      var url  = 'http://'+ systemIP +':' + port
       console.log('Server started! Try it out:\nhttp://'+ systemIP +':' + port + '/');
+
+      // open at url
+      open(url);
+
         if (process.send) {
           process.send('online');
         }

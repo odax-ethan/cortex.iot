@@ -1,6 +1,6 @@
 var serverIO = require('socket.io')
 const { systemEmitter } = require('./cortex-events.js'); //cortex events / listeners components
-const { deleteSystemConfig } = require('./cortex-system.js'); //cortex events / listeners components
+const { resetSystemConfig, createNode } = require('./cortex-system.js'); //cortex events / listeners components
 
 
 /////////////////////////////////////
@@ -27,12 +27,15 @@ function socketListener(expressSocket, systemConfig) {
       // make this a read master history event list - set to number of events
       socket.on('delete-system-config', () => {
         console.log("request to delete systemConfig");
-        deleteSystemConfig()
+        resetSystemConfig()
+      })
+
+      socket.on("save-new-node", (data) => {
+        createNode(data)
       })
 
       socket.on('relay-overRide', (target) => {
           // console.log("overRiding "+ target);
-
           systemEmitter.emit('relay-state-'+ target , "overRide")
       })
 

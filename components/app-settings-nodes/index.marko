@@ -1,0 +1,55 @@
+
+<if(input.systemNodes)>
+
+  <for|nodes| of=input.systemNodes>
+    <li.box>
+      <div class="field is-horizontal">
+
+            <div class="field-label is-normal">
+              <label class="label">Node Name</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control is-expanded has-icons-left">
+                  <input class="input" type="text" placeholder="Node Name" value="${nodes.id}">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                  </span>
+                </p>
+              </div>
+
+              <div class="field-label is-normal">
+                <label class="label">Serial Port</label>
+              </div>
+              <div class="field">
+                <p class="control is-expanded has-icons-left has-icons-right">
+                  <input class="input is-success" type="email" placeholder="text" value="${nodes.port}">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </p>
+              </div>
+
+            </div>
+        </div>
+    </li>
+  </for>
+
+  <button class="button is-success is-outlined" onclick="newNode()">Create New Node</button>
+
+</if>
+<else>
+  <div>No Current Nodes!</div>
+  <button class="button is-success is-outlined" onclick="newNode()">Create New Node</button>
+
+</else>
+
+
+
+<script>
+ var socket = io();
+
+</script>

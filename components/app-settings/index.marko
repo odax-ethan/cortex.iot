@@ -1,0 +1,71 @@
+
+
+
+
+<div class="columns">
+  <div class="column is-half">
+    <div class="box">
+    <p.title>General Settings</p>
+    <app-settings-general systemConfig = input.systemConfig></app-settings-general>
+    </div>
+
+    <div class="box">
+    <p.title>Nodes</p>
+    <app-settings-nodes systemNodes = input.systemNodes></app-settings-nodes>
+    </div>
+  </div>
+  <div class="column is-half">
+
+    <div class="box">
+
+      <article class="message is-warning">
+        <div class="message-header">
+          <p>Warning</p>
+        </div>
+        <div class="message-body">
+        <p> The changes to the system DO NOT up date imidiately.</p>
+        <p> The changes you have made will be listed bellow. </p>
+        <p> For changes to take effect - Restart the system</p>
+        </div>
+      </article>
+
+      <div class="box">
+            <p.title>changes</p>
+
+      </div>
+
+    </div>
+
+    <div class="box">
+      <p.title>Device</p>
+        <app-settings-devices  systemDevices = input.systemDevices></app-settings-devices>
+    </div>
+
+
+  </div>
+
+</div>
+
+
+<div class="modal" id="nodeModal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+        <div.box><app-settings-node-template></app-settings-node-template></div>
+  </div>
+  <button class="modal-close is-large" aria-label="close" onclick="newNode()"></button>
+</div>
+
+
+
+
+
+<script>
+
+function newNode() {
+  var element = document.getElementById("nodeModal");
+  element.classList.toggle("is-active");
+}
+
+
+
+</script>
