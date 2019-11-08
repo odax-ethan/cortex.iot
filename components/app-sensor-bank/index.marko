@@ -1,0 +1,87 @@
+<div class="box">
+
+    <if(input.systemDevices)>
+    <ul>
+      <for|device| of=input.deviceOBJ>
+        <if(devices.deviceTYPE === "thermometer")>
+        <li key = device.deviceID >
+
+          <article class="media box">
+            <figure class="media-left">
+              <p>
+                <nav class="level">
+                  <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Current Reading</p>
+                      <!-- <p class="title"><span id=device.deviceID ></span>°C</p> -->
+                      <p class="title"><span id=device.deviceID ></span>°F</p>
+                    </div>
+                  </div>
+                </nav>
+              </p>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong>${device.deviceID}</strong> <small>on the ${device.deviceNODE} node</small> <small>@ pin ${device.devicePIN}</small>
+                  <br>
+                </p>
+              </div>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  <a class="level-item">
+                    <span class="icon is-small"><i class="fas fa-temperature-low"></i></span>
+
+                  </a>
+                  <a class="level-item">
+                    <span class="icon is-small"><i class="fas fa-microchip"></i></span>
+                  </a>
+                  <a class="level-item">
+                    <span class="icon is-small"><i class="fas fa-database"></i></span>
+                  </a>
+                </div>
+              </nav>
+            </div>
+            <div class="media-right">
+              <!-- <button class="delete"></button> -->
+            </div>
+          </article>
+          <br/>
+          <!-- ${input.deviceOBJ} -->
+        </li>
+      </if>
+      </for>
+    </ul>
+    </if>
+    <else>
+    <div>No deviceOBJ!</div>
+    </else>
+</div>
+
+<script>
+ var socket = io();
+ //request sensor readings from server
+ socket.emit('last-sensor-readings-request')
+ //once you get sensor readings
+ socket.on('last-sensor-readings',(data) => {
+   console.log(data)
+
+  var dataLength = data.length
+
+  for (var i = 0; i < dataLength; i++) {
+    var newData = data[i].data
+    var newDataName = data[i].dataName
+    let currentData = newData.pop()
+    console.log(newData)
+    document.getElementById(newDataName).innerText = currentData
+  }
+
+
+ })
+
+ socket.on("sensor-stateUpdate",(data) => {
+   document.getElementById(data.deviceID).innerText = data.value
+   //onsole.log(data)
+  });
+
+</script>
