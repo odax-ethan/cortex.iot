@@ -5,14 +5,14 @@
       <li.box>
           <article class="media">
               <figure class="media-left">
-                <p id="${devices.deviceID}-state" >Getting State</p>
+                <p id="${devices.deviceID}-state" >...</p>
               </figure>
               <div class="media-content">
                   <div class="content">
                       <p>
-                          <strong> ${devices.deviceID}</strong>
+                          <strong> ${devices.deviceID}</strong>  <small> @ pin ${devices.devicePIN}</small>
                           <br/>
-                          <small>@ PIN: ${devices.devicePIN}</small>
+
                       </p>
                   </div>
                   <!-- <nav class="level is-mobile">
@@ -24,11 +24,59 @@
                   </nav> -->
               </div>
               <div class="media-right">
+
+
+                  <!-- over ride for relay -->
                   <a onclick="relayOverRide('${devices.deviceID}')">
                       <span class="icon has-text-warning">
                           <i class="far fa-dot-circle"/>
                       </span>
                   </a>
+
+                  <!-- icons selector -->
+                  <if(devices.deviceCONTROLS === "light")>
+                    <a onclick="">
+                        <span class="icon has-text-warning">
+                          <i class="far fa-lightbulb"></i>
+                        </span>
+                    </a>
+                  </if>
+
+                  <if(devices.deviceCONTROLS === "fan")>
+                    <a onclick="">
+                        <span class="icon has-text-link">
+                          <i class="fas fa-fan fa-pulse"></i>
+                        </span>
+                    </a>
+                  </if>
+
+                  <if(devices.deviceCONTROLS === "heater")>
+                    <a onclick="">
+                        <span class="icon has-text-danger">
+                          <i class="fas fa-burn"></i>
+                        </span>
+                    </a>
+                  </if>
+
+                  <if(devices.deviceCONTROLS === "pump")>
+                    <a onclick="">
+                        <span class="icon has-text-info">
+                          <i class="fas fa-shower"></i>
+                        </span>
+                    </a>
+                  </if>
+
+                  <if(devices.deviceCONTROLS === "gas")>
+                    <a onclick="">
+                        <span class="icon has-text-info">
+                          <i class="fas fa-atom"></i>
+                        </span>
+                    </a>
+                  </if>
+
+
+
+                  <!-- edit relay -->
                   <a href="/settings">
                       <span class="icon has-text-info">
                           <i class="far fa-edit"/>
