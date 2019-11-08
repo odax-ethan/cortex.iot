@@ -1,9 +1,12 @@
 <div class="tile is-ancestor">
-    <div class="tile is-vertical is-8">
+    <div class="tile is-vertical is-9">
         <div class="tile">
-            <div class="tile is-parent is-vertical">
+            <div class="tile is-parent is-vertical is-4">
                 <div class="tile is-child notification ">
-                  <p.subtitle>Cortex.iot System</p>
+
+  <div class=""><app-page-button-bar></app-page-button-bar></div>
+
+                      <hr />
                     <app-system-read-out systemConfig = input.systemConfig ></app-system-read-out>
                     <hr />
                     <div class="box">System State Thingy</div>
@@ -21,7 +24,7 @@
                     <app-relay-bank systemDevices = input.systemDevices></app-relay-bank>
                     <hr />
                     <p class="subtitle">Sensors</p>
-                    <app-relay-bank systemDevices = input.systemDevices></app-relay-bank>
+                    <app-sensor-bank systemDevices = input.systemDevices></app-sensor-bank>
                 </article>
             </div>
         </div>

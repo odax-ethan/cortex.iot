@@ -53,16 +53,8 @@ function resetSystemConfig() {
      // emit event - system variafied database and cortex may start
      systemEmitter.emit('newEvent', "system Configuration has been reset")
      setTimeout(function () {
-       console.log(3);
-     }, 1000);
-     setTimeout(function () {
-       console.log(2);
 
-     }, 1000);
-     setTimeout(function () {
-       console.log(1);
-
-     }, 1000);
+     }, 3525);
      return doc
    }).catch(function (err) {
      // handle any errors

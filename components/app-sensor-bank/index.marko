@@ -1,9 +1,9 @@
-<div class="box">
+<div class="">
 
     <if(input.systemDevices)>
     <ul>
-      <for|device| of=input.deviceOBJ>
-        <if(devices.deviceTYPE === "thermometer")>
+      <for|device| of=input.systemDevices>
+        <if(device.deviceTYPE === "thermometer")>
         <li key = device.deviceID >
 
           <article class="media box">
@@ -30,11 +30,8 @@
               <nav class="level is-mobile">
                 <div class="level-left">
                   <a class="level-item">
+                    <!-- create selector system like relay bank -->
                     <span class="icon is-small"><i class="fas fa-temperature-low"></i></span>
-
-                  </a>
-                  <a class="level-item">
-                    <span class="icon is-small"><i class="fas fa-microchip"></i></span>
                   </a>
                   <a class="level-item">
                     <span class="icon is-small"><i class="fas fa-database"></i></span>
@@ -43,7 +40,13 @@
               </nav>
             </div>
             <div class="media-right">
-              <!-- <button class="delete"></button> -->
+                <!-- edit relay -->
+                <a href="/settings">
+                    <span class="icon has-text-info">
+                        <i class="far fa-edit"/>
+                    </span>
+                </a>
+
             </div>
           </article>
           <br/>

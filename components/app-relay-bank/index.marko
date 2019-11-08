@@ -15,13 +15,59 @@
 
                       </p>
                   </div>
-                  <!-- <nav class="level is-mobile">
+                  <nav class="level is-mobile">
                       <div class="level-left">
-                          <a class="level-item">
 
+                        <!-- icons selector -->
+                        <if(devices.deviceCONTROLS === "light")>
+                          <a onclick="">
+                              <span class="icon has-text-warning">
+                                <i class="far fa-lightbulb"></i>
+                              </span>
                           </a>
+                        </if>
+
+                        <if(devices.deviceCONTROLS === "fan")>
+                          <a onclick="">
+                              <span class="icon has-text-link">
+                                <i class="fas fa-fan fa-pulse"></i>
+                              </span>
+                          </a>
+                        </if>
+
+                        <if(devices.deviceCONTROLS === "heater")>
+                          <a onclick="">
+                              <span class="icon has-text-danger">
+                                <i class="fas fa-burn"></i>
+                              </span>
+                          </a>
+                        </if>
+
+                        <if(devices.deviceCONTROLS === "pump")>
+                          <a onclick="">
+                              <span class="icon has-text-info">
+                                <i class="fas fa-shower"></i>
+                              </span>
+                          </a>
+                        </if>
+
+                        <if(devices.deviceCONTROLS === "gas")>
+                          <a onclick="">
+                              <span class="icon has-text-info">
+                                <i class="fas fa-atom fa-pulse"></i>
+                              </span>
+                          </a>
+                        </if>
+
+
+                        <!-- history -->
+                        <a class="level-item">
+                          <span class="icon is-small"><i class="fas fa-database"></i></span>
+                        </a>
+
+
                       </div>
-                  </nav> -->
+                  </nav>
               </div>
               <div class="media-right">
 
@@ -32,48 +78,6 @@
                           <i class="far fa-dot-circle"/>
                       </span>
                   </a>
-
-                  <!-- icons selector -->
-                  <if(devices.deviceCONTROLS === "light")>
-                    <a onclick="">
-                        <span class="icon has-text-warning">
-                          <i class="far fa-lightbulb"></i>
-                        </span>
-                    </a>
-                  </if>
-
-                  <if(devices.deviceCONTROLS === "fan")>
-                    <a onclick="">
-                        <span class="icon has-text-link">
-                          <i class="fas fa-fan fa-pulse"></i>
-                        </span>
-                    </a>
-                  </if>
-
-                  <if(devices.deviceCONTROLS === "heater")>
-                    <a onclick="">
-                        <span class="icon has-text-danger">
-                          <i class="fas fa-burn"></i>
-                        </span>
-                    </a>
-                  </if>
-
-                  <if(devices.deviceCONTROLS === "pump")>
-                    <a onclick="">
-                        <span class="icon has-text-info">
-                          <i class="fas fa-shower"></i>
-                        </span>
-                    </a>
-                  </if>
-
-                  <if(devices.deviceCONTROLS === "gas")>
-                    <a onclick="">
-                        <span class="icon has-text-info">
-                          <i class="fas fa-atom"></i>
-                        </span>
-                    </a>
-                  </if>
-
 
 
                   <!-- edit relay -->

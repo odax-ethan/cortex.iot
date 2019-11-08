@@ -14,9 +14,8 @@ const { System, getSystemConfig, deleteSystemConfig } = require(__dirname +'/scr
 
 const hubtemplate = require('./scr/templates/hub/index.marko');
 const settingstemplate = require('./scr/templates/settings/index.marko');
-const accounttemplate = require('./scr/templates/account/index.marko');
 const documentationtemplate = require('./scr/templates/documentation/index.marko');
-const feedbacktemplate = require('./scr/templates/feedback/index.marko');
+const guidetemplate = require('./scr/templates/guide/index.marko');
 
 const isProduction = (process.env.NODE_ENV === 'production');
 
@@ -33,7 +32,7 @@ require('lasso').configure({
 
 const systemIP  = ip.address(); // get systems local ip
 const hostIP = '0.0.0.0'; // express needs a blank ip to dynamically define itself
-const port = 8000; // define system port
+const port = 8080; // define system port
 let cortexConfig // create variables to hold cortexConfig as a global
 let myCortex // create variable for holding new System
 
@@ -89,13 +88,8 @@ new Promise((resolve, reject) => {
               systemDevices: cortexConfig.devices
             });
           break;
-        case "account":
-            res.marko(accounttemplate, {
-                systemConfig: cortexConfig
-            });
-          break;
-        case "feedback":
-            res.marko(feedbacktemplate, {
+        case "guide":
+            res.marko(guidetemplate, {
               systemConfig: cortexConfig
             });
           break;
