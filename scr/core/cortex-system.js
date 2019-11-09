@@ -60,8 +60,6 @@ function resetSystemConfig() {
      // handle any errors
      throw err;
    });
-
-
 }
 
 
@@ -101,8 +99,6 @@ class System {
     this.nodesLength = this.nodes.length
     this.nodeCOUNT = this.nodes.length; // named nodeConfig length
     this.timerTESTrate = this.systemConfig.timerTESTrate
-
-
   } // end of the constructor
 
 
@@ -119,13 +115,12 @@ class System {
             //console.log("thermometer worked");
           break;
         case 'relay':
-            relayList.push({id:this.devices[i].deviceID, controller:this.devices[i].controller, pin: this.devices[i].devicePIN, board: this.devices[i].deviceNODE, relayType:  this.devices[i].relayType })
+            relayList.push({id:this.devices[i].deviceID, pin: this.devices[i].devicePIN, board: this.devices[i].deviceNODE, relayType: this.devices[i].relayType })
             //console.log("thermometer worked");
           break;
         default:
          console.log("this failed");
       }
-      console.log(thermometerList);
     }
 
 
@@ -179,24 +174,26 @@ class System {
          //  test generate list for relay class devices and create system
             for (var i = 0; i < relayList.length; i++) {
                  if (relayList[i].board === board.id) {
-                   var  varname = relayList[i].id
-                   var  relayType = relayList[i].relayType
+                    var  varname = relayList[i].id
+                    var  relayType = relayList[i].relayType
                     // console.log(relayList[i]);
                     var value = new five.Relay({pin: relayList[i].pin, board: board , type: relayType });
                     this[varname] = value;
-                    var target = this[varname]
+                    var targte+i = this[varname]
+                    var targetName = `relay-state-${varname}`
+                    // console.log(targetName);
 
-                    systemEmitter.on('relay-state-' + varname , function(eventType) {
+                    systemEmitter.on( targetName, function(eventType) {
                         // console.log("system trigger relay");
                         // console.log(eventType);
                         // console.log(this[varname]);
                         // console.log(target);
 
-
                         switch ( eventType ) {
                          case "overRide":
-                                  // console.log("over riding");
-                                  target.toggle()
+                                  console.log("overriding " + varname);
+                                  // console.log(target);
+                                  target[i].toggle()
                             break;
 
                           case "timer":
@@ -264,7 +261,7 @@ class System {
 
                     })
 
-                    console.log(`created the ${relayList[i].id} device for the ${board.id} node`);
+                    console.log(`created the ${relayList[i].id} device for the ${board.id} node @ pin ${relayList[i].pin} (relay)`);
                  } else {
                    console.log(`device was not create for the ${board.id} node`  );
                  }

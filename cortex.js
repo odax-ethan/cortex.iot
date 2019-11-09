@@ -50,7 +50,7 @@ new Promise((resolve, reject) => {
        throw new Error('no data');
     } else {
       systemEmitter.emit('newEvent', "system configuration loaded")
-      console.log(data);
+      // console.log(data);
       cortexConfig = data
       myCortex = new System(data)
     }
@@ -79,7 +79,7 @@ new Promise((resolve, reject) => {
 
     //test for page via switch
     app.get('/:search', function (req, res) {
-      console.log('search:', req.params.search)
+      // console.log('search:', req.params.search)
       switch (req.params.search) {
         case "settings":
             res.marko(settingstemplate, {

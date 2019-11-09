@@ -147,3 +147,7 @@ function timerEVENT(timerONh1,timerONm1,timerOFFh1,timerOFFm1) {
      console.error("prblem with light");
    }
 }
+
+
+
+module.exports = { timerEVENT, timerEVENT };

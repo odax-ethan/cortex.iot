@@ -36,7 +36,9 @@ function socketListener(expressSocket, systemConfig) {
 
       socket.on('relay-overRide', (target) => {
           // console.log("overRiding "+ target);
-          systemEmitter.emit('relay-state-'+ target , "overRide")
+          var emitName = `relay-state-${target}`
+          console.log(emitName);
+          systemEmitter.emit(emitName, "overRide")
       })
 
       // on socket disconnect

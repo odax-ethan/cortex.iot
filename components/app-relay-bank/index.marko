@@ -73,7 +73,7 @@
 
 
                   <!-- over ride for relay -->
-                  <a onclick="relayOverRide('${devices.deviceID}')">
+                  <a onclick="relayOverRide(`${devices.deviceID}`)">
                       <span class="icon has-text-warning">
                           <i class="far fa-dot-circle"/>
                       </span>
@@ -107,6 +107,7 @@
 // })
 
   function relayOverRide(target) {
+      console.log(target)
       socket.emit("relay-overRide" , target)
   }
 
