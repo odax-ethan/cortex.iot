@@ -41,6 +41,15 @@ function socketListener(expressSocket, systemConfig) {
           systemEmitter.emit(emitName, "overRide")
       })
 
+
+      systemEmitter.on('thermometerData-update', (data) => {
+        // console.log(data);
+        socket.emit('thermometerData-update', data)
+      })
+
+
+
+
       // on socket disconnect
       socket.on('disconnect', function(){
         console.log('user disconnected');
@@ -51,6 +60,13 @@ function socketListener(expressSocket, systemConfig) {
         //   socket.emit("events-master-list", data)
         //   // systemEmitter.emit('sensor-socket-update', data)
         // })); // end of master list listner
+
+        systemEmitter.removeListener('thermometerData-update', (data) => {
+          socket.emit('thermometerData-update', data)
+        })
+
+
+
 
       });
 

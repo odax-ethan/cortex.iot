@@ -87,6 +87,46 @@ function createNode(newDataOBJ) {
    });
 }
 
+
+
+
+systemEmitter.on("newThermometerData", () => {
+  // console.log(data);
+  systemEmittere.emit('thermometerData-update', data)
+  // sensor-db-update.emit('sensor-db-update', data)
+})
+
+
+// systemEmitter.on('sensor-db-update', (data) => {
+//   let searchName = data.deviceID
+//   // console.log(searchName);
+//   masterDB.get(searchName).catch(function (err) {
+//       if (err.name === 'not_found') {
+//         console.log("no record found");
+//         let newData = {
+//           _id: searchName,
+//           deviceID : searchName,
+//           data : [data.value]
+//         };
+//         return masterDB.put(newData)
+//       } else { // hm, some other error
+//         throw err;
+//       }
+//     }).then(function (doc) {
+//       let newData = doc
+//       let newDataSet = doc.data
+//       newDataSet.push(data.value)
+//       newData.data = newDataSet
+//       masterDB.put(newData)
+//     }).catch(function (err) {
+//       // handle any errors
+//     });
+// })
+
+
+// systemEmitter.on("deviceHistory", (deviceID, historyCount) => {
+//
+// })
 //////////////////////////////////////////////////////////////////////////////////
 
 
