@@ -12,6 +12,12 @@ systemEmitter.on('newEvent', (data) => {
 })
 
 
+//sensor base event
+systemEmitter.on('newthermometerData', (data) => {
+  console.log(data);
+  systemEmitter.emit('thermometerData-update-socket', data)
+  // sensorEmitter.emit('sensor-db-update', data)
+})
 
 
 //////////////////////////////////////////////////////////////////////////////////

@@ -87,46 +87,6 @@ function createNode(newDataOBJ) {
    });
 }
 
-
-
-
-systemEmitter.on("newThermometerData", () => {
-  // console.log(data);
-  systemEmittere.emit('thermometerData-update', data)
-  // sensor-db-update.emit('sensor-db-update', data)
-})
-
-
-// systemEmitter.on('sensor-db-update', (data) => {
-//   let searchName = data.deviceID
-//   // console.log(searchName);
-//   masterDB.get(searchName).catch(function (err) {
-//       if (err.name === 'not_found') {
-//         console.log("no record found");
-//         let newData = {
-//           _id: searchName,
-//           deviceID : searchName,
-//           data : [data.value]
-//         };
-//         return masterDB.put(newData)
-//       } else { // hm, some other error
-//         throw err;
-//       }
-//     }).then(function (doc) {
-//       let newData = doc
-//       let newDataSet = doc.data
-//       newDataSet.push(data.value)
-//       newData.data = newDataSet
-//       masterDB.put(newData)
-//     }).catch(function (err) {
-//       // handle any errors
-//     });
-// })
-
-
-// systemEmitter.on("deviceHistory", (deviceID, historyCount) => {
-//
-// })
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -190,9 +150,9 @@ class System {
         //  test generate list for thermometer class devices and create system
            for (var i = 0; i < thermometerList.length; i++) {
                 if (thermometerList[i].board === board.id) {
-                  var varname = thermometerList[i].id
+                  let varname = thermometerList[i].id
                    // console.log(thermometerList[i]);
-                   var value = new five.Thermometer({controller: thermometerList[i].controller, pin: thermometerList[i].pin, board:board, freq: thermometerList[i].freq});
+                   let value = new five.Thermometer({controller: thermometerList[i].controller, pin: thermometerList[i].pin, board:board, freq: thermometerList[i].freq});
                    this[varname] = value;
                    this[varname].on("data", function() {
                    // console.log(varname+ ": "+this.celsius + "°C");
@@ -200,7 +160,7 @@ class System {
                    // let transmitData = {deviceID: varname, value: this.celsius }
                    var transmitData = {deviceID: varname, value: this.fahrenheit }
 
-                   systemEmitter.emit('new', transmitData);
+                   systemEmitter.emit('newthermometerData', transmitData);
                      // console.log("0x" + this.address.toString(16));
                    });
 
@@ -214,13 +174,13 @@ class System {
          //  test generate list for relay class devices and create system
             for (var i = 0; i < relayList.length; i++) {
                  if (relayList[i].board === board.id) {
-                    var  varname = relayList[i].id
-                    var  relayType = relayList[i].relayType
+                    let  varname = relayList[i].id
+                    let  relayType = relayList[i].relayType
                     // console.log(relayList[i]);
-                    var value = new five.Relay({pin: relayList[i].pin, board: board , type: relayType });
+                    let value = new five.Relay({pin: relayList[i].pin, board: board , type: relayType });
                     this[varname] = value;
-                    var targte+i = this[varname]
-                    var targetName = `relay-state-${varname}`
+                    let target = this[varname]
+                    let targetName = `relay-state-${varname}`
                     // console.log(targetName);
 
                     systemEmitter.on( targetName, function(eventType) {
@@ -233,7 +193,7 @@ class System {
                          case "overRide":
                                   console.log("overriding " + varname);
                                   // console.log(target);
-                                  target[i].toggle()
+                                  target.toggle()
                             break;
 
                           case "timer":

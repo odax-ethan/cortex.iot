@@ -42,7 +42,7 @@ function socketListener(expressSocket, systemConfig) {
       })
 
 
-      systemEmitter.on('thermometerData-update', (data) => {
+      systemEmitter.on('thermometerData-update-socket', (data) => {
         // console.log(data);
         socket.emit('thermometerData-update', data)
       })
@@ -61,7 +61,8 @@ function socketListener(expressSocket, systemConfig) {
         //   // systemEmitter.emit('sensor-socket-update', data)
         // })); // end of master list listner
 
-        systemEmitter.removeListener('thermometerData-update', (data) => {
+        systemEmitter.removeListener('thermometerData-update-socket', (data) => {
+          // console.log(data);
           socket.emit('thermometerData-update', data)
         })
 
