@@ -1,0 +1,58 @@
+
+
+
+
+
+
+<div class="field is-horizontal">
+  <div class="field-label is-small">
+    <label class="label">New Event</label>
+  </div>
+  <div class="field-body">
+    <div class="field">
+      <div class="control">
+        <input class="input is-small" type="text" placeholder="Node Name" id="newNodeName">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="field is-horizontal">
+  <div class="field-label is-small">
+    <label class="label">description</label>
+  </div>
+  <div class="field-body">
+    <div class="field">
+      <div class="control">
+        <textarea class="textarea is-small" placeholder="details about event..."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="button is-success is-outlined" onclick="saveNode()">Create New Node</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+ socket.on("systemConfig", function(systemConfig){
+    document.getElementById("demo").innerText = systemConfig.opperationName
+ })
+
+</script>

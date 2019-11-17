@@ -5,29 +5,75 @@
     <div class="field is-horizontal">
 
           <div class="field-label is-normal">
-            <label class="label">Node Name</label>
+            <label class="label">Device</label>
           </div>
           <div class="field-body">
             <div class="field">
               <p class="control is-expanded has-icons-left">
                 <input class="input" type="text" placeholder="Node Name" value="${devices.deviceID}">
-                <span class="icon is-small is-left">
+                <!-- <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
-                </span>
+                </span> -->
+
+                <!-- icons selector -->
+                <if(devices.deviceCONTROLS === "light")>
+
+                      <span class="icon has-text-warning  is-small is-left">
+                        <i class="far fa-lightbulb"></i>
+                      </span>
+
+                </if>
+
+                <if(devices.deviceCONTROLS === "fan")>
+
+                      <span class="icon has-text-link  is-small is-left">
+                        <i class="fas fa-fan fa-pulse"></i>
+                      </span>
+
+                </if>
+
+                <if(devices.deviceCONTROLS === "heater")>
+
+                      <span class="icon has-text-danger  is-small is-left">
+                        <i class="fas fa-burn"></i>
+                      </span>
+
+                </if>
+
+                <if(devices.deviceCONTROLS === "pump")>
+
+                      <span class="icon has-text-info  is-small is-left">
+                        <i class="fas fa-shower"></i>
+                      </span>
+
+                </if>
+
+                <if(devices.deviceCONTROLS === "gas")>
+
+                      <span class="icon has-text-info  is-small is-left">
+                        <i class="fas fa-atom fa-pulse"></i>
+                      </span>
+
+                </if>
+
+
+
+
+
               </p>
             </div>
 
             <div class="field-label is-normal">
-              <label class="label">Serial Port</label>
+              <label class="label">Pin</label>
             </div>
             <div class="field">
               <p class="control is-expanded has-icons-left has-icons-right">
-                <input class="input is-success" type="email" placeholder="text" value="${devices.devicePIN}">
+                <input class="input" type="text" placeholder="text" value="${devices.devicePIN}">
                 <span class="icon is-small is-left">
-                  <i class="fas fa-envelope"></i>
+                  <i class="fas fa-link"></i>
                 </span>
                 <span class="icon is-small is-right">
-                  <i class="fas fa-check"></i>
+                  <!-- <i class="fas fa-check"></i> -->
                 </span>
               </p>
             </div>

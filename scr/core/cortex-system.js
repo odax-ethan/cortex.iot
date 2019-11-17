@@ -160,6 +160,8 @@ class System {
                    // let transmitData = {deviceID: varname, value: this.celsius }
                    var transmitData = {deviceID: varname, value: this.fahrenheit }
 
+                   systemEmitter.emit('newEvent', `sensor ${varname} read`)
+
                    systemEmitter.emit('newthermometerData', transmitData);
                      // console.log("0x" + this.address.toString(16));
                    });
@@ -191,9 +193,10 @@ class System {
 
                         switch ( eventType ) {
                          case "overRide":
-                                  console.log("overriding " + varname);
+                                  // console.log("overriding " + varname);
                                   // console.log(target);
                                   target.toggle()
+                                  systemEmitter.emit('newEvent', `${targetName} relay over riden`)
                             break;
 
                           case "timer":

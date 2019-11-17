@@ -1,0 +1,62 @@
+
+<div class="tabs is-small">
+  <ul>
+    <li class="is-active"><a>All</a></li>
+    <li><a>REPL</a></li>
+    <li><a>Sensors</a></li>
+    <li><a>Relays</a></li>
+  </ul>
+</div>
+
+
+<ul#eventStreamList/>
+
+<div style="position: absolute; bottom: 2%; width:90%;">
+    <div class="field is-grouped">
+        <p class="control has-icons-left is-expanded">
+            <input class="input" type="text" placeholder="REPL"/>
+            <span class="icon is-left">
+                <i class="fas fa-terminal" aria-hidden="true"></i>
+            </span>
+        </p>
+        <p class="control">
+            <a class="button is-info">Submit Command</a>
+        </p>
+    </div>
+</div>
+
+
+<script>
+
+ var eventMasterList = []
+ var eventListMaxLength = 10
+
+ socket.on("events-master-stream", function(eventData){
+   console.log(eventMasterList);
+    eventMasterList.push(eventData)
+    //document.getElementById("demo").innerText = eventData.data
+
+    eventMasterList.push(eventData)
+    var li = document.createElement('li');
+    li.innerHTML = `${eventData.timeStamp} - ${eventData.data} ` ;
+    document.getElementById('eventStreamList').appendChild(li);
+
+    // for (var i = 0; i < eventListMaxLength; i++) {
+    //   eventMasterList[i]
+    //   // document.getElementById("eventStreamList").innerText = eventData.data
+    // }
+    //
+    if (eventMasterList.length >= eventListMaxLength ) {
+        eventMasterList.pop()
+        console.log("removed");
+        var remove = document.getElementById('eventStreamList').lastElementChild
+        remove.remove(remove.selectedIndex)
+
+    }
+
+ })
+
+
+
+
+</script>

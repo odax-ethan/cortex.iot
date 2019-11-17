@@ -33,7 +33,7 @@
                     <!-- create selector system like relay bank -->
                     <span class="icon is-small"><i class="fas fa-temperature-low"></i></span>
                   </a>
-                  <a class="level-item">
+                  <a class="level-item" href=`/history/${device.deviceID}`>
                     <span class="icon is-small"><i class="fas fa-database"></i></span>
                   </a>
                 </div>
@@ -62,7 +62,7 @@
 </div>
 
 <script>
- var socket = io();
+// var socket = io();
 
  // request sensor readings from server
  // socket.emit('last-sensor-readings-request')
@@ -85,7 +85,7 @@
 
  socket.on("thermometerData-update",(data) => {
    document.getElementById(data.deviceID).innerText = data.value
-   console.log(data)
+   //console.log(data)
   });
 
 </script>
