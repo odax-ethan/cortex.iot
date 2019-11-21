@@ -1,6 +1,6 @@
 var serverIO = require('socket.io')
 const { systemEmitter } = require('./cortex-events.js'); //cortex events / listeners components
-const { resetSystemConfig, createNode } = require('./cortex-system.js'); //cortex events / listeners components
+const { resetSystemConfig, createNode, recordEvent, getEventRecords } = require('./cortex-system.js'); //cortex events / listeners components
 
 
 
@@ -11,7 +11,7 @@ function socketListener(expressSocket, systemConfig) {
   systemEmitter.emit('newEvent', "connecting socket system...")
   const socket = expressSocket
   var io = serverIO(socket)
-
+  module.exports = { io };
 ////////////////////////////////////////////////////////////////////////////
 
 
@@ -42,7 +42,7 @@ function socketListener(expressSocket, systemConfig) {
 
       // make this a read master history event list - set to number of events
       socket.on('delete-system-config', () => {
-        console.log("request to delete systemConfig");
+         console.log("request to delete systemConfig");
         resetSystemConfig()
       })
 
@@ -53,9 +53,27 @@ function socketListener(expressSocket, systemConfig) {
       socket.on('relay-overRide', (target) => {
           // console.log("overRiding "+ target);
           var emitName = `relay-state-${target}`
-          console.log(emitName);
+          // console.log(emitName);
           systemEmitter.emit(emitName, "overRide")
       })
+
+
+      socket.on("save-event-record", (data) => {
+        // socket.broadcast.emit('update-event-records', data)
+        // console.log(data);
+        recordEvent(data)
+        // var eventBundle = data
+        // systemEmitter.emit('newEvent', "Saved New Event Record")
+        // io.emit("update-event-record", eventBundle )
+      });
+
+      socket.on("event-record-request", () => {
+         let eventRecords = getEventRecords()
+         socket.emit("event-record-list", eventRecords)
+      })
+
+
+
 
       // on socket disconnect
       socket.on('disconnect', function(){
@@ -70,4 +88,4 @@ function socketListener(expressSocket, systemConfig) {
 }// end of socketListener
 
 
-module.exports = { socketListener };
+module.exports = { socketListener};

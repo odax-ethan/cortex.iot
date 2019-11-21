@@ -87,6 +87,63 @@ function createNode(newDataOBJ) {
    });
 }
 
+function recordEvent(newEventRecord) {
+  masterDB.get('eventRecords').catch(function (err) {
+     if (err.name === 'not_found') {
+       // emit event - no System Config found -  creating a new a new system.
+       systemEmitter.emit('newEvent', "no event records founds - creating a record template")
+       //console.log(systemConfigTemplate);
+       var template = {events:[]}
+       return masterDB.put(template)
+     } else { // hm, some other error
+       throw err;
+     }
+   }).then(function (doc) {
+
+console.log(doc);
+     // var eventsArray = doc.events
+     // eventsArray.push(newEventRecord)
+     // doc.events = eventsArray
+     // masterDB.put(doc)
+     // // emit event - system variafied database and cortex may start
+     // systemEmitter.emit('newEvent', `recorded new event: ${newEventRecord.eventTitle}`)
+     return doc
+   }).catch(function (err) {
+     // handle any errors
+     throw err;
+   });
+}
+
+
+function getEventRecords() {
+ masterDB.get('eventRecords').catch(function (err) {
+     if (err.name === 'not_found') {
+       // emit event - no System Config found -  creating a new a new system.
+       systemEmitter.emit('newEvent', "no event records")
+       //console.log(systemConfigTemplate);
+       return
+     } else { // hm, some other error
+       throw err;
+     }
+   }).then(function (doc) {
+     // emit event - system variafied database and cortex may start
+     var recordsBundle = []
+     for (var i = 0; i < 10; i++) {
+       recordsBundle.push(doc.events[i])
+     }
+     systemEmitter.emit('newEvent', "system variafied database and cortex may start")
+     return recordsBundle
+   }).catch(function (err) {
+     // handle any errors
+     throw err;
+   });
+}
+
+
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -285,4 +342,4 @@ class System {
 
 /////////////////////////////////////////////////////////////////////////////////
 
-module.exports = { System, getSystemConfig, resetSystemConfig, createNode };
+module.exports = { System, getSystemConfig, resetSystemConfig, createNode, recordEvent, getEventRecords };

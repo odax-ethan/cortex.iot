@@ -1,9 +1,5 @@
 
 
-
-
-
-
 <div class="field is-horizontal">
   <div class="field-label is-small">
     <label class="label">New Event</label>
@@ -11,7 +7,7 @@
   <div class="field-body">
     <div class="field">
       <div class="control">
-        <input class="input is-small" type="text" placeholder="Node Name" id="newNodeName">
+        <input class="input is-small" type="text" placeholder="Event title" id="newEventTitle">
       </div>
     </div>
   </div>
@@ -23,36 +19,57 @@
   <div class="field-body">
     <div class="field">
       <div class="control">
-        <textarea class="textarea is-small" placeholder="details about event..."></textarea>
+        <textarea class="textarea is-small" placeholder="Details about event..." id="newEventDetails"></textarea>
       </div>
     </div>
   </div>
 </div>
 
-<button class="button is-success is-outlined" onclick="saveNode()">Create New Node</button>
+<div class="field is-horizontal">
+  <div class="field-label is-small">
+    <label class="label">Tags</label>
+  </div>
+  <div class="field-body">
+    <div class="field">
+      <div class="control">
+        <input class="input is-small" type="text" placeholder="Node Name" id="newEventTag">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="newEventTags">
 
+  <div class="tags has-addons is-pulled-right">
+    <span class="tag is-danger">placeholder </span>
+    <a class="tag is-delete"></a>
+  </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+<br />
+<br />
+<button class="button is-success is-outlined is-pulled-right" onclick="saveEvent()">Create New Event</button>
+<br />
 
 
 <script>
+function saveEvent() {
+var eventTitleInput = document.getElementById('newEventTitle')
+var newEventTitle = eventTitleInput.value
 
- socket.on("systemConfig", function(systemConfig){
-    document.getElementById("demo").innerText = systemConfig.opperationName
- })
+var eventDetailsInput = document.getElementById('newEventDetails')
+var newEventDetails = eventDetailsInput.value
+
+var eventBundle = {eventTitle:newEventTitle, eventDetails: newEventDetails, timeStamp: new Date() }
+//console.log(eventBundle);
+
+socket.emit("save-event-record", eventBundle )
+alert("Recorded event");
+eventTitleInput.value = ""
+eventDetailsInput.value = ""
+
+}
+
+
+
 
 </script>

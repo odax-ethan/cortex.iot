@@ -12,7 +12,7 @@
                     <div class="box">System State Thingy</div>
                 </div>
                 <article class="tile is-child notification ">
-                    <p.subtitle>Event Stream Terminal</p>
+                    <!-- <p.subtitle>Event Stream Terminal</p> -->
                     <app-event-stream></app-event-stream>
                 </article>
             </div>
@@ -47,11 +47,39 @@
             <app-weather-7day-12h-chart></app-weather-7day-12h-chart>
           </div>
         </article>
-        <!-- <article class="tile is-child notification ">
+
+
+
+        <article class="tile is-child notification ">
+          <p class="title">Record Event</p>
+          <hr />
+
+          <button class="button is-fullwidth" onclick="newEventAdder()" style="position: absolute; bottom: 2%; width:90%;">New Record</button>
+
+          <div class="modal" id="newEventModal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                  <div.box><app-physical-event-adder></app-physical-event-adder></div>
+            </div>
+            <button class="modal-close is-large" aria-label="close" onclick="newEventAdder()"></button>
+          </div>
 
         </article>
-        <article class="tile is-child notification ">
+
+
+        <!-- <article class="tile is-child notification ">
 
         </article> -->
     </div>
 </div>
+
+<script>
+
+function newEventAdder() {
+  var element = document.getElementById("newEventModal");
+  element.classList.toggle("is-active");
+}
+
+
+
+</script>
