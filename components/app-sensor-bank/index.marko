@@ -84,7 +84,7 @@
  // })
 
  socket.on("thermometerData-update",(data) => {
-   document.getElementById(data.deviceID).innerText = data.value
+   document.getElementById(data.deviceID).innerText = data.data
    //console.log(data)
   });
 

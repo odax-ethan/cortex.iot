@@ -10,14 +10,16 @@ const open = require('open');
 
 const { socketListener } = require(__dirname +'/scr/core/cortex-sockets.js'); //cortex sockets components
 const { systemEmitter } = require(__dirname +'/scr/core/cortex-events.js'); //cortex events / listeners components
-const { System, getSystemConfig, deleteSystemConfig } = require(__dirname +'/scr/core/cortex-system.js'); //cortex support & database components
+const { System, getSystemConfig, deleteSystemConfig, saveSensorDataFor, getSensorDataFor } = require(__dirname +'/scr/core/cortex-system.js'); //cortex support & database components
 
-const hubtemplate = require('./scr/templates/hub/index.marko');
-const settingstemplate = require('./scr/templates/settings/index.marko');
-const documentationtemplate = require('./scr/templates/documentation/index.marko');
-const guidetemplate = require('./scr/templates/guide/index.marko');
+const hubTemplate = require('./scr/templates/hub/index.marko');
+const deviceHistoryTemplate = require('./scr/templates/device-history/index.marko');
+const settingsTemplate = require('./scr/templates/settings/index.marko');
+const documentationTemplate = require('./scr/templates/documentation/index.marko');
+const guideTemplate = require('./scr/templates/guide/index.marko');
 
 const isProduction = (process.env.NODE_ENV === 'production');
+
 
 // Configure lasso to control how JS/CSS/etc. is delivered to the browser
 require('lasso').configure({
@@ -70,7 +72,7 @@ new Promise((resolve, reject) => {
 
     //send home pages to general search
     app.get('/', function (req, res) {
-      res.marko(hubtemplate, {
+      res.marko(hubTemplate, {
           systemConfig: cortexConfig,
           systemDevices: cortexConfig.devices
       });
@@ -82,19 +84,19 @@ new Promise((resolve, reject) => {
       // console.log('search:', req.params.search)
       switch (req.params.search) {
         case "settings":
-            res.marko(settingstemplate, {
+            res.marko(settingsTemplate, {
               systemConfig: cortexConfig,
               systemNodes: cortexConfig.nodes,
               systemDevices: cortexConfig.devices
             });
           break;
         case "guide":
-            res.marko(guidetemplate, {
+            res.marko(guideTemplate, {
               systemConfig: cortexConfig
             });
           break;
         case "documentation":
-            res.marko(documentationtemplate, {
+            res.marko(documentationTemplate, {
               systemConfig: cortexConfig
             });
           break;
@@ -103,6 +105,34 @@ new Promise((resolve, reject) => {
       }
     });
 
+
+
+    app.get('/history/:deviceID', function (req, res) {
+
+      let targetDevice = req.params.deviceID
+
+      function getInfo() {
+        for (var i = 0; i < cortexConfig.devices.length; i++) {
+          if (cortexConfig.devices[i].deviceID === targetDevice ) {
+            return cortexConfig.devices[i]
+          }
+        }
+      }
+
+
+        res.marko(deviceHistoryTemplate, {
+            // systemConfig: cortexConfig,
+            // systemDevices: cortexConfig.devices,
+            currentDeviceData: getInfo()
+            // currentDeviceHistory: fullHistory
+        });
+
+
+
+
+
+      // console.log('search:', req.params.search)
+    })
 
     const systemApp  = app.listen(port, hostIP, function () {
       var url  = 'http://'+ systemIP +':' + port

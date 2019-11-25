@@ -9,7 +9,7 @@ const PouchDB = require('pouchdb');
 const {systemConfigTemplate} = require('../config/systemConfig.js'); //cortex support components
 
 //create database
-var masterDB = new PouchDB('masterDB');
+const masterDB = new PouchDB('masterDB');
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -141,8 +141,67 @@ function getEventRecords() {
 
 
 
+function saveSensorDataFor(data) {
+          let deviceID = data.deviceID
+          let sensorData = data.data
+          let timeStamp = data.timeStamp
+          let dataBundle = {data:sensorData,timeStamp: timeStamp}
 
 
+           masterDB.get(deviceID).catch(function (err) {
+               if (err.name === 'not_found') {
+                 console.log("no record found");
+                 let newData = {
+                   _id: deviceID,
+                   deviceID : deviceID,
+                   data : [{data:sensorData, timestamp:timestamp}]
+                 };
+                 return masterDB.put(newData)
+               } else { // hm, some other error
+                 throw err;
+               }
+             }).then(function (doc) {
+                // let bundle = doc
+                // // let arrayBundle = bundle.data
+                // let dataBundle = {data:sensorData, timestamp:timestamp}
+                // // arrayBundle.push(dataBundle)
+                // bundle.data.push(dataBundle)
+                // // masterDB.put(bundle)
+                // console.log(bundle);
+                // console.log(doc);
+
+               let newData = doc
+               let newDataSet = doc.data
+
+               // console.log(dataBundle);
+               newDataSet.push(dataBundle)
+               newData.data = newDataSet
+               masterDB.put(newData)
+               console.log(newData);
+
+             }).catch(function (err) {
+               // handle any errors
+             });
+
+}
+
+
+
+
+// function getSensorDataFor(deviceID) {
+//   masterDB.get(deviceID).catch(function (err) {
+//           if (err.name === 'not_found') {
+//             console.log("no record found");
+//           } else { // hm, some other error
+//             throw err;
+//           }
+//         }).then(function (doc) {
+//           // console.log(doc);
+//           return doc
+//         }).catch(function (err) {
+//           // handle any errors
+//         });;
+// }
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -213,13 +272,14 @@ class System {
                    this[varname] = value;
                    this[varname].on("data", function() {
                    // console.log(varname+ ": "+this.celsius + "°C");
-
+                     var now = new Date()
                    // let transmitData = {deviceID: varname, value: this.celsius }
-                   var transmitData = {deviceID: varname, value: this.fahrenheit }
+                   var dataBundle = {deviceID: varname, data: this.fahrenheit, timeStamp:now}
+                   saveSensorDataFor(dataBundle)
 
                    systemEmitter.emit('newEvent', `sensor ${varname} read`)
 
-                   systemEmitter.emit('newthermometerData', transmitData);
+                   systemEmitter.emit('newthermometerData', dataBundle);
                      // console.log("0x" + this.address.toString(16));
                    });
 
@@ -342,4 +402,4 @@ class System {
 
 /////////////////////////////////////////////////////////////////////////////////
 
-module.exports = { System, getSystemConfig, resetSystemConfig, createNode, recordEvent, getEventRecords };
+module.exports = { System, getSystemConfig, resetSystemConfig, createNode, recordEvent, getEventRecords, saveSensorDataFor, masterDB};
