@@ -8,17 +8,7 @@
 
           <article class="media box">
             <figure class="media-left">
-              <p>
-                <nav class="level">
-                  <div class="level-item has-text-centered">
-                    <div>
-                      <p class="heading">Current Reading</p>
-                      <!-- <p class="title"><span id=device.deviceID ></span>°C</p> -->
-                      <p class="title"><span id=device.deviceID ></span>°F</p>
-                    </div>
-                  </div>
-                </nav>
-              </p>
+            <p class="subtitle"><span id=device.deviceID ></span>°F</p>
             </figure>
             <div class="media-content">
               <div class="content">
@@ -27,20 +17,32 @@
                   <br>
                 </p>
               </div>
-              <nav class="level is-mobile">
+              <!-- <nav class="level is-mobile">
                 <div class="level-left">
                   <a class="level-item">
-                    <!-- create selector system like relay bank -->
+
                     <span class="icon is-small"><i class="fas fa-temperature-low"></i></span>
                   </a>
                   <a class="level-item" href=`/history/${device.deviceID}`>
                     <span class="icon is-small"><i class="fas fa-database"></i></span>
                   </a>
                 </div>
-              </nav>
+              </nav> -->
             </div>
             <div class="media-right">
                 <!-- edit relay -->
+                <a href=`/history/${device.deviceID}`>
+                    <span class="icon has-text-info">
+                        <span class="icon is-small"><i class="fas fa-database"></i></span>
+                    </span>
+                </a>
+
+                <a href="">
+                    <span class="icon has-text-info">
+                        <span class="icon is-small"><i class="fas fa-temperature-low"></i></span>
+                    </span>
+                </a>
+
                 <a href="/settings">
                     <span class="icon has-text-info">
                         <i class="far fa-edit"/>

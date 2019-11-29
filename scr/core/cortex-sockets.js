@@ -50,6 +50,8 @@ function socketListener(expressSocket, systemConfig) {
 
       // ADD: save-new-device + update option
       // ADD: save - general settings + update option
+      // get last data save
+      // get all device history
 
       // over ride relay state - select target
       socket.on('relay-overRide', (target) => {
@@ -83,20 +85,111 @@ function socketListener(expressSocket, systemConfig) {
         // var bundle = "data"
         masterDB.get(target).catch(function (err) {
               if (err.name === 'not_found') {
-                console.log("no record found");
+                console.log("no record found, sorry");
               } else { // hm, some other error
                 throw err;
               }
             }).then(function (doc) {
-              console.log(doc);
+              // console.log(doc);
               return  socket.emit("target-device-history-data", doc )
             }).catch(function (err) {
               // handle any errors
             });;
       })
+      // return all device history
+      socket.on("all-devices-history", (stepCount) => {
+        // get all datat from all active devices
+        // parse said objects for their data
+        // put data per object into bundledData
+        // put labels from time stamps
+
+        var preProccessorContainer = []
+
+        var labelArray = []
+        var bunndledDataSets = []
+
+        var containerDataSetLengths=[]
+
+        masterDB.allDocs({
+          include_docs: true,
+          attachments: true
+        }).then(function (result) {
+          // handle result
+          var allDocs = result.rows
+
+          // for all docs check each on
+          for (var i = 0; i < allDocs.length; i++) {
+            var dataArray = allDocs[i].doc.data
+
+            // var dataArrayLength = dataArray.length
+            // console.log(dataArrayLength);
+
+            // if doc is system config ignore
+            if (allDocs[i].id === systemConfig) {
+              return
+            } else { // push data to new array
+               preProccessorContainer.push(dataArray)
+               // containerDataSetLengths.push(dataArrayLength)
+            }
+          }
+
+          // for each doc in container
+          var preProccessorContainerLength = allDocs.length-1
+          for (var i = 0; i < preProccessorContainerLength; i++) {
+            // array of all data in said doc
+            var dataSetArray = []
+            var prelabelArray= []
+            var postData = []
+            //
+            // var dataSetTemplate = dataSetArray
+            //   data: dataSetArray
+            // }
+
+            // let current = preProccessorContainer[i]
+            // console.log(currentLength);
+            // let currentLength= current.length
+
+            //for each doc get data
+            for (var y = 0; y < preProccessorContainer[i].length; y++) {
+              // for each docs dataSet get # of stepCount
+                  var currentData = preProccessorContainer[i][y].data
+                  var currentTimeStamp = preProccessorContainer[i][y].timeStamp
+                  // console.log(preProccessorContainer[i][y]);
+                  dataSetArray.push(currentData)
+                  prelabelArray.push(currentTimeStamp)
+            }
+
+
+            for (var z = 0; z < stepCount; z++) {
+              labelArray.push(prelabelArray[z])
+            }
+
+
+            for (var z = 0; z < stepCount; z++) {
+              postData.push(dataSetArray[z])
+            }
+
+            bunndledDataSets.push(postData)
+          }
+
+
+            var bundledChartData = {label: labelArray , dataSets: bunndledDataSets}
+
+            socket.emit("all-devices-history-data",  bundledChartData)
+
+          // console.log(bundledChartData);
+
+
+        }).catch(function (err) {
+          console.log(err);
+        });
+
+      })
       // on socket disconnect
       socket.on('disconnect', function(){
         console.log('user disconnected');
+        // disconnect service
+        socket.disconnect(true)
       });
   });
   systemEmitter.emit('newEvent', "socket connected")

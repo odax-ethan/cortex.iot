@@ -1,23 +1,47 @@
+<!-- <app-nav-side-bar></app-nav-side-bar> -->
 <div class="tile is-ancestor">
-    <div class="tile is-vertical is-9">
+    <div class="tile is-vertical" style="margin-left:70px">
+        <div class="tile is-parent">
+            <article class="tile is-child notification">
+              <p class="title">Wide tile</p>
+              <p class="subtitle">Aligned with the right tile</p>
+              <div class="content">
+                  <app-history-devices-all ></app-history-devices-all>
+              </div>
+
+
+            </article>
+        </div>
         <div class="tile">
-            <div class="tile is-parent is-vertical is-4">
-                <div class="tile is-child notification ">
-
-
-
-                      <hr />
-                    <app-system-read-out systemConfig = input.systemConfig ></app-system-read-out>
-                    <hr />
-                    <div class="box">System State Thingy</div>
-                </div>
+            <div class="tile is-parent is-vertical">
                 <article class="tile is-child notification ">
-                    <!-- <p.subtitle>Event Stream Terminal</p> -->
-                    <app-event-stream></app-event-stream>
+                    <p class="title">Vertical...</p>
+                    <p class="subtitle">Top tile</p>
+                    <app-sensor-bank systemDevices = input.systemDevices></app-sensor-bank>
                 </article>
             </div>
             <div class="tile is-parent">
+                <article class="tile is-child notification">
+                    <p class="title">Middle tile</p>
+                    <p class="subtitle">With an image</p>
+                    <app-relay-bank systemDevices = input.systemDevices></app-relay-bank>
+                </article>
+            </div>
+        </div>
+        <!-- <div class="tile is-parent">
+              <article class="tile is-child notification ">
+                  <div class="box">
+                    <p class="title"> Reading</p>
+                    <app-history-devices-all ></app-history-devices-all>
+                  </div>
+
+              </article>
+          </div>
+
+
+            <div class="tile is-parent">
                 <article class="tile is-child notification ">
+
                     <p class="title">Device tile</p>
                     <hr />
                     <p class="subtitle">Relays</p>
@@ -27,7 +51,7 @@
                     <app-sensor-bank systemDevices = input.systemDevices></app-sensor-bank>
                 </article>
             </div>
-        </div>
+        </div> -->
         <!-- <div class="tile is-parent">
             <article class="tile is-child notification ">
                 <p class="title">Wide tile</p>
@@ -38,19 +62,20 @@
             </article>
         </div> -->
     </div>
-    <div class="tile is-parent is-vertical">
+    <div class="tile is-parent is-vertical is-4">
         <article class="tile is-child notification ">
-          <p class="title">Weather Forcasts</p>
-          <hr />
-          <app-weather-current-2-step-detail></app-weather-current-2-step-detail>
-          <div class="box">
-            <app-weather-7day-12h-chart></app-weather-7day-12h-chart>
-          </div>
+            <p class="title">Weather Forcasts</p>
+            <hr/>
+            <app-weather-current-2-step-detail/>
+            <div class="box">
+                <app-weather-7day-12h-chart/>
+            </div>
         </article>
-
-
-
         <article class="tile is-child notification ">
+            <!-- <p.subtitle>Event Stream Terminal</p> -->
+            <app-event-stream/>
+        </article>
+        <!-- <article class="tile is-child notification ">
           <p class="title">Record Event</p>
           <hr />
 
@@ -64,22 +89,10 @@
             <button class="modal-close is-large" aria-label="close" onclick="newEventAdder()"></button>
           </div>
 
-        </article>
-
-
+        </article> -->
         <!-- <article class="tile is-child notification ">
 
         </article> -->
     </div>
 </div>
-
-<script>
-
-function newEventAdder() {
-  var element = document.getElementById("newEventModal");
-  element.classList.toggle("is-active");
-}
-
-
-
-</script>
+<app-nav-side-bar systemConfig=input.systemConfig/>

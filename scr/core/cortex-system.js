@@ -5,11 +5,15 @@ var five = require("johnny-five");
 
 const { relayerTimerTest, timerLogicTester } = require('./cortex-logic.js'); //cortex events / listeners components
 const { systemEmitter } = require('./cortex-events.js'); //cortex events / listeners components
+const { looper } = require('./cortex-logic.js'); //cortex events / listeners components
 const PouchDB = require('pouchdb');
 const {systemConfigTemplate} = require('../config/systemConfig.js'); //cortex support components
+const CronJob =  require('cron').CronJob;
+
 
 //create database
 const masterDB = new PouchDB('masterDB');
+masterDB.setMaxListeners(20); 
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -18,7 +22,7 @@ let getSystemConfig = masterDB.get('systemConfig').catch(function (err) {
    if (err.name === 'not_found') {
      // emit event - no System Config found -  creating a new a new system.
      systemEmitter.emit('newEvent', "no System Config found -  creating a new a new system.")
-     //console.log(systemConfigTemplate);
+     console.log(systemConfigTemplate);
      return masterDB.put(systemConfigTemplate)
    } else { // hm, some other error
      throw err;
@@ -142,50 +146,133 @@ function getEventRecords() {
 
 
 function saveSensorDataFor(data) {
-          let deviceID = data.deviceID
-          let sensorData = data.data
-          let timeStamp = data.timeStamp
-          let dataBundle = {data:sensorData,timeStamp: timeStamp}
-
-
-           masterDB.get(deviceID).catch(function (err) {
-               if (err.name === 'not_found') {
-                 console.log("no record found");
-                 let newData = {
-                   _id: deviceID,
-                   deviceID : deviceID,
-                   data : [{data:sensorData, timestamp:timestamp}]
-                 };
-                 return masterDB.put(newData)
-               } else { // hm, some other error
-                 throw err;
-               }
-             }).then(function (doc) {
-                // let bundle = doc
-                // // let arrayBundle = bundle.data
-                // let dataBundle = {data:sensorData, timestamp:timestamp}
-                // // arrayBundle.push(dataBundle)
-                // bundle.data.push(dataBundle)
-                // // masterDB.put(bundle)
-                // console.log(bundle);
-                // console.log(doc);
-
-               let newData = doc
-               let newDataSet = doc.data
-
-               // console.log(dataBundle);
-               newDataSet.push(dataBundle)
-               newData.data = newDataSet
-               masterDB.put(newData)
-               console.log(newData);
-
-             }).catch(function (err) {
-               // handle any errors
-             });
+        //   let deviceID = data.deviceID
+        //   let sensorData = data.data
+        //   let timeStamp = data.timeStamp
+        //   let dataBundle = {data:sensorData,timeStamp: timeStamp}
+        //
+        // console.log(data);
+        //
+        //    masterDB.get(deviceID).catch(function (err) {
+        //        if (err.name === 'not_found') {
+        //          console.log("no record found, making a full record");
+        //          var newData = {
+        //            _id: deviceID,
+        //            deviceID : deviceID,
+        //            data : [{data:sensorData, timestamp:timestamp}]
+        //          };
+        //          console.log(newData);
+        //          return masterDB.put(newData)
+        //        } else { // hm, some other error
+        //          throw err;
+        //        }
+        //      }).then(function (doc) {
+        //         // let bundle = doc
+        //         // // let arrayBundle = bundle.data
+        //         // let dataBundle = {data:sensorData, timestamp:timestamp}
+        //         // // arrayBundle.push(dataBundle)
+        //         // bundle.data.push(dataBundle)
+        //         // // masterDB.put(bundle)
+        //         // console.log(bundle);
+        //         // console.log(doc);
+        //
+        //        let newData = doc
+        //        let newDataSet = doc.data
+        //
+        //        // console.log(dataBundle);
+        //        newDataSet.push(dataBundle)
+        //        newData.data = newDataSet
+        //        masterDB.put(newData)
+        //        console.log(newData);
+        //
+        //      }).catch(function (err) {
+        //        // handle any errors
+        //      });
 
 }
 
 
+
+
+// sensor base event
+systemEmitter.on('newthermometerData', (data) => {
+  // console.log(data);
+
+   saveDeviceData = (data) => {
+      let deviceID = data.deviceID
+      let sensorData = data.data
+      let timeStamp = data.timeStamp
+      let dataBundle = {data:sensorData,timeStamp: timeStamp}
+
+      var template = {
+        _id: deviceID,
+        deviceID : deviceID,
+        data : [{data:sensorData, timestamp:timeStamp}]
+      };
+
+      console.log(dataBundle);
+
+       masterDB.get(deviceID).catch(function (err) {
+           if (err.name === 'not_found') {
+             console.log("no record found, making a full record");
+
+             // console.log(template);
+             return masterDB.put(template)
+           } else { // hm, some other error
+             throw err;
+           }
+         }).then(function (doc) {
+            // let bundle = doc
+            // // let arrayBundle = bundle.data
+            // let dataBundle = {data:sensorData, timestamp:timestamp}
+            // // arrayBundle.push(dataBundle)
+            // bundle.data.push(dataBundle)
+            // // masterDB.put(bundle)
+            // console.log(bundle);
+            // console.log(doc);
+
+           let newData = doc
+           let newDataSet = doc.data
+
+           // console.log(dataBundle);
+           newDataSet.push(dataBundle)
+           newData.data = newDataSet
+           masterDB.put(newData)
+           // console.log(newData);
+
+        }).catch(function (err) {
+           // handle any errors
+         });
+    }
+
+  // saveDeviceData(data)
+
+  systemEmitter.emit('thermometerData-update-socket', data)
+  // sensorEmitter.emit('sensor-db-update', data)
+
+})
+
+
+
+// console.log('Before job instantiation');
+const dbCleanUp = new CronJob('20 * * * * *', function() {
+  masterDB.compact().then(function (result) {
+      // handle result
+        console.log("db compacted");
+    }).catch(function (err) {
+      console.log(err);
+  });
+  masterDB.viewCleanup().then(function (result) {
+    console.log("db cleaned");
+  }).catch(function (err) {
+    console.log(err);
+  });
+
+});
+
+dbCleanUp.start();
+
+// 3600000
 
 
 // function getSensorDataFor(deviceID) {
@@ -270,9 +357,10 @@ class System {
                    // console.log(thermometerList[i]);
                    let value = new five.Thermometer({controller: thermometerList[i].controller, pin: thermometerList[i].pin, board:board, freq: thermometerList[i].freq});
                    this[varname] = value;
+
                    this[varname].on("data", function() {
                    // console.log(varname+ ": "+this.celsius + "°C");
-                     var now = new Date()
+                   var now = new Date()
                    // let transmitData = {deviceID: varname, value: this.celsius }
                    var dataBundle = {deviceID: varname, data: this.fahrenheit, timeStamp:now}
                    saveSensorDataFor(dataBundle)

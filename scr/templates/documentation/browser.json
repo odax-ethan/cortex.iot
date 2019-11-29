@@ -1,0 +1,13 @@
+{
+  "dependencies": [
+    {
+      "type": "js",
+      "url": "/socket.io/socket.io.js"
+    },
+    {
+      "type": "js",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js",
+      "external": false
+    }
+  ]
+}

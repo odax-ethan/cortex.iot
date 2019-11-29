@@ -10,11 +10,13 @@ const open = require('open');
 
 const { socketListener } = require(__dirname +'/scr/core/cortex-sockets.js'); //cortex sockets components
 const { systemEmitter } = require(__dirname +'/scr/core/cortex-events.js'); //cortex events / listeners components
-const { System, getSystemConfig, deleteSystemConfig, saveSensorDataFor, getSensorDataFor } = require(__dirname +'/scr/core/cortex-system.js'); //cortex support & database components
+// const { looper } = require(__dirname +'/scr/core/cortex-logic.js'); //cortex events / listeners components
+const { System, getSystemConfig, deleteSystemConfig } = require(__dirname +'/scr/core/cortex-system.js'); //cortex support & database components
 
 const hubTemplate = require('./scr/templates/hub/index.marko');
 const deviceHistoryTemplate = require('./scr/templates/device-history/index.marko');
 const settingsTemplate = require('./scr/templates/settings/index.marko');
+const analysisTemplate = require('./scr/templates/analysis/index.marko');
 const documentationTemplate = require('./scr/templates/documentation/index.marko');
 const guideTemplate = require('./scr/templates/guide/index.marko');
 
@@ -95,6 +97,11 @@ new Promise((resolve, reject) => {
               systemConfig: cortexConfig
             });
           break;
+          case "analysis":
+              res.marko(analysisTemplate, {
+                systemConfig: cortexConfig
+              });
+            break;
         case "documentation":
             res.marko(documentationTemplate, {
               systemConfig: cortexConfig

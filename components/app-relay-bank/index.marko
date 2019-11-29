@@ -5,69 +5,56 @@
       <li.box>
           <article class="media">
               <figure class="media-left">
-                <p id="${devices.deviceID}-state" >...</p>
+                <!-- icons selector -->
+                <if(devices.deviceCONTROLS === "light")>
+                  <a onclick="">
+                      <span class="icon has-text-warning">
+                        <i class="far fa-lightbulb"></i>
+                      </span>
+                  </a>
+                </if>
+
+                <if(devices.deviceCONTROLS === "fan")>
+                  <a onclick="">
+                      <span class="icon has-text-link">
+                        <i class="fas fa-fan fa-pulse"></i>
+                      </span>
+                  </a>
+                </if>
+
+                <if(devices.deviceCONTROLS === "heater")>
+                  <a onclick="">
+                      <span class="icon has-text-danger">
+                        <i class="fas fa-burn"></i>
+                      </span>
+                  </a>
+                </if>
+
+                <if(devices.deviceCONTROLS === "pump")>
+                  <a onclick="">
+                      <span class="icon has-text-info">
+                        <i class="fas fa-shower"></i>
+                      </span>
+                  </a>
+                </if>
+
+                <if(devices.deviceCONTROLS === "gas")>
+                  <a onclick="">
+                      <span class="icon has-text-info">
+                        <i class="fas fa-atom fa-pulse"></i>
+                      </span>
+                  </a>
+                </if>
+
+                <!-- <p id="${devices.deviceID}-state" >...</p> -->
               </figure>
               <div class="media-content">
                   <div class="content">
                       <p>
                           <strong> ${devices.deviceID}</strong>  <small> @ pin ${devices.devicePIN}</small>
                           <br/>
-
                       </p>
                   </div>
-                  <nav class="level is-mobile">
-                      <div class="level-left">
-
-                        <!-- icons selector -->
-                        <if(devices.deviceCONTROLS === "light")>
-                          <a onclick="">
-                              <span class="icon has-text-warning">
-                                <i class="far fa-lightbulb"></i>
-                              </span>
-                          </a>
-                        </if>
-
-                        <if(devices.deviceCONTROLS === "fan")>
-                          <a onclick="">
-                              <span class="icon has-text-link">
-                                <i class="fas fa-fan fa-pulse"></i>
-                              </span>
-                          </a>
-                        </if>
-
-                        <if(devices.deviceCONTROLS === "heater")>
-                          <a onclick="">
-                              <span class="icon has-text-danger">
-                                <i class="fas fa-burn"></i>
-                              </span>
-                          </a>
-                        </if>
-
-                        <if(devices.deviceCONTROLS === "pump")>
-                          <a onclick="">
-                              <span class="icon has-text-info">
-                                <i class="fas fa-shower"></i>
-                              </span>
-                          </a>
-                        </if>
-
-                        <if(devices.deviceCONTROLS === "gas")>
-                          <a onclick="">
-                              <span class="icon has-text-info">
-                                <i class="fas fa-atom fa-pulse"></i>
-                              </span>
-                          </a>
-                        </if>
-
-
-                        <!-- history -->
-                        <a class="level-item" href=`/history/${devices.deviceID}`>
-                          <span class="icon is-small"><i class="fas fa-database"></i></span>
-                        </a>
-
-
-                      </div>
-                  </nav>
               </div>
               <div class="media-right">
 
@@ -79,6 +66,12 @@
                       </span>
                   </a>
 
+
+
+                  <!-- history -->
+                  <a href=`/history/${devices.deviceID}`>
+                    <span class="icon is-small"><i class="fas fa-database"></i></span>
+                  </a>
 
                   <!-- edit relay -->
                   <a href="/settings">
