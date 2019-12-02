@@ -398,15 +398,15 @@ class System {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-                    if (timerList) {
-                      for (var z = 0; z < timerList.length; z++) {
-                        console.log(timerList[z]);
-                      }
-                    } else {
-                      console.log("no cron assigned to relay");
-                    }
-
-
+                    // if (timerList) {
+                    //   for (var z = 0; z < timerList.length; z++) {
+                    //     console.log(timerList[z]);
+                    //   }
+                    // } else {
+                    //   console.log("no cron assigned to relay");
+                    // }
+                    //
+                    //
 
 
                     // let masterCronEventLength = 5000
