@@ -351,7 +351,7 @@ class System {
         //  test generate list for thermometer class devices and create system
            for (var i = 0; i < thermometerList.length; i++) {
                 if (thermometerList[i].board === board.id) {
-                   var varname = thermometerList[i].id
+                   let varname = thermometerList[i].id
                    // console.log(thermometerList[i]);
                    // console.log(testRate);
                    var value = new five.Thermometer({controller: thermometerList[i].controller, pin: thermometerList[i].pin, board:board, freq: testRate});
@@ -365,7 +365,7 @@ class System {
                    // saveSensorDataFor(dataBundle)
                    // systemEmitter.emit('newEvent', `sensor ${varname} read`)
                    // data is saved in event scope
-                   systemEmitter.emit('newthermometerData', {deviceID: `${thermometerList[i].id}`, data: this.fahrenheit, timeStamp: new Date()} );
+                   systemEmitter.emit('newthermometerData', {deviceID: varname, data: this.fahrenheit, timeStamp: new Date()} );
                      // console.log("0x" + this.address.toString(16));
                    });
                    console.log(`created the ${thermometerList[i].id} device for the ${board.id} node`);
