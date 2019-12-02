@@ -2,7 +2,7 @@
 exports.systemConfigTemplate = {
     _id : "systemConfig",
     opperationName : "GROW338",
-    timerTESTrate: 90000,
+    timerTESTrate: 9000,
     admin:"Karl",
     coordinates : {
       lat: 45,

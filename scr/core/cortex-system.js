@@ -201,7 +201,7 @@ systemEmitter.on('newthermometerData', (data) => {
   var timeStamp = data.timeStamp
   //create databundle object for storage
   var dataBundle = {data:sensorData,timeStamp: timeStamp}
-  console.log(dataBundle);
+  // console.log(dataBundle);
 
   // saveDeviceData = ( deviceID , dataBundle ) => {
   //
@@ -233,7 +233,7 @@ systemEmitter.on('newthermometerData', (data) => {
          var data = doc.data
          data.push(dataBundle)
          doc.data = data
-         console.log(doc);
+         //console.log(doc);
          return masterDB.put(doc)
    }).catch(function (err) {
       // handle any errors
@@ -242,17 +242,9 @@ systemEmitter.on('newthermometerData', (data) => {
 
 
 
-
-
-
   systemEmitter.emit('thermometerData-update-socket', data)
   // sensorEmitter.emit('sensor-db-update', data)
 
-  delete deviceID
-  delete sensorData
-  delete timestamp
-  delete dataBundle
-  delete data
 
 })
 
@@ -313,9 +305,9 @@ class System {
   generateSystem(){
 
     // Create sorted Device banks
-    var thermometerList = [] // PARSED thermometer LIST
-    var relayList = [] // parsed Relay List
-    var testRate = this.timerTESTrate
+     let thermometerList = [] // PARSED thermometer LIST
+     let relayList = [] // parsed Relay List
+     let testRate = this.timerTESTrate
 
     for (var i = 0; i < this.devicesLength; i++) {
       switch (this.devices[i].deviceTYPE) {
@@ -361,6 +353,7 @@ class System {
                 if (thermometerList[i].board === board.id) {
                    var varname = thermometerList[i].id
                    // console.log(thermometerList[i]);
+                   // console.log(testRate);
                    var value = new five.Thermometer({controller: thermometerList[i].controller, pin: thermometerList[i].pin, board:board, freq: testRate});
                    this[varname] = value;
 

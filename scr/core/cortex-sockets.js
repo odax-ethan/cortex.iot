@@ -58,7 +58,7 @@ function socketListener(expressSocket, systemConfig) {
       }).then(function (result) {
         // handle result
         var allDocs = result.rows
-        console.log(allDocs);
+        // console.log(allDocs);
         // for all docs check each on
         for (var i = 0; i < allDocs.length; i++) {
 
@@ -149,7 +149,7 @@ function socketListener(expressSocket, systemConfig) {
               // doc.admin = data.timerTESTrate
               // doc.coordinatesLat = data.timerTESTrate
               // doc.coordinatesLong = data.timerTESTrate
-              console.log(newDoc);
+              // console.log(newDoc);
               return masterDB.put(newDoc)
 
               // return  socket.emit("target-device-history-data", doc )
@@ -193,7 +193,7 @@ function socketListener(expressSocket, systemConfig) {
            var events = docs.events
            events.push(dataArray)
            doc.events = events
-           console.log(doc);
+           // console.log(doc);
            // var eventsArray = doc.events
            // eventsArray.push(newEventRecord)
            // doc.events = eventsArray
@@ -248,7 +248,7 @@ function socketListener(expressSocket, systemConfig) {
         }).then(function (result) {
           // handle result
           var allDocs = result.rows
-          console.log(allDocs);
+          // console.log(allDocs);
           // for all docs check each on
           for (var i = 0; i < allDocs.length; i++) {
 
@@ -315,7 +315,7 @@ function socketListener(expressSocket, systemConfig) {
               var dataSet = dataSetArray.slice(-stepCount)
               // postData.push(dataSet)
 
-            console.log();
+            // console.log();
             bunndledDataSets.push(dataSet)
           }
 
