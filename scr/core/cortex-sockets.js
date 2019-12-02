@@ -307,11 +307,13 @@ function socketListener(expressSocket, systemConfig) {
 
              }
 
+             if ( i === 0) {
+               for (var z = 0; z < stepCount; z++) {
+                 labelArray.push(prelabelArray[z])
+               }
+             }
 
 
-            for (var z = 0; z < stepCount; z++) {
-              labelArray.push(prelabelArray[z])
-            }
 
 
 
