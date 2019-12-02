@@ -251,7 +251,7 @@ systemEmitter.on('newthermometerData', (data) => {
 
 
 // console.log('Before job instantiation');
-const dbCleanUp = new CronJob('20 * * * * *', function() {
+const dbCleanUp = new CronJob('* 2 * * * *', function() {
   masterDB.compact().then(function (result) {
       // handle result
         console.log("db compacted");
