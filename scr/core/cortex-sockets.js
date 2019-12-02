@@ -17,7 +17,7 @@ function socketListener(expressSocket, systemConfig) {
 
   // make this a read master history event list - set t number of events
   systemEmitter.on('events-master-stream', (data) => {
-    console.log(data);
+    // console.log(data);
     io.sockets.emit("events-master-stream", data)
     // systemEmitter.emit('sensor-socket-update', data)
   })
@@ -94,9 +94,6 @@ function socketListener(expressSocket, systemConfig) {
       })
 
 
-
-
-
       socket.on("update-general-settings", (data) => {
         // createNode(data)
         masterDB.get("systemConfig").catch(function (err) {
@@ -161,8 +158,6 @@ function socketListener(expressSocket, systemConfig) {
               // handle any errors
             });;
       })
-
-
 
       // ADD: save-new-device + update option
       // ADD: save - general settings + update option
@@ -314,10 +309,10 @@ function socketListener(expressSocket, systemConfig) {
             }
 
 
-              var dataSet = dataSetArray.slice(stepCount)
+              var dataSet = dataSetArray.slice(-stepCount)
               // postData.push(dataSet)
 
-
+            console.log();
             bunndledDataSets.push(dataSet)
           }
 
