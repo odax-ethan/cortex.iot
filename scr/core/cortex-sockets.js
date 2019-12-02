@@ -300,13 +300,19 @@ function socketListener(expressSocket, systemConfig) {
                   var currentTimeStamp = preProccessorContainer[i][y].timeStamp
                   // console.log(preProccessorContainer[i][y]);
                   dataSetArray.push(currentData)
-                  prelabelArray.push(currentTimeStamp)
-            }
+
+                  if ( i === 0) {
+                    prelabelArray.push(currentTimeStamp)
+                  }
+
+             }
+
 
 
             for (var z = 0; z < stepCount; z++) {
               labelArray.push(prelabelArray[z])
             }
+
 
 
               var dataSet = dataSetArray.slice(-stepCount)

@@ -1,6 +1,8 @@
 <span id="deviceColors" style="display:none">${input.systemDevices}</span>
 <canvas id="historyChart" style=" height:40vh; width:100%"/>
 <script>
+
+  var stepCount = 300;
   socket.emit("all-devices-history", 300)
 
   socket.on("all-devices-history-data", function(data){
@@ -9,11 +11,15 @@
       var unParsedData = data.dataSets
       var unParsedLabel = data.label
       var unParsedColors = data.colorSets
-      var dataLenghthTarget = unParsedData[0].data
-      console.log(dataLenghthTarget)
+
+      // var dataLenghthTarget = unParsedData[0].data
+      // console.log(dataLenghthTarget)
 
       var chartDataSets = []
-      var labelArray = unParsedLabel
+
+
+
+      var labelArray = unParsedLabel 
 
       for (var i = 0; i < dataLenghthTarget.length; i++) {
         var template = { data: unParsedData[i], backgroundColor: unParsedColors[i]  }
