@@ -1,45 +1,35 @@
-<lasso-page />
-
+<lasso-page/>
 <!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <title>settings</title>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js'></script>
-  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-  <lasso-head />
-</head>
-
-<body>
-
-<div class="box">
-  <app-settings systemConfig = data.systemConfig   systemNodes = data.systemNodes  systemDevices = data.systemDevices></app-settings>
-</div>
-
-<article class="message is-warning">
-  <div class="message-header">
-    <p>Danger Zone</p>
-  </div>
-  <div class="message-body">
-  <div class="box">
-    <p.subtitle>Reset system Configuration</p>
-      <app-delete-systemConfig-button></app-delete-systemConfig-button>
-  </div>
-  </div>
-</article>
-
-
-
-
-  <lasso-body />
-
-      <!--
+    <head>
+        <meta charset="UTF-8"/>
+        <title>settings</title>
+        <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js'></script> -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css"/>
+        <!-- 'monolith' theme -->
+        <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"/>
+        <script defer src="https://use.fontawesome.com/releases/v5.10.1/js/all.js"></script>
+        <lasso-head/>
+    </head>
+    <body>
+        <lasso-body/>
+        <script>
+      window.socket = io();
+    </script>
+        <div class="box">
+            <app-settings-hub
+                systemConfig=data.systemConfig
+                systemNodes=data.systemNodes
+                systemDevices=data.systemDevices/>
+        </div>
+        <app-nav-side-bar systemConfig=input.systemConfig/>
+        <!--
     Page will automatically refresh any time a template is modified
     if launched using the browser-refresh Node.js process launcher:
     https://github.com/patrick-steele-idem/browser-refresh
     -->
-  <browser-refresh />
-</body>
-
+        <browser-refresh/>
+    </body>
 </html>

@@ -25,26 +25,86 @@
   </div>
 </div>
 
+<div class="field is-horizontal">
+  <div class="field-label is-small">
+    <label class="label">New Node color</label>
+  </div>
+  <div class="field-body">
+    <div class="field">
+      <div class="control">
+        <input type="text" class="pickr input is-small">
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <button class="button is-success is-outlined" onclick="saveNode()">Create New Node</button>
 
 
 
 <script>
- var socket = io();
+ // var socket = io();
+ //
+ // function saveNode() {
+ //
+ //   var newNodeName = document.getElementById("newNodeName").value
+ //   var newNodeSerial = document.getElementById("newNodeSerial").value
+ //
+ //   var data =   {
+ //      id: newNodeName,
+ //      port: newNodeSerial
+ //   }
+ //
+ //   socket.emit("save-new-node", data)
+ //  newNode()
+ // }
 
- function saveNode() {
+ const inputElement = document.querySelector('.pickr');
 
-   var newNodeName = document.getElementById("newNodeName").value
-   var newNodeSerial = document.getElementById("newNodeSerial").value
+ const pickr = new Pickr({
+   el: inputElement,
+   useAsButton: true,
+   default: '#42445A',
+   theme: 'monolith',
 
-   var data =   {
-      id: newNodeName,
-      port: newNodeSerial
+   swatches: [
+     'rgba(244, 67, 54, 1)',
+     'rgba(233, 30, 99, 0.95)',
+     'rgba(156, 39, 176, 0.9)',
+     'rgba(103, 58, 183, 0.85)',
+     'rgba(63, 81, 181, 0.8)',
+     'rgba(33, 150, 243, 0.75)',
+     'rgba(3, 169, 244, 0.7)',
+     'rgba(0, 188, 212, 0.7)',
+     'rgba(0, 150, 136, 0.75)',
+     'rgba(76, 175, 80, 0.8)',
+     'rgba(139, 195, 74, 0.85)',
+     'rgba(205, 220, 57, 0.9)',
+     'rgba(255, 235, 59, 0.95)',
+     'rgba(255, 193, 7, 1)'
+   ],
+
+   components: {
+     preview: true,
+     opacity: true,
+     hue: true,
+
+     interaction: {
+       hex: true,
+       rgba: true,
+       hsva: true,
+       input: true,
+       save: true
+     }
    }
+ }).on('init', pickr => {
+   inputElement.value = pickr.getSelectedColor().toRGBA().toString(0);
+ }).on('save', color => {
+   inputElement.value = color.toRGBA().toString(0);
+   pickr.hide();
+ })
 
-   socket.emit("save-new-node", data)
-  newNode()
- }
 
 
 </script>

@@ -97,10 +97,10 @@
 
   .main-menu {
   background:#F7F7F7;
-  position:absolute;
+  position:sticky;
   top:0;
   bottom:0;
-  height:100%;
+  height: 100vh;
   left:0;
   width:55px;
   overflow:hidden;
@@ -300,86 +300,92 @@
 
 <nav class="main-menu">
 
- <div class="settings">
-<!--     <a  href="/">
-    </a>  -->
-    <!-- <span class="nav-text"><app-system-read-out systemConfig = input.systemConfig ></app-system-read-out></span> -->
+        <div class="settings">
+        <!--     <a  href="/">
+            </a>  -->
+            <!-- <span class="nav-text"><app-system-read-out systemConfig = input.systemConfig ></app-system-read-out></span> -->
 
 
 
-  </div>
+          </div>
 
-<div class="scrollbar" id="style-1">
+        <div class="scrollbar" id="style-1">
 
-<ul>
+        <ul>
 
-<li>
-<a href="/">
-<!-- <i class="fas fa-home fa-lg"></i> -->
-  <i class="fas fa-lg fa-brain" style=" color:rgb(219, 84, 97)"></i>
-<span class="nav-text">H.U.D.</span>
-</a>
-</li>
+        <li>
+        <a href="/">
+        <!-- <i class="fas fa-home fa-lg"></i> -->
+          <i class="fas fa-lg fa-brain" style=" color:rgb(219, 84, 97)"></i>
+        <span class="nav-text">H.U.D.</span>
+        </a>
+        </li>
 
-<li class="darkerlishadow">
-<a onclick="newEventAdder()">
-<i class="fa  fa-calendar-plus fa-lg"></i>
-<span class="nav-text">Add Event</span>
-</a>
-</li>
-
-
-
-<li class="darkerli">
-<a href="/analysis">
-<i class="fa fa-microscope fa-lg"></i>
-<span class="nav-text">History Analysis</span>
-</a>
-</li>
-
-<li class="darkerli">
-<a href="/settings">
-<i class="fa fa-cogs fa-lg"></i>
-<span class="nav-text">Settings</span>
-</a>
-</li>
-
-
-<li class="darkerli">
-<a href="/guide">
-<i class="fa fa-book fa-lg"></i>
-<span class="nav-text">Guide / Documentation</span>
-</a>
-</li>
-
-<li class="darkerlishadowdown">
-<a onclick=`openInNewTab("https://forms.gle/AZLjGk3y7EjZJxgr5")`>
-<i class="fa fa-comment fa-lg"></i>
-<span class="nav-text">Feed Back</span>
-</a>
-</li>
-
-
-</ul>
+        <li class="darkerlishadow">
+        <a onclick="newEventAdder()">
+        <i class="fa  fa-calendar-plus fa-lg"></i>
+        <span class="nav-text">Add Event</span>
+        </a>
+        </li>
 
 
 
+        <!-- <li class="darkerli">
+        <a href="/analysis">
+        <i class="fa fa-microscope fa-lg"></i>
+        <span class="nav-text">History Analysis</span>
+        </a>
+        </li> -->
 
-<ul class="logout">
-<li>
-                   <a href="http://odaxsystems.com/">
-                     <i class="fa fa-info-circle fa-lg"></i>
-                        <span class="nav-text">
-                            Odax Systems
-                        </span>
+        <li class="darkerli">
+        <a href="/settings">
+        <i class="fa fa-cogs fa-lg"></i>
+        <span class="nav-text">Settings</span>
+        </a>
+        </li>
 
-                    </a>
-</li>
+        <!-- <li class="darkerli">
+        <a href="https://github.com/odax-ethan/cortex.iot/blob/master/README.md">
+        <i class="fa fa-graduation-cap fa-lg"></i>
+        <span class="nav-text">Guide</span>
+        </a>
+        </li> -->
 
-</ul>
-</div>
+
+        <li class="darkerli">
+        <a href="https://github.com/odax-ethan/cortex.iot/blob/master/README.md">
+        <i class="fa fa-book fa-lg"></i>
+        <span class="nav-text">Documentation</span>
+        </a>
+        </li>
+
+        <li class="darkerlishadowdown">
+        <a onclick=`openInNewTab("https://forms.gle/AZLjGk3y7EjZJxgr5")`>
+        <i class="fa fa-comment fa-lg"></i>
+        <span class="nav-text">Feed Back</span>
+        </a>
+        </li>
+
+
+        </ul>
+
+
+
+
+        <ul class="logout">
+        <li>
+                           <a href="http://odaxsystems.com/">
+                             <i class="fa fa-info-circle fa-lg"></i>
+                                <span class="nav-text">
+                                    Odax Systems
+                                </span>
+
+                            </a>
+        </li>
+
+        </ul>
+        </div>
 </nav>
-
 
 
 <!-- <li>

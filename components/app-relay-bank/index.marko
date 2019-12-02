@@ -8,7 +8,7 @@
                 <!-- icons selector -->
                 <if(devices.deviceCONTROLS === "light")>
                   <a onclick="">
-                      <span class="icon has-text-warning">
+                      <span class="icon" style="color:${devices.color}">
                         <i class="far fa-lightbulb"></i>
                       </span>
                   </a>
@@ -16,7 +16,7 @@
 
                 <if(devices.deviceCONTROLS === "fan")>
                   <a onclick="">
-                      <span class="icon has-text-link">
+                      <span class="icon" style="color:${devices.color}">
                         <i class="fas fa-fan fa-pulse"></i>
                       </span>
                   </a>
@@ -24,7 +24,7 @@
 
                 <if(devices.deviceCONTROLS === "heater")>
                   <a onclick="">
-                      <span class="icon has-text-danger">
+                      <span class="icon " style="color:${devices.color}">
                         <i class="fas fa-burn"></i>
                       </span>
                   </a>
@@ -32,7 +32,7 @@
 
                 <if(devices.deviceCONTROLS === "pump")>
                   <a onclick="">
-                      <span class="icon has-text-info">
+                      <span class="icon " style="color:${devices.color}">
                         <i class="fas fa-shower"></i>
                       </span>
                   </a>
@@ -40,7 +40,7 @@
 
                 <if(devices.deviceCONTROLS === "gas")>
                   <a onclick="">
-                      <span class="icon has-text-info">
+                      <span class="icon " style="color:${devices.color}">
                         <i class="fas fa-atom fa-pulse"></i>
                       </span>
                   </a>
@@ -61,7 +61,7 @@
 
                   <!-- over ride for relay -->
                   <a onclick="relayOverRide(`${devices.deviceID}`)">
-                      <span class="icon has-text-warning">
+                      <span class="icon" style="color:${devices.color}">
                           <i class="far fa-dot-circle"/>
                       </span>
                   </a>
@@ -69,13 +69,13 @@
 
 
                   <!-- history -->
-                  <a href=`/history/${devices.deviceID}`>
-                    <span class="icon is-small"><i class="fas fa-database"></i></span>
+                  <a href=`/history/${devices.deviceID}` >
+                    <span class="icon is-small" style="color:${devices.color}"><i class="fas fa-database"></i></span>
                   </a>
 
                   <!-- edit relay -->
                   <a href="/settings">
-                      <span class="icon has-text-info">
+                      <span class="icon " style="color:${devices.color}">
                           <i class="far fa-edit"/>
                       </span>
                   </a>

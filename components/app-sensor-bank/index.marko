@@ -8,7 +8,7 @@
 
           <article class="media box">
             <figure class="media-left">
-            <p class="subtitle"><span id=device.deviceID ></span>°F</p>
+            <p class="subtitle" style="color:${device.color}"><span id=device.deviceID  ></span>°F</p>
             </figure>
             <div class="media-content">
               <div class="content">
@@ -32,19 +32,19 @@
             <div class="media-right">
                 <!-- edit relay -->
                 <a href=`/history/${device.deviceID}`>
-                    <span class="icon has-text-info">
+                    <span class="icon" style="color:${device.color}">
                         <span class="icon is-small"><i class="fas fa-database"></i></span>
                     </span>
                 </a>
 
                 <a href="">
-                    <span class="icon has-text-info">
+                    <span class="icon" style="color:${device.color}">
                         <span class="icon is-small"><i class="fas fa-temperature-low"></i></span>
                     </span>
                 </a>
 
                 <a href="/settings">
-                    <span class="icon has-text-info">
+                    <span class="icon" style="color:${device.color}">
                         <i class="far fa-edit"/>
                     </span>
                 </a>

@@ -1,21 +1,13 @@
-<p id="demo"></p>
+<!-- <p id="chart"></p> -->
 
 <canvas id="historyChart" style=" height:89vh; width:100%"></canvas>
-
-
-
-
-
-
-
-
-
 
 <script>
   socket.emit("target-device-history", deviceTarget )
 
    socket.on("target-device-history-data", function(data){
-      document.getElementById("demo").innerText = data
+    //  document.getElementById("chart").innerText = data
+
 
 
       console.log(data)

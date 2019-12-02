@@ -1,24 +1,22 @@
-
-
-<canvas id="historyChart" style=" height:40vh; width:100%"></canvas>
-
-
+<canvas id="historyChart" style=" height:40vh; width:100%"/>
+<span id="deviceColors" style="display:none">${input.systemDevices}</span>
 <script>
-  socket.emit("all-devices-history", 100)
+  socket.emit("all-devices-history", 300)
 
   socket.on("all-devices-history-data", function(data){
 
 
       var unParsedData = data.dataSets
       var unParsedLabel = data.label
+      var unParsedColors = data.colorSets
 
-      // console.log(unParsedData)
+      console.log(unParsedData)
 
       var chartDataSets = []
       var labelArray = unParsedLabel
 
       for (var i = 0; i < unParsedData.length; i++) {
-        var template = { data: unParsedData[i] }
+        var template = { data: unParsedData[i], backgroundColor: unParsedColors[i]  }
         chartDataSets.push(template)
       }
 

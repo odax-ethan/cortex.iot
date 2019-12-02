@@ -13,7 +13,7 @@ const CronJob =  require('cron').CronJob;
 
 //create database
 const masterDB = new PouchDB('masterDB');
-masterDB.setMaxListeners(20); 
+masterDB.setMaxListeners(20);
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -145,51 +145,49 @@ function getEventRecords() {
 
 
 
-function saveSensorDataFor(data) {
-        //   let deviceID = data.deviceID
-        //   let sensorData = data.data
-        //   let timeStamp = data.timeStamp
-        //   let dataBundle = {data:sensorData,timeStamp: timeStamp}
-        //
-        // console.log(data);
-        //
-        //    masterDB.get(deviceID).catch(function (err) {
-        //        if (err.name === 'not_found') {
-        //          console.log("no record found, making a full record");
-        //          var newData = {
-        //            _id: deviceID,
-        //            deviceID : deviceID,
-        //            data : [{data:sensorData, timestamp:timestamp}]
-        //          };
-        //          console.log(newData);
-        //          return masterDB.put(newData)
-        //        } else { // hm, some other error
-        //          throw err;
-        //        }
-        //      }).then(function (doc) {
-        //         // let bundle = doc
-        //         // // let arrayBundle = bundle.data
-        //         // let dataBundle = {data:sensorData, timestamp:timestamp}
-        //         // // arrayBundle.push(dataBundle)
-        //         // bundle.data.push(dataBundle)
-        //         // // masterDB.put(bundle)
-        //         // console.log(bundle);
-        //         // console.log(doc);
-        //
-        //        let newData = doc
-        //        let newDataSet = doc.data
-        //
-        //        // console.log(dataBundle);
-        //        newDataSet.push(dataBundle)
-        //        newData.data = newDataSet
-        //        masterDB.put(newData)
-        //        console.log(newData);
-        //
-        //      }).catch(function (err) {
-        //        // handle any errors
-        //      });
-
-}
+// function saveSensorDataFor(data) {
+//           let deviceID = data.deviceID
+//           let sensorData = data.data
+//           let timeStamp = data.timeStamp
+//           let dataBundle = {data:sensorData,timeStamp: timeStamp}
+//
+//         console.log(data);
+//
+//          masterDB.get(deviceID).catch(function (err) {
+//                if (err.name === 'not_found') {
+//                  console.log("no record found, making a full record");
+//                  var newData = {
+//                    _id: deviceID,
+//                    deviceID : deviceID,
+//                    data : [{data:sensorData, timestamp:timestamp}]
+//                  };
+//                  console.log(newData);
+//                  return masterDB.put(newData)
+//                } else { // hm, some other error
+//                  throw err;
+//                }
+//              }).then(function (doc) {
+//                 // let bundle = doc
+//                 // // let arrayBundle = bundle.data
+//                 // let dataBundle = {data:sensorData, timestamp:timestamp}
+//                 // // arrayBundle.push(dataBundle)
+//                 // bundle.data.push(dataBundle)
+//                 // // masterDB.put(bundle)
+//                 // console.log(bundle);
+//                 // console.log(doc);
+//
+//
+//
+//                let data = doc.data
+//                data.push(doc.data)
+//                doc.data = data
+//                return masterDB.put(doc)
+//
+//              }).catch(function (err) {
+//                // handle any errors
+//              });
+//
+// }
 
 
 
@@ -203,25 +201,25 @@ systemEmitter.on('newthermometerData', (data) => {
       let sensorData = data.data
       let timeStamp = data.timeStamp
       let dataBundle = {data:sensorData,timeStamp: timeStamp}
-
+      // console.log("saving");
       var template = {
         _id: deviceID,
         deviceID : deviceID,
         data : [{data:sensorData, timestamp:timeStamp}]
       };
 
-      console.log(dataBundle);
+      // console.log(dataBundle);
 
        masterDB.get(deviceID).catch(function (err) {
            if (err.name === 'not_found') {
              console.log("no record found, making a full record");
-
              // console.log(template);
              return masterDB.put(template)
            } else { // hm, some other error
              throw err;
            }
          }).then(function (doc) {
+             console.log("saved");
             // let bundle = doc
             // // let arrayBundle = bundle.data
             // let dataBundle = {data:sensorData, timestamp:timestamp}
@@ -231,21 +229,27 @@ systemEmitter.on('newthermometerData', (data) => {
             // console.log(bundle);
             // console.log(doc);
 
-           let newData = doc
-           let newDataSet = doc.data
-
-           // console.log(dataBundle);
-           newDataSet.push(dataBundle)
-           newData.data = newDataSet
-           masterDB.put(newData)
+           // let newData = doc
+           // let newDataSet = doc.data
+           //
+           // // console.log(dataBundle);
+           // newDataSet.push(dataBundle)
+           // newData.data = newDataSet
+           // masterDB.put(newData)
            // console.log(newData);
+
+           let data = doc.data
+            data.push(dataBundle)
+            doc.data = data
+            return masterDB.put(doc)
+
 
         }).catch(function (err) {
            // handle any errors
          });
     }
 
-  // saveDeviceData(data)
+  saveDeviceData(data)
 
   systemEmitter.emit('thermometerData-update-socket', data)
   // sensorEmitter.emit('sensor-db-update', data)
@@ -299,6 +303,7 @@ class System {
     this.devices = this.systemConfig.devices
     this.devicesLength = this.devices.length
     this.nodes = this.systemConfig.nodes
+    this.nodeBundle = this.nodes
     this.nodesLength = this.nodes.length
     this.nodeCOUNT = this.nodes.length; // named nodeConfig length
     this.timerTESTrate = this.systemConfig.timerTESTrate
@@ -318,7 +323,7 @@ class System {
             //console.log("thermometer worked");
           break;
         case 'relay':
-            relayList.push({id:this.devices[i].deviceID, pin: this.devices[i].devicePIN, board: this.devices[i].deviceNODE, relayType: this.devices[i].relayType })
+            relayList.push({id:this.devices[i].deviceID, pin: this.devices[i].devicePIN, board: this.devices[i].deviceNODE, relayType: this.devices[i].relayType, timers: this.devices[i].timers})
             //console.log("thermometer worked");
           break;
         default:
@@ -363,11 +368,11 @@ class System {
                    var now = new Date()
                    // let transmitData = {deviceID: varname, value: this.celsius }
                    var dataBundle = {deviceID: varname, data: this.fahrenheit, timeStamp:now}
-                   saveSensorDataFor(dataBundle)
-
+                   // saveSensorDataFor(dataBundle)
                    systemEmitter.emit('newEvent', `sensor ${varname} read`)
-
+                   // data is saved in event scope
                    systemEmitter.emit('newthermometerData', dataBundle);
+
                      // console.log("0x" + this.address.toString(16));
                    });
 
@@ -383,12 +388,45 @@ class System {
                  if (relayList[i].board === board.id) {
                     let  varname = relayList[i].id
                     let  relayType = relayList[i].relayType
+                    let  timerList = relayList[i].timers
+                    // console.log(timerList);
                     // console.log(relayList[i]);
                     let value = new five.Relay({pin: relayList[i].pin, board: board , type: relayType });
                     this[varname] = value;
-                    let target = this[varname]
-                    let targetName = `relay-state-${varname}`
-                    // console.log(targetName);
+                    let target = this[varname];
+                    let targetName = `relay-state-${varname}`;
+
+////////////////////////////////////////////////////////////////////////////////
+
+                    if (timerList) {
+                      for (var z = 0; z < timerList.length; z++) {
+                        console.log(timerList[z]);
+                      }
+                    } else {
+                      console.log("no cron assigned to relay");
+                    }
+
+
+
+
+                    // let masterCronEventLength = 5000
+                    // let masterCronEventTime = '5 * * * * *'
+                    // // CRON TOOLING
+                    //
+                    // // console.log(targetName);
+                    // let cronName = `cron-${varname}`;
+                    // console.log(cronName);
+                    // this[cronName] = new CronJob(masterCronEventTime, function() {
+                    //   // AT START RUN TOGGLE // RUN ON
+                    //   target.on()
+                    //   systemEmitter.emit('newEvent', `${targetName} relay turned on`)
+                    //   setTimeout(function () {
+                    //     target.off()
+                    //     systemEmitter.emit('newEvent', `${targetName} relay turned off`)
+                    //   }, masterCronEventLength);
+                    // });
+                    //
+                    // this[cronName].start();
 
                     systemEmitter.on( targetName, function(eventType) {
                         // console.log("system trigger relay");
@@ -396,6 +434,7 @@ class System {
                         // console.log(this[varname]);
                         // console.log(target);
 
+//////////////////////////////////////////////////////////////////////////////
                         switch ( eventType ) {
                          case "overRide":
                                   // console.log("overriding " + varname);
@@ -403,69 +442,16 @@ class System {
                                   target.toggle()
                                   systemEmitter.emit('newEvent', `${targetName} relay over riden`)
                             break;
-
-                          case "timer":
-
-                            break;
-                          case "burst":
-
-                            break;
+                          // case "timer":
+                          //
+                          //   break;
+                          // case "burst":
+                          //
+                          //   break;
                           default:
 
                         }
 
-
-                        // switch (data.state) {
-                        //   case "ON":
-                        //
-                        //   // check if relay is already on on
-                        //   // if already on do nothing
-                        //   // if it is not on turn on .
-                        //
-                        //
-                        //
-                        //     break;
-                        //   case "OFF":
-                        //
-                        //   // check if relay is already OFF
-                        //   // if already off do nothing
-                        //   // if it is not on turn on.
-                        //
-                        //     break;
-                        //   default:
-                        //
-                        // }
-
-
-
-                        // switch (relayType) {
-                        //   case "NO":
-                        //         switch (data) {
-                        //           case "ON":
-                        //
-                        //             break;
-                        //           case "OFF":
-                        //
-                        //             break;
-                        //           default:
-                        //
-                        //         } // end of Normally OPEN Relay ACTION
-                        //     break;
-                        //   case "NC":
-                        //         switch (data) {
-                        //           case "ON":
-                        //
-                        //             break;
-                        //           case "OFF":
-                        //
-                        //             break;
-                        //           default:
-                        //
-                        //         } // end of Normally CLOSED Relay ACTION
-                        //     break;
-                        //   default:
-                        //
-                        // }
 
                     })
 
@@ -490,4 +476,4 @@ class System {
 
 /////////////////////////////////////////////////////////////////////////////////
 
-module.exports = { System, getSystemConfig, resetSystemConfig, createNode, recordEvent, getEventRecords, saveSensorDataFor, masterDB};
+module.exports = { System, getSystemConfig, resetSystemConfig, createNode, recordEvent, getEventRecords, masterDB};

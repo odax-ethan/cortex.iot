@@ -1,12 +1,12 @@
 <!-- <app-nav-side-bar></app-nav-side-bar> -->
-<div class="tile is-ancestor">
-    <div class="tile is-vertical" style="margin-left:70px">
+<div class="tile is-ancestor" style="margin-left:70px">
+    <div class="tile is-vertical" >
         <div class="tile is-parent">
             <article class="tile is-child notification">
-              <p class="title">Wide tile</p>
-              <p class="subtitle">Aligned with the right tile</p>
+              <p class="title">Master Sensor History</p>
+              <p class="subtitle">All thermometer Devices</p>
               <div class="content">
-                  <app-history-devices-all ></app-history-devices-all>
+                  <app-history-devices-all systemDevices = input.systemDevices></app-history-devices-all>
               </div>
 
 
@@ -15,15 +15,17 @@
         <div class="tile">
             <div class="tile is-parent is-vertical">
                 <article class="tile is-child notification ">
-                    <p class="title">Vertical...</p>
-                    <p class="subtitle">Top tile</p>
+                    <p class="title">Sensor Device Bank</p>
+                    <hr />
+                    <p class="subtitle"></p>
                     <app-sensor-bank systemDevices = input.systemDevices></app-sensor-bank>
                 </article>
             </div>
             <div class="tile is-parent">
                 <article class="tile is-child notification">
-                    <p class="title">Middle tile</p>
-                    <p class="subtitle">With an image</p>
+                    <p class="title">Relay Device Bank</p>
+                    <hr />
+                    <p class="subtitle"></p>
                     <app-relay-bank systemDevices = input.systemDevices></app-relay-bank>
                 </article>
             </div>
@@ -64,8 +66,7 @@
     </div>
     <div class="tile is-parent is-vertical is-4">
         <article class="tile is-child notification ">
-            <p class="title">Weather Forcasts</p>
-            <hr/>
+            <p class="title">Local Weather Forcasts</p>
             <app-weather-current-2-step-detail/>
             <div class="box">
                 <app-weather-7day-12h-chart/>
@@ -95,4 +96,3 @@
         </article> -->
     </div>
 </div>
-<app-nav-side-bar systemConfig=input.systemConfig/>

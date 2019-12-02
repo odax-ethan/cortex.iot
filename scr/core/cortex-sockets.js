@@ -48,10 +48,77 @@ function socketListener(expressSocket, systemConfig) {
         createNode(data)
       })
 
+
+      socket.on("update-general-settings", (data) => {
+        // createNode(data)
+        masterDB.get("systemConfig").catch(function (err) {
+              if (err.name === 'not_found') {
+                console.log("no record found, sorry");
+              } else { // hm, some other error
+                throw err;
+              }
+            }).then(function (doc) {
+              let newDoc = doc
+              let test = 'admin'
+              for (var i = 0; i < data.length; i++) {
+                var currentSettingTarget = data[i][0]
+                var currentSettingValue = data[i][1]
+
+                if (currentSettingTarget === "coordinates.long") {
+                  newDoc["coordinates"]["long"] = currentSettingValue
+                  console.log(newDoc["coordinates"]["long"]);
+                } else if (currentSettingTarget  === "coordinates.lat") {
+                  newDoc["coordinates"]["lat"]  = currentSettingValue
+                  console.log(newDoc["coordinates"]["lat"]);
+                } else {
+                  console.log(currentSettingTarget);
+                  newDoc[`${currentSettingTarget}`] = currentSettingValue
+                   console.log(newDoc[`${currentSettingTarget}`]);
+                }
+
+              }
+
+              // if (currentSettingTarget) {
+              //
+              // } else {
+              //   console.log(currentSettingTarget);
+              //   console.log(doc[`${currentSettingTarget}`]);
+              // }
+
+
+                // for (let [key, value] of Object.entries(newDoc)) {
+                //   if (key === data[i][1]) {
+                //       console.log(`${key}: ${value}`);
+                //   }
+                // }
+
+                // var currentDocSetting = doc[currentSettingTarget]
+                //newDoc.data[currentSettingTarget]
+                // console.log(currentDocSetting)
+                // currentDocSetting = currentSettingValue
+
+              //
+              //
+              // doc.opperationName = data.opperationName
+              // doc.timerTESTrate = data.timerTESTrate
+              // doc.admin = data.timerTESTrate
+              // doc.coordinatesLat = data.timerTESTrate
+              // doc.coordinatesLong = data.timerTESTrate
+              console.log(newDoc);
+              return masterDB.put(newDoc)
+
+              // return  socket.emit("target-device-history-data", doc )
+
+            }).catch(function (err) {
+              // handle any errors
+            });;
+      })
+
+
+
       // ADD: save-new-device + update option
       // ADD: save - general settings + update option
-      // get last data save
-      // get all device history
+      // ADD: get last data save
 
       // over ride relay state - select target
       socket.on('relay-overRide', (target) => {
@@ -64,21 +131,47 @@ function socketListener(expressSocket, systemConfig) {
       socket.on("save-event-record", (data) => {
         // socket.broadcast.emit('update-event-records', data)
         // console.log(data);
-        recordEvent(data)
+        // recordEvent(data)
         // var eventBundle = data
         // systemEmitter.emit('newEvent', "Saved New Event Record")
-        // io.emit("update-event-record", eventBundle )
+        // io.emit("update-event-record", eventBundle
+
+        masterDB.get('eventRecords').catch(function (err) {
+           if (err.name === 'not_found') {
+             // emit event - no System Config found -  creating a new a new system.
+             systemEmitter.emit('newEvent', "no event records founds - creating a record template")
+             //console.log(systemConfigTemplate);
+             var template = {events:[]}
+             return masterDB.put(template)
+           } else { // hm, some other error
+             throw err;
+           }
+         }).then(function (doc) {
+           var events = docs.events
+           events.push(dataArray)
+           doc.events = events
+           console.log(doc);
+           // var eventsArray = doc.events
+           // eventsArray.push(newEventRecord)
+           // doc.events = eventsArray
+           // masterDB.put(doc)
+           // // emit event - system variafied database and cortex may start
+           // systemEmitter.emit('newEvent', `recorded new event: ${newEventRecord.eventTitle}`)
+           return masterDB.put(docs)
+         }).catch(function (err) {
+           // handle any errors
+           throw err;
+         });
+
+
+
       });
-      // return event record
-      socket.on("event-record-request", () => {
-         let eventRecords = getEventRecords()
-         socket.emit("event-record-list", eventRecords)
-      })
-      // return soc
-      socket.on("event-record-request", () => {
-         let eventRecords = getEventRecords()
-         socket.emit("event-record-list", eventRecords)
-      })
+      // // return event record
+      // socket.on("event-record-request", () => {
+      //    let eventRecords = getEventRecords()
+      //    socket.emit("event-record-list", eventRecords)
+      // })
+
       // return history for target device (add options)
       socket.on("target-device-history", (target) => {
         // console.log(target);
@@ -104,9 +197,10 @@ function socketListener(expressSocket, systemConfig) {
         // put labels from time stamps
 
         var preProccessorContainer = []
-
+        var deviceColors = []
         var labelArray = []
         var bunndledDataSets = []
+
 
         var containerDataSetLengths=[]
 
@@ -116,18 +210,25 @@ function socketListener(expressSocket, systemConfig) {
         }).then(function (result) {
           // handle result
           var allDocs = result.rows
-
+          console.log(allDocs);
           // for all docs check each on
           for (var i = 0; i < allDocs.length; i++) {
-            var dataArray = allDocs[i].doc.data
+
 
             // var dataArrayLength = dataArray.length
             // console.log(dataArrayLength);
 
             // if doc is system config ignore
-            if (allDocs[i].id === systemConfig) {
-              return
+            if (allDocs[i].id === "systemConfig") {
+              for (var y = 0; y < allDocs[i].doc.devices.length; y++) {
+                if (allDocs[i].doc.devices[y].deviceTYPE === "thermometer") {
+                  var currentColor = allDocs[i].doc.devices[y].color
+                  deviceColors.push(currentColor)
+                }
+              }
+              console.log("got colors");
             } else { // push data to new array
+              var dataArray = allDocs[i].doc.data
                preProccessorContainer.push(dataArray)
                // containerDataSetLengths.push(dataArrayLength)
             }
@@ -139,7 +240,7 @@ function socketListener(expressSocket, systemConfig) {
             // array of all data in said doc
             var dataSetArray = []
             var prelabelArray= []
-            var postData = []
+            // var postData = []
             //
             // var dataSetTemplate = dataSetArray
             //   data: dataSetArray
@@ -165,15 +266,15 @@ function socketListener(expressSocket, systemConfig) {
             }
 
 
-            for (var z = 0; z < stepCount; z++) {
-              postData.push(dataSetArray[z])
-            }
+              var dataSet = dataSetArray.slice(stepCount)
+              // postData.push(dataSet)
 
-            bunndledDataSets.push(postData)
+
+            bunndledDataSets.push(dataSet)
           }
 
 
-            var bundledChartData = {label: labelArray , dataSets: bunndledDataSets}
+            var bundledChartData = {label: labelArray , dataSets: bunndledDataSets, colorSets: deviceColors}
 
             socket.emit("all-devices-history-data",  bundledChartData)
 
@@ -192,7 +293,7 @@ function socketListener(expressSocket, systemConfig) {
         socket.disconnect(true)
       });
   });
-  systemEmitter.emit('newEvent', "socket connected")
+  // systemEmitter.emit('newEvent', "socket connected")
 }// end of socketListener
 
 
