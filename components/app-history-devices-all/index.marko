@@ -2,8 +2,8 @@
 <canvas id="historyChart" style=" height:40vh; width:100%"/>
 <script>
 
-  var stepCount = 300;
-  socket.emit("all-devices-history", 300)
+  var stepCount = 96;
+  socket.emit("all-devices-history", stepCount)
 
   socket.on("all-devices-history-data", function(data){
 
@@ -19,9 +19,9 @@
 
 
 
-      var labelArray = unParsedLabel 
+      var labelArray = unParsedLabel
 
-      for (var i = 0; i < dataLenghthTarget.length; i++) {
+      for (var i = 0; i < unParsedData.length; i++) {
         var template = { data: unParsedData[i], backgroundColor: unParsedColors[i]  }
         chartDataSets.push(template)
       }

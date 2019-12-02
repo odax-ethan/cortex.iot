@@ -1,7 +1,7 @@
 // this contains the database.
 // this contains the logic which triggers events in Johnny-Five
 var five = require("johnny-five");
-
+'use strict';
 
 const { relayerTimerTest, timerLogicTester } = require('./cortex-logic.js'); //cortex events / listeners components
 const { systemEmitter } = require('./cortex-events.js'); //cortex events / listeners components
@@ -13,8 +13,6 @@ const CronJob =  require('cron').CronJob;
 
 //create database
 const masterDB = new PouchDB('masterDB');
-masterDB.setMaxListeners(20);
-
 //////////////////////////////////////////////////////////////////////////////////
 
 //get system Settings
@@ -194,65 +192,67 @@ function getEventRecords() {
 
 // sensor base event
 systemEmitter.on('newthermometerData', (data) => {
+  //parse recieved data
   // console.log(data);
 
-   saveDeviceData = (data) => {
-      let deviceID = data.deviceID
-      let sensorData = data.data
-      let timeStamp = data.timeStamp
-      let dataBundle = {data:sensorData,timeStamp: timeStamp}
-      // console.log("saving");
-      var template = {
-        _id: deviceID,
-        deviceID : deviceID,
-        data : [{data:sensorData, timestamp:timeStamp}]
-      };
+  //define deviceTarget
+  var deviceID = data.deviceID
+  var sensorData = data.data
+  var timeStamp = data.timeStamp
+  //create databundle object for storage
+  var dataBundle = {data:sensorData,timeStamp: timeStamp}
+  console.log(dataBundle);
 
-      // console.log(dataBundle);
+  // saveDeviceData = ( deviceID , dataBundle ) => {
+  //
+  //     // doc template for saving if their is no other doc for the sensor
+  //     //save data to database
+  //
+  //   }
+  //
+  // saveDeviceData(deviceID , dataBundle)
 
-       masterDB.get(deviceID).catch(function (err) {
-           if (err.name === 'not_found') {
-             console.log("no record found, making a full record");
-             // console.log(template);
-             return masterDB.put(template)
-           } else { // hm, some other error
-             throw err;
-           }
-         }).then(function (doc) {
-             console.log("saved");
-            // let bundle = doc
-            // // let arrayBundle = bundle.data
-            // let dataBundle = {data:sensorData, timestamp:timestamp}
-            // // arrayBundle.push(dataBundle)
-            // bundle.data.push(dataBundle)
-            // // masterDB.put(bundle)
-            // console.log(bundle);
-            // console.log(doc);
+  masterDB.get(deviceID).catch(function (err) {
+      if (err.name === 'not_found') {
+        console.log("no record found, making a full record");
+        // console.log(template);
 
-           // let newData = doc
-           // let newDataSet = doc.data
-           //
-           // // console.log(dataBundle);
-           // newDataSet.push(dataBundle)
-           // newData.data = newDataSet
-           // masterDB.put(newData)
-           // console.log(newData);
+        var template = {
+           _id: deviceID,
+          deviceID : deviceID,
+          data : [dataBundle]
+        };
 
-           let data = doc.data
-            data.push(dataBundle)
-            doc.data = data
-            return masterDB.put(doc)
+        console.log(template);
+        return masterDB.put(template)
+      } else { // hm, some other error
+        throw err;
+      }
+    }).then(function (doc) {
+        console.log("saved");
+         var data = doc.data
+         data.push(dataBundle)
+         doc.data = data
+         console.log(doc);
+         return masterDB.put(doc)
+   }).catch(function (err) {
+      // handle any errors
+
+    });
 
 
-        }).catch(function (err) {
-           // handle any errors
-         });
-    }
 
-  saveDeviceData(data)
+
+
 
   systemEmitter.emit('thermometerData-update-socket', data)
   // sensorEmitter.emit('sensor-db-update', data)
+
+  delete deviceID
+  delete sensorData
+  delete timestamp
+  delete dataBundle
+  delete data
 
 })
 
@@ -315,6 +315,7 @@ class System {
     // Create sorted Device banks
     var thermometerList = [] // PARSED thermometer LIST
     var relayList = [] // parsed Relay List
+    var testRate = this.timerTESTrate
 
     for (var i = 0; i < this.devicesLength; i++) {
       switch (this.devices[i].deviceTYPE) {
@@ -358,24 +359,22 @@ class System {
         //  test generate list for thermometer class devices and create system
            for (var i = 0; i < thermometerList.length; i++) {
                 if (thermometerList[i].board === board.id) {
-                  let varname = thermometerList[i].id
+                   var varname = thermometerList[i].id
                    // console.log(thermometerList[i]);
-                   let value = new five.Thermometer({controller: thermometerList[i].controller, pin: thermometerList[i].pin, board:board, freq: thermometerList[i].freq});
+                   var value = new five.Thermometer({controller: thermometerList[i].controller, pin: thermometerList[i].pin, board:board, freq: testRate});
                    this[varname] = value;
 
                    this[varname].on("data", function() {
                    // console.log(varname+ ": "+this.celsius + "°C");
-                   var now = new Date()
-                   // let transmitData = {deviceID: varname, value: this.celsius }
-                   var dataBundle = {deviceID: varname, data: this.fahrenheit, timeStamp:now}
-                   // saveSensorDataFor(dataBundle)
-                   systemEmitter.emit('newEvent', `sensor ${varname} read`)
-                   // data is saved in event scope
-                   systemEmitter.emit('newthermometerData', dataBundle);
 
+                   // let transmitData = {deviceID: varname, value: this.celsius }
+                   // var dataBundle = {deviceID: varname, data: this.fahrenheit, timeStamp: new Date()}
+                   // saveSensorDataFor(dataBundle)
+                   // systemEmitter.emit('newEvent', `sensor ${varname} read`)
+                   // data is saved in event scope
+                   systemEmitter.emit('newthermometerData', {deviceID: varname, data: this.fahrenheit, timeStamp: new Date()} );
                      // console.log("0x" + this.address.toString(16));
                    });
-
                    console.log(`created the ${thermometerList[i].id} device for the ${board.id} node`);
                 } else {
                   console.log(`device was not create for the ${board.id} node`  );
@@ -462,9 +461,10 @@ class System {
             } // end of relay
 
 
+            board.on("exit", () => {
 
+            });
         }); //end of each.board
-
       });
     }
 

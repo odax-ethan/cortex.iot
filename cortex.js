@@ -1,4 +1,5 @@
 // load rest of libraries
+'use strict';
 require('marko/node-require');// allows system to recognize .marko files
 const express = require('express');
 const markoPress = require('marko/express'); //enable res.marko

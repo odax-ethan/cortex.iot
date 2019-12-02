@@ -1,7 +1,7 @@
-var serverIO = require('socket.io')
+const serverIO = require('socket.io')
 const { systemEmitter } = require('./cortex-events.js'); //cortex events / listeners components
 const { resetSystemConfig, createNode, recordEvent, getEventRecords, masterDB } = require('./cortex-system.js'); //cortex events / listeners components
-
+'use strict';
 
 
 
@@ -10,7 +10,7 @@ const { resetSystemConfig, createNode, recordEvent, getEventRecords, masterDB } 
 function socketListener(expressSocket, systemConfig) {
   systemEmitter.emit('newEvent', "connecting socket system...")
   const socket = expressSocket
-  var io = serverIO(socket)
+  const io = serverIO(socket)
   module.exports = { io };
 ////////////////////////////////////////////////////////////////////////////
 // listeners
@@ -40,7 +40,7 @@ function socketListener(expressSocket, systemConfig) {
       // reset system config to template - application
       socket.on('delete-system-config', () => {
          console.log("request to delete systemConfig");
-        resetSystemConfig()
+         resetSystemConfig()
       })
       // save node to masterDB
       // ADD: option as update
@@ -63,26 +63,26 @@ function socketListener(expressSocket, systemConfig) {
         for (var i = 0; i < allDocs.length; i++) {
 
 
-          // if doc is system config ignore
-          if (allDocs[i].id === "systemConfig") {
-            // for (var y = 0; y < allDocs[i].doc.devices.length; y++) {
-            //   if (allDocs[i].doc.devices[y].deviceTYPE === "thermometer") {
-            //     var currentColor = allDocs[i].doc.devices[y].color
-            //     deviceColors.push(currentColor)
-            //   }
-            // }
-            // console.log("got colors");
-          } else { // push data to new array
-            var targetData = allDocs[i].doc.data
-            var lastDataPoint = targetData.pop()
-            var currentTarget = allDocs[i].id
-            let bundle = { deviceID: currentTarget, data : lastDataPoint }
-             dataBundle.push(bundle)
-             // containerDataSetLengths.push(dataArrayLength)
-          }
+              // if doc is system config ignore
+              if (allDocs[i].id === "systemConfig") {
+                // for (var y = 0; y < allDocs[i].doc.devices.length; y++) {
+                //   if (allDocs[i].doc.devices[y].deviceTYPE === "thermometer") {
+                //     var currentColor = allDocs[i].doc.devices[y].color
+                //     deviceColors.push(currentColor)
+                //   }
+                // }
+                // console.log("got colors");
+              } else { // push data to new array
+                var targetData = allDocs[i].doc.data
+                var lastDataPoint = targetData.pop()
+                var currentTarget = allDocs[i].id
+                var bundle = { deviceID: currentTarget, data : lastDataPoint }
+                dataBundle.push(bundle)
+                 // containerDataSetLengths.push(dataArrayLength)
+              }
         }
 
-          socket.emit('last-sensor-readings', dataBundle)
+        socket.emit('last-sensor-readings', dataBundle)
 
         // console.log(bundledChartData);
 
@@ -205,9 +205,6 @@ function socketListener(expressSocket, systemConfig) {
            // handle any errors
            throw err;
          });
-
-
-
       });
       // // return event record
       // socket.on("event-record-request", () => {
@@ -243,8 +240,6 @@ function socketListener(expressSocket, systemConfig) {
         var deviceColors = []
         var labelArray = []
         var bunndledDataSets = []
-
-
         var containerDataSetLengths=[]
 
         masterDB.allDocs({
@@ -330,11 +325,10 @@ function socketListener(expressSocket, systemConfig) {
             socket.emit("all-devices-history-data",  bundledChartData)
 
           // console.log(bundledChartData);
-
-
         }).catch(function (err) {
           console.log(err);
         });
+
 
       })
       // on socket disconnect

@@ -1,4 +1,5 @@
 // create masterdata Base
+'use strict';
 const EventEmitter = require('events');
 const systemEmitter = new EventEmitter(); //create event for status
 // const { masterDB } = require('./cortex-system.js'); also failed

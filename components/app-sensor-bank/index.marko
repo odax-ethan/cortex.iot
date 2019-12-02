@@ -4,7 +4,7 @@
     <ul>
       <for|device| of=input.systemDevices>
         <if(device.deviceTYPE === "thermometer")>
-        <li key = device.deviceID >
+        <li key = device.deviceID style="margin-bottom:5px" >
           <article class="media box">
             <figure class="media-left">
             <p class="subtitle" style="color:${device.color}"><span id=device.deviceID  ></span>°F</p>
@@ -49,9 +49,10 @@
           </article>
           <!-- ${input.deviceOBJ} -->
         </li>
+
       </if>
       <else>
-        <div>No sensors!</div>
+        <!-- <div>No sensors!</div> -->
       </else>
       </for>
     </ul>
