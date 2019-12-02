@@ -67,23 +67,23 @@
 // var socket = io();
 
  // request sensor readings from server
- // socket.emit('last-sensor-readings-request')
+ socket.emit('last-sensor-readings-request');
  // once you get sensor readings
- // socket.on('last-sensor-readings',(data) => {
- //   console.log(data)
- //
- //  var dataLength = data.length
- //
- //  for (var i = 0; i < dataLength; i++) {
- //    var newData = data[i].data
- //    var newDataName = data[i].dataName
- //    let currentData = newData.pop()
- //    console.log(newData)
- //    document.getElementById(newDataName).innerText = currentData
- //  }
- //
- //
- // })
+ socket.on('last-sensor-readings',(data) => {
+   // console.log(data)
+
+  var dataLength = data.length
+
+  for (var i = 0; i < dataLength; i++) {
+    var newData = data[i].data
+    var targetDeviceID = data[i].deviceID
+    // let currentData = newData.pop()
+    console.log(newData)
+    document.getElementById(targetDeviceID).innerText = newData.data
+  }
+
+
+ })
 
  socket.on("thermometerData-update",(data) => {
    document.getElementById(data.deviceID).innerText = data.data

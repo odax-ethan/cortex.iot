@@ -1,20 +1,18 @@
 <!-- <app-nav-side-bar></app-nav-side-bar> -->
-<div class="tile is-ancestor" style="margin-left:70px">
+<div class="tile is-ancestor" style="margin-left:54px">
     <div class="tile is-vertical" >
-        <div class="tile is-parent">
-            <article class="tile is-child notification">
+        <div class="tile is-parent" style="max-height: 55vh">
+            <article class="tile is-child box" >
               <p class="title">Master Sensor History</p>
               <p class="subtitle">All thermometer Devices</p>
-              <div class="content">
+              <div>
                   <app-history-devices-all systemDevices = input.systemDevices></app-history-devices-all>
               </div>
-
-
             </article>
         </div>
         <div class="tile">
             <div class="tile is-parent is-vertical">
-                <article class="tile is-child notification ">
+                <article class="tile is-child box ">
                     <p class="title">Sensor Device Bank</p>
                     <hr />
                     <p class="subtitle"></p>
@@ -22,7 +20,7 @@
                 </article>
             </div>
             <div class="tile is-parent">
-                <article class="tile is-child notification">
+                <article class="tile is-child box">
                     <p class="title">Relay Device Bank</p>
                     <hr />
                     <p class="subtitle"></p>
@@ -31,7 +29,7 @@
             </div>
         </div>
         <!-- <div class="tile is-parent">
-              <article class="tile is-child notification ">
+              <article class="tile is-child box ">
                   <div class="box">
                     <p class="title"> Reading</p>
                     <app-history-devices-all ></app-history-devices-all>
@@ -42,7 +40,7 @@
 
 
             <div class="tile is-parent">
-                <article class="tile is-child notification ">
+                <article class="tile is-child box ">
 
                     <p class="title">Device tile</p>
                     <hr />
@@ -55,7 +53,7 @@
             </div>
         </div> -->
         <!-- <div class="tile is-parent">
-            <article class="tile is-child notification ">
+            <article class="tile is-child box ">
                 <p class="title">Wide tile</p>
                 <p class="subtitle">Aligned with the right tile</p>
                 <div class="content">
@@ -65,18 +63,18 @@
         </div> -->
     </div>
     <div class="tile is-parent is-vertical is-4">
-        <article class="tile is-child notification ">
+        <article class="tile is-child box ">
             <p class="title">Local Weather Forcasts</p>
             <app-weather-current-2-step-detail/>
             <div class="box">
                 <app-weather-7day-12h-chart/>
             </div>
         </article>
-        <article class="tile is-child notification ">
+        <article class="tile is-child box ">
             <!-- <p.subtitle>Event Stream Terminal</p> -->
             <app-event-stream/>
         </article>
-        <!-- <article class="tile is-child notification ">
+        <!-- <article class="tile is-child box ">
           <p class="title">Record Event</p>
           <hr />
 
@@ -91,7 +89,7 @@
           </div>
 
         </article> -->
-        <!-- <article class="tile is-child notification ">
+        <!-- <article class="tile is-child box ">
 
         </article> -->
     </div>

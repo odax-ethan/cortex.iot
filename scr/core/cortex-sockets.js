@@ -48,6 +48,54 @@ function socketListener(expressSocket, systemConfig) {
         createNode(data)
       })
 
+      socket.on('last-sensor-readings-request',() => {
+
+      var dataBundle = []
+
+      masterDB.allDocs({
+        include_docs: true,
+        attachments: true
+      }).then(function (result) {
+        // handle result
+        var allDocs = result.rows
+        console.log(allDocs);
+        // for all docs check each on
+        for (var i = 0; i < allDocs.length; i++) {
+
+
+          // if doc is system config ignore
+          if (allDocs[i].id === "systemConfig") {
+            // for (var y = 0; y < allDocs[i].doc.devices.length; y++) {
+            //   if (allDocs[i].doc.devices[y].deviceTYPE === "thermometer") {
+            //     var currentColor = allDocs[i].doc.devices[y].color
+            //     deviceColors.push(currentColor)
+            //   }
+            // }
+            // console.log("got colors");
+          } else { // push data to new array
+            var targetData = allDocs[i].doc.data
+            var lastDataPoint = targetData.pop()
+            var currentTarget = allDocs[i].id
+            let bundle = { deviceID: currentTarget, data : lastDataPoint }
+             dataBundle.push(bundle)
+             // containerDataSetLengths.push(dataArrayLength)
+          }
+        }
+
+          socket.emit('last-sensor-readings', dataBundle)
+
+        // console.log(bundledChartData);
+
+
+      }).catch(function (err) {
+        console.log(err);
+      });
+
+      })
+
+
+
+
 
       socket.on("update-general-settings", (data) => {
         // createNode(data)
