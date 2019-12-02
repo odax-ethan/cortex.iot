@@ -305,9 +305,9 @@ class System {
   generateSystem(){
 
     // Create sorted Device banks
-     let thermometerList = [] // PARSED thermometer LIST
-     let relayList = [] // parsed Relay List
-     let testRate = this.timerTESTrate
+     let  thermometerList = [] // PARSED thermometer LIST
+     let  relayList = [] // parsed Relay List
+     let  testRate = this.timerTESTrate
 
     for (var i = 0; i < this.devicesLength; i++) {
       switch (this.devices[i].deviceTYPE) {
@@ -365,7 +365,7 @@ class System {
                    // saveSensorDataFor(dataBundle)
                    // systemEmitter.emit('newEvent', `sensor ${varname} read`)
                    // data is saved in event scope
-                   systemEmitter.emit('newthermometerData', {deviceID: varname, data: this.fahrenheit, timeStamp: new Date()} );
+                   systemEmitter.emit('newthermometerData', {deviceID: `${thermometerList[i].id}`, data: this.fahrenheit, timeStamp: new Date()} );
                      // console.log("0x" + this.address.toString(16));
                    });
                    console.log(`created the ${thermometerList[i].id} device for the ${board.id} node`);
