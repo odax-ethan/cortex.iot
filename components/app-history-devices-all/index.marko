@@ -9,13 +9,13 @@
       var unParsedData = data.dataSets
       var unParsedLabel = data.label
       var unParsedColors = data.colorSets
-
-      console.log(data)
+      var dataLenghthTarget = unParsedData[0].data
+      console.log(dataLenghthTarget)
 
       var chartDataSets = []
       var labelArray = unParsedLabel
 
-      for (var i = 0; i < unParsedData.length; i++) {
+      for (var i = 0; i < dataLenghthTarget.length; i++) {
         var template = { data: unParsedData[i], backgroundColor: unParsedColors[i]  }
         chartDataSets.push(template)
       }
@@ -26,11 +26,11 @@
 
 
        // Create gradient
-      grd = chart.createLinearGradient(150.000, 300.000, 150.000, 0.000);
-
-       // Add colors
-       grd.addColorStop(0.414, 'rgba(86, 170, 255, 1.000)');
-       grd.addColorStop(1.000, 'rgba(86, 86, 255, 1.000)');
+      // grd = chart.createLinearGradient(150.000, 300.000, 150.000, 0.000);
+      //
+      //  // Add colors
+      //  grd.addColorStop(0.414, 'rgba(86, 170, 255, 1.000)');
+      //  grd.addColorStop(1.000, 'rgba(86, 86, 255, 1.000)');
 
        const historyChart = new Chart(chart, {
               type: 'line',
