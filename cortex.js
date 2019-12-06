@@ -43,6 +43,17 @@ let myCortex // create variable for holding new System
 
 // finished loading system and defining global
 systemEmitter.emit('newEvent', "underlying system loaded")
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+var fs = require('fs') // test for memory leaks
+var csvWriter = require('csv-write-stream') // test for memory leaks
+var memoryUsage = require('memory-usage') // test for memory leaks
+
+memoryUsage(2000) // test for memory leaks
+  .pipe(csvWriter()) // test for memory leaks
+  .pipe(fs.createWriteStream('memory.csv')) // test for memory leaks
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -70,6 +81,7 @@ new Promise((resolve, reject) => {
     const app = express();
     const server = require('http').Server(app); // create http server instance through express
 
+    app.disable('etag').disable('x-powered-by');
     app.use(markoPress());
     app.use(lassoWare.serveStatic());
 

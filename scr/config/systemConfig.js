@@ -2,7 +2,7 @@
 exports.systemConfigTemplate = {
     _id : "systemConfig",
     opperationName : "GROW338",
-    timerTESTrate: 9000,
+    timerTESTrate: 3000,
     admin:"Karl",
     coordinates : {
       lat: 45,
@@ -15,28 +15,16 @@ exports.systemConfigTemplate = {
     },
     nodes: [
       {
-       id: "veg_tent",
-       port: "/dev/ttyACM0"
-      },
-      {
-       id: "room",
-       port: "/dev/ttyACM1"
-      },
-      {
-       id: "flowerTent",
-       port: "/dev/ttyACM2"
+       id: "testboard",
+       port: "COM3"
       }
      ],
     devices: [
-       { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 8, deviceNODE:"veg_tent", controller: "DS18B20", color: "rgba(65, 124, 211, .5)"},
-       { deviceID: "Top-Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceNODE:"veg_tent", controller: "DS18B20", color: "rgba(188, 231, 132, .5)"},
-
-       { deviceID: "window", deviceTYPE:"thermometer", devicePIN: 7, deviceNODE:"room", controller: "DS18B20", color: "rgba(147, 29, 86, .5)"},
-       { deviceID: "center_room", deviceTYPE:"thermometer", devicePIN: 8, deviceNODE:"room", controller: "DS18B20", color: "rgba(221, 211, 73, .5)"},
-
-       { deviceID: "Bottom_Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceNODE:"flowerTent", controller: "DS18B20", color: "rgba(74, 64, 153, .5)"},
-       { deviceID: "Top_Sensor", deviceTYPE:"thermometer", devicePIN: 8, deviceNODE:"flowerTent", controller: "DS18B20",color: "rgba(13, 6, 48, .5)"},
+       { deviceID: "sensor2", deviceTYPE:"thermometer", devicePIN: 6, deviceNODE:"testboard", controller: "DS18B20", color: "rgb(240, 143, 14, .6)"},
+       { deviceID: "Light", deviceTYPE:"relay", devicePIN: 11, deviceNODE:"testboard", relayType: "NO", deviceCONTROLS: "light", color: "rgb(14, 240, 138)",   timers: [ { type: "cron", crontOBJ: "5 * * * * *", style: "timeOut" }]},
+       // { deviceID: "Heater", deviceTYPE:"relay", devicePIN: 4, deviceNODE:"testboard", relayType: "NO", deviceCONTROLS: "heater", color: "rgb(14, 159, 240)" , timers: [ { type: "cron", crontOBJ: "0 */30 9-17 * * *"}]},
+       // { deviceID: "Pump", deviceTYPE:"relay", devicePIN: 9, deviceNODE:"testboard", relayType: "NO", deviceCONTROLS: "pump", color: "rgb(168, 14, 240)"},
+       //  { deviceID: "Fan", deviceTYPE:"relay", devicePIN: 11, deviceNODE:"testboard", relayType: "NO", deviceCONTROLS: "fan", color: "rgb(240, 14, 210)"},
+       //  { deviceID: "C02", deviceTYPE:"relay", devicePIN: 12, deviceNODE:"testboard", relayType: "NO", deviceCONTROLS: "gas", color: "rgb(240, 68, 14)"}
     ],
-    timers: [
-    ] // list of all devices in the system
 } //end of entire object
