@@ -60,7 +60,7 @@ systemEmitter.on('newEvent', (data) => {
   var now = new Date()
   var bundleDate = now.getHours() + ":" + now.getMinutes()  + ":" + now.getSeconds()
   var bundle = {data: data , timeStamp : bundleDate }
-  // console.log(bundle);
+  console.log(bundle);
   systemEmitter.emit('events-master-stream', bundle)
 })
 

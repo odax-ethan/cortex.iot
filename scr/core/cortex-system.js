@@ -229,11 +229,11 @@ systemEmitter.on('newthermometerData', (data) => {
         throw err;
       }
     }).then(function (doc) {
-        console.log("saved");
+        // console.log("saved");
          var data = doc.data
          data.push(dataBundle)
          doc.data = data
-         //console.log(doc);
+         // console.log(doc);
          return masterDB.put(doc)
    }).catch(function (err) {
       // handle any errors
@@ -244,7 +244,7 @@ systemEmitter.on('newthermometerData', (data) => {
 
   systemEmitter.emit('thermometerData-update-socket', data)
   // sensorEmitter.emit('sensor-db-update', data)
-
+  systemEmitter.emit('newEvent', `saved data for ${deviceID}` )
 
 })
 
@@ -400,25 +400,24 @@ class System {
                     //
                     //
 
+                    let masterCronEventLength = 5000
+                    let masterCronEventTime = ' */10 * * * * * '
+                    // CRON TOOLING
 
-                    // let masterCronEventLength = 5000
-                    // let masterCronEventTime = '5 * * * * *'
-                    // // CRON TOOLING
-                    //
-                    // // console.log(targetName);
-                    // let cronName = `cron-${varname}`;
-                    // console.log(cronName);
-                    // this[cronName] = new CronJob(masterCronEventTime, function() {
-                    //   // AT START RUN TOGGLE // RUN ON
-                    //   target.on()
-                    //   systemEmitter.emit('newEvent', `${targetName} relay turned on`)
-                    //   setTimeout(function () {
-                    //     target.off()
-                    //     systemEmitter.emit('newEvent', `${targetName} relay turned off`)
-                    //   }, masterCronEventLength);
-                    // });
-                    //
-                    // this[cronName].start();
+                    // console.log(targetName);
+                    let cronName = `cron-${varname}`;
+                    console.log(cronName);
+                    this[cronName] = new CronJob(masterCronEventTime, function() {
+                      // AT START RUN TOGGLE // RUN ON
+                      target.on()
+                      systemEmitter.emit('newEvent', `${targetName} relay turned on`)
+                      setTimeout(function () {
+                        target.off()
+                        systemEmitter.emit('newEvent', `${targetName} relay turned off`)
+                      }, masterCronEventLength);
+                    });
+
+                    this[cronName].start();
 
                     systemEmitter.on( targetName, function(eventType) {
                         // console.log("system trigger relay");
