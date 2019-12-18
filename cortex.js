@@ -47,13 +47,13 @@ systemEmitter.emit('newEvent', "underlying system loaded")
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-var fs = require('fs') // test for memory leaks
-var csvWriter = require('csv-write-stream') // test for memory leaks
-var memoryUsage = require('memory-usage') // test for memory leaks
-
-memoryUsage(2000) // test for memory leaks
-  .pipe(csvWriter()) // test for memory leaks
-  .pipe(fs.createWriteStream('memory.csv')) // test for memory leaks
+// var fs = require('fs') // test for memory leaks
+// var csvWriter = require('csv-write-stream') // test for memory leaks
+// var memoryUsage = require('memory-usage') // test for memory leaks
+//
+// memoryUsage(2000) // test for memory leaks
+//   .pipe(csvWriter()) // test for memory leaks
+//   .pipe(fs.createWriteStream('memory.csv')) // test for memory leaks
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -442,8 +442,6 @@ class System {
                           default:
 
                         }
-
-
                     })
 
                     console.log(`created the ${relayList[i].id} device for the ${board.id} node @ pin ${relayList[i].pin} (relay)`);

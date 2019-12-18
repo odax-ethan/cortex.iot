@@ -1,6 +1,6 @@
 {
   "name": "corext.iot",
-  "version": "0.0.1",
+  "version": "0.0.3alpha",
   "description": "a node based iot infustructure",
   "main": "cortex.js",
   "scripts": {
