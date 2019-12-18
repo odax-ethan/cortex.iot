@@ -1,0 +1,92 @@
+<div class="">
+
+    <if(input.systemDevices)>
+    <ul>
+      <for|device| of=input.systemDevices>
+        <if(device.deviceTYPE === "thermometer")>
+        <li key = device.deviceID style="margin-bottom:5px" >
+          <article class="media box">
+            <figure class="media-left">
+            <p class="subtitle" style="color:${device.color}"><span id=device.deviceID  ></span>°F</p>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong>${device.deviceID}</strong> <small>on the ${device.deviceNODE} node</small> <small>@ pin ${device.devicePIN}</small>
+                  <br>
+                </p>
+              </div>
+              <!-- <nav class="level is-mobile">
+                <div class="level-left">
+                  <a class="level-item">
+
+                    <span class="icon is-small"><i class="fas fa-temperature-low"></i></span>
+                  </a>
+                  <a class="level-item" href=`/history/${device.deviceID}`>
+                    <span class="icon is-small"><i class="fas fa-database"></i></span>
+                  </a>
+                </div>
+              </nav> -->
+            </div>
+            <div class="media-right">
+                <!-- edit relay -->
+                <a href=`/history/${device.deviceID}`>
+                    <span class="icon" style="color:${device.color}">
+                        <span class="icon is-small"><i class="fas fa-database"></i></span>
+                    </span>
+                </a>
+                <a href="">
+                    <span class="icon" style="color:${device.color}">
+                        <span class="icon is-small"><i class="fas fa-temperature-low"></i></span>
+                    </span>
+                </a>
+                <a href="/settings">
+                    <span class="icon" style="color:${device.color}">
+                        <i class="far fa-edit"/>
+                    </span>
+                </a>
+            </div>
+          </article>
+          <!-- ${input.deviceOBJ} -->
+        </li>
+
+      </if>
+      <else>
+        <!-- <div>No sensors!</div> -->
+      </else>
+      </for>
+    </ul>
+    </if>
+    <else>
+    <div>No deviceOBJ!</div>
+    </else>
+</div>
+
+<script>
+// var socket = io();
+
+ // request sensor readings from server
+ socket.emit('last-sensor-readings-request');
+ // once you get sensor readings
+ socket.on('last-sensor-readings',(data) => {
+   console.log(data)
+
+  var dataLength = data.length
+
+  for (var i = 0; i < dataLength; i++) {
+    var newData = data[i].data
+    var targetDeviceID = data[i].deviceID
+    // let currentData = newData.pop()
+    console.log(newData)
+    document.getElementById(targetDeviceID).innerText = newData.data
+  }
+
+
+ })
+
+ socket.on("thermometerData-update",(data) => {
+   document.getElementById(data.deviceID).innerText = data.data
+   //console.log(data)
+  });
+
+</script>

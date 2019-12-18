@@ -1,0 +1,110 @@
+
+<if(input.systemDevices)>
+<for|devices| of=input.systemDevices>
+  <li.box>
+    <div class="field is-horizontal">
+
+          <div class="field-label is-normal">
+            <label class="label">Device</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <p class="control is-expanded has-icons-left">
+                <input class="input" type="text" placeholder="Node Name" value="${devices.deviceID}">
+                <!-- <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span> -->
+
+                <!-- icons selector -->
+                <if(devices.deviceCONTROLS === "light")>
+
+                      <span class="icon has-text-warning  is-small is-left">
+                        <i class="far fa-lightbulb"></i>
+                      </span>
+
+                </if>
+
+                <if(devices.deviceCONTROLS === "fan")>
+
+                      <span class="icon has-text-link  is-small is-left">
+                        <i class="fas fa-fan fa-pulse"></i>
+                      </span>
+
+                </if>
+
+                <if(devices.deviceCONTROLS === "heater")>
+
+                      <span class="icon has-text-danger  is-small is-left">
+                        <i class="fas fa-burn"></i>
+                      </span>
+
+                </if>
+
+                <if(devices.deviceCONTROLS === "pump")>
+
+                      <span class="icon has-text-info  is-small is-left">
+                        <i class="fas fa-shower"></i>
+                      </span>
+
+                </if>
+
+                <if(devices.deviceCONTROLS === "gas")>
+
+                      <span class="icon has-text-info  is-small is-left">
+                        <i class="fas fa-atom fa-pulse"></i>
+                      </span>
+
+                </if>
+
+
+
+
+
+              </p>
+            </div>
+
+            <div class="field-label is-normal">
+              <label class="label">Pin</label>
+            </div>
+            <div class="field">
+              <p class="control is-expanded has-icons-left has-icons-right">
+                <input class="input" type="text" placeholder="text" value="${devices.devicePIN}">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-link"></i>
+                </span>
+                <span class="icon is-small is-right">
+                  <!-- <i class="fas fa-check"></i> -->
+                </span>
+              </p>
+            </div>
+
+          </div>
+      </div>
+  </li>
+</for>
+<button class="button is-success is-outlined" onclick="newDevice()">Create New Device</button>
+
+</if>
+<else>
+    <div>No Devices!</div>
+</else>
+
+
+
+
+<script>
+
+ function newDevice() {
+   var element = document.getElementById("deviceModal");
+   element.classList.toggle("is-active");
+ }
+</script>
+
+
+<div class="modal" id="deviceModal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+        <div.box><app-settings-device-template></app-settings-device-template></div>
+  </div>
+  <button class="modal-close is-large" aria-label="close" onclick="newDevice()"></button>
+</div>

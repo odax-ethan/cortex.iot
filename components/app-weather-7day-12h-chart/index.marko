@@ -1,0 +1,115 @@
+<canvas id="chart" height="110px"></canvas>
+
+<script>
+  var url = 'https://api.weather.gov/points/42.4219,-71.1254';
+  var biDailyReportArray
+
+
+  fetch(url)
+    .then(res => res.json())
+    .then((data) => {
+      //console.log('Checkout this JSON! ', data);
+
+      // Searched Cords - specific details
+      //console.log(data.properties.relativeLocation.properties)
+      var cityName = data.properties.relativeLocation.properties.city
+      var stateName = data.properties.relativeLocation.properties.state
+      //nws forecast
+      //console.log(data.properties.forecast)
+      var weatherURL = data.properties.forecast
+
+
+      fetch(weatherURL)
+        .then(res => res.json())
+        .then((data) => {
+         console.log('Checkout this JSON! ', data);
+
+          var weatherDataPeriodTotalArray = []
+  				var labelArray = []
+          var weatherPeriodData = data.properties.periods
+          var weatherPeriodLength = weatherPeriodData.length
+
+
+          for (var i = 0; i < weatherPeriodLength; i++) {
+            	 let periodTemp = weatherPeriodData[i].temperature
+               let periodName = weatherPeriodData[i].name
+               weatherDataPeriodTotalArray.push(periodTemp);
+               labelArray.push(periodName)
+          }
+
+        console.log(weatherDataPeriodTotalArray)
+        	 // Create gradient
+
+
+     		 const ctx = document.getElementById('chart').getContext('2d');
+
+
+         // Create gradient
+        grd = ctx.createLinearGradient(150.000, 0.000, 150.000, 300.000);
+
+        // Add colors
+        grd.addColorStop(0.007, 'rgba(95, 191, 0, 1.000)');
+        grd.addColorStop(0.028, 'rgba(127, 255, 0, 1.000)');
+        grd.addColorStop(0.972, 'rgba(255, 255, 255, 0.000)');
+
+
+         const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: labelArray,
+                  datasets: [
+                    {
+                      data: weatherDataPeriodTotalArray, backgroundColor: grd
+                    }
+                  ]
+                },
+                options: {
+                  responsive: true,
+                  legend: {
+                    display: false
+                  },
+                  elements: {
+                    line: {
+                      borderColor: '#000000',
+                      borderWidth: 0.1
+                    },
+                    point: {
+                      radius: 0
+                    }
+                  },
+                  tooltips: {
+                    enabled: false
+                  },
+                  scales: {
+                    yAxes: [
+                      {
+                        display: true
+                      }
+                    ],
+                    xAxes: [
+                      {
+                        display: true
+                      }
+                    ]
+                  }
+                }
+              });
+
+
+        }).catch(err => {
+          throw err
+        });
+
+
+    }).catch(err => {
+      throw err
+    });
+
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,124 @@
+<div id="generalSettingsFields">
+    <div class="field">
+        <label class="label">Opperation Name</label>
+        <div class="control">
+            <input
+                id="opperationName"
+                class="input"
+                type="text"
+                placeholder="Your Opperation Name"
+                value="${input.systemConfig.opperationName}"/>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">admin</label>
+        <div class="control">
+            <input
+                id="admin"
+                class="input"
+                type="text"
+                placeholder="Adminn Name"
+                value="${input.systemConfig.admin}"/>
+        </div>
+    </div>
+    <hr/>
+    <p.title>Coordinates</p>
+    <div class="field">
+        <label class="label">latitude</label>
+        <div class="control">
+            <input
+                id="coordinates.lat"
+                class="input"
+                type="number"
+                placeholder="Your latitude"
+                value="${input.systemConfig.coordinates.lat}"/>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Longitude</label>
+        <div class="control">
+            <input
+                id="coordinates.long"
+                class="input"
+                type="number"
+                placeholder="Your Longitude"
+                value="${input.systemConfig.coordinates.long}"/>
+        </div>
+    </div>
+    <!-- <div class="field"> -->
+    <!-- <label class="label">Time Zone</label> -->
+    <!-- <div class="control"> -->
+    <!-- <input id="${input}" -->
+    <!-- class="input" -->
+    <!-- type="number" -->
+    <!-- placeholder="Your Longitude" -->
+    <!-- value=""/> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- <hr /> -->
+    <!-- <p.title>optimization</p> -->
+    <!-- <div class="field"> -->
+    <!-- <label class="label">event Stream View Count</label> -->
+    <!-- <div class="control"> -->
+    <!-- <input id="${input}" -->
+    <!-- class="input" -->
+    <!-- type="number" -->
+    <!-- placeholder="Your Longitude" -->
+    <!-- value=""/> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- <div class="field"> -->
+    <!-- <label class="label">HUD chart Step Count</label> -->
+    <!-- <div class="control"> -->
+    <!-- <input id="${input}" -->
+    <!-- class="input" -->
+    <!-- type="number" -->
+    <!-- placeholder="Your Longitude" -->
+    <!-- value=""/> -->
+    <!-- </div> -->
+    <!-- </div> -->
+</div>
+<hr/>
+<article class="message is-warning">
+    <div class="message-header">
+        <p>Warning</p>
+    </div>
+    <div class="message-body">
+        <p>The changes to the system DO NOT up date imidiately.</p>
+        <p>The changes you have made will be listed bellow.</p>
+        <p>For changes to take effect - Restart the system</p>
+    </div>
+</article>
+<hr/>
+<!-- <button class="button is-success is-outlined" onclick="newNode()">Save Settings</button> -->
+<div class="field is-grouped is-pulled-right">
+    <p class="control">
+        <button class="button is-info is-outlined" onclick="saveGeneralSettings()">
+            Save
+        </button>
+    </p>
+    <p class="control">
+        <a class="button is-danger is-outlined" href="/settings">Cancel</a>
+    </p>
+</div>
+<hr style="height:17px; visibility:hidden;" />
+<script>
+
+function saveGeneralSettings() {
+  var inputs = document.getElementById('generalSettingsFields').getElementsByTagName('input');
+  var bundledData = []
+  for (var i = 0; i < inputs.length; i++) {
+    var settingName = inputs[i].id
+    console.log(inputs[i].id);
+    var settingValue = inputs[i].value
+    console.log(inputs[i].value);
+    var currentSettingArray = [settingName,settingValue]
+    bundledData.push(currentSettingArray)
+  }
+    //  console.log(bundledData)
+    socket.emit("update-general-settings", bundledData)
+  //push array to socket and save via db
+}
+
+
+</script>

@@ -1,0 +1,103 @@
+<span id="deviceColors" style="display:none">${input.systemDevices}</span>
+<canvas id="historyChart" style=" height:40vh; width:100%"/>
+<script>
+
+  var stepCount = 96;
+  socket.emit("all-devices-history", stepCount)
+
+  socket.on("all-devices-history-data", function(data){
+
+
+      var unParsedData = data.dataSets
+      var unParsedLabel = data.label
+      var unParsedColors = data.colorSets
+
+      // var dataLenghthTarget = unParsedData[0].data
+      // console.log(dataLenghthTarget)
+
+      var chartDataSets = []
+
+
+
+      var labelArray = unParsedLabel
+
+      for (var i = 0; i < unParsedData.length; i++) {
+        var template = { data: unParsedData[i], backgroundColor: unParsedColors[i]  }
+        chartDataSets.push(template)
+      }
+
+      console.log(chartDataSets)
+
+       const chart = document.getElementById('historyChart').getContext('2d');
+
+
+       // Create gradient
+      // grd = chart.createLinearGradient(150.000, 300.000, 150.000, 0.000);
+      //
+      //  // Add colors
+      //  grd.addColorStop(0.414, 'rgba(86, 170, 255, 1.000)');
+      //  grd.addColorStop(1.000, 'rgba(86, 86, 255, 1.000)');
+
+       const historyChart = new Chart(chart, {
+              type: 'line',
+              data: {
+                labels: labelArray ,
+                datasets: chartDataSets
+              },
+              options: {
+                responsive: true,
+                legend: {
+                  display: false
+                },
+                elements: {
+                  line: {
+                    borderColor: '#000000',
+                    borderWidth: 0.1
+                  },
+                  point: {
+                    radius: 0
+                  }
+                },
+                tooltips: {
+                  enabled: false
+                },
+                scales: {
+                  yAxes: [
+                    {
+                      display: true
+                    }
+                  ],
+                  xAxes: [
+                    {
+                      display: true
+                    }
+                  ]
+                }
+              }
+            });
+
+
+   })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

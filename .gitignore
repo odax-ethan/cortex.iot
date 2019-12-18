@@ -95,3 +95,6 @@ typings/
 .dynamodb/
 *.cmd
 node-sass
+nodemon
+*.ldb
+*.old
