@@ -41,6 +41,7 @@ function resetSystemConfig() {
        return masterDB.remove(doc);
   });
 
+target
 
   masterDB.get('systemConfig').catch(function (err) {
      if (err.name === 'not_found') {
