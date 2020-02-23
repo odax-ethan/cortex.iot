@@ -1,19 +1,25 @@
 {
-  "name": "corext.iot",
-  "version": "0.0.3alpha",
-  "description": "a node based iot infustructure",
+  "name": "cortex.iot",
+  "version": "0.0.40",
+  "description": "node.js based hardware infustructure",
   "main": "cortex.js",
-  "scripts": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/odax-ethan/corext.iot.git"
+    "url": "git+https://github.com/odax-ethan/cortex.iot.git"
   },
+  "keywords": [
+    "node.js",
+    "iot"
+  ],
   "author": "Ethan Drory @ Odax Systems",
-  "license": "SEE LICENSE IN <filename>",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/odax-ethan/corext.iot/issues"
+    "url": "https://github.com/odax-ethan/cortex.iot/issues"
   },
-  "homepage": "https://github.com/odax-ethan/corext.iot#readme",
+  "homepage": "https://github.com/odax-ethan/cortex.iot#readme",
   "dependencies": {
     "@lasso/marko-taglib": "^1.0.15",
     "browser-refresh": "^1.7.3",
@@ -28,9 +34,5 @@
     "memory-usage": "^1.2.1",
     "pouchdb": "^7.1.1",
     "serve-favicon": "^2.5.0"
-  },
-  "devDependencies": {
-    "memory-usage": "^1.2.1",
-    "node-sass": "^4.12.0"
   }
 }
