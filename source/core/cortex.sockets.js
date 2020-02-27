@@ -1,5 +1,6 @@
 // Learn more or give us feedback
 const serverIO = require('socket.io')
+const {systemEmitter} = require('./cortex.emitter');
 
 
 // expressSocketTakes the Express app socket. systemSettings for presets
@@ -10,16 +11,18 @@ function socketListener(expressSocket, systemConfig) {
   // You now have access to it any where.
    // io.sockets.emit("**", *)
 
+   systemEmitter.on('eventStream-newEvent', (newEventOBJ)=>{
+      io.sockets.emit("eventStream-newEvent-socketStream", newEventOBJ)
+   })
 
   //import anything you want to add
   // then add it bellow
-
  io.on('connection', function(socket){
       console.log('a user connected');
 
       //add custom actions here
 
-      
+
 
 
       // on socket disconnect
@@ -31,6 +34,11 @@ function socketListener(expressSocket, systemConfig) {
   });
 
 }// end of socketListener
+
+
+
+
+
 
 
 module.exports = { socketListener };

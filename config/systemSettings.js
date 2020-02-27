@@ -40,7 +40,7 @@ const systemSettings  = {
   // UTC OFSET
   // This will set time in your data set to your local timeout
 
-   utcOffSet : -5;
+   utcOffSet : -5
 
 
 }

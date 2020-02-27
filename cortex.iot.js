@@ -1,4 +1,3 @@
-
 // load in coretx express app
 const {startCortexApp} = require('./source/core/cortex.express');
 //load in cortex j5.js tooling

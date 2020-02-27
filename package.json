@@ -34,7 +34,7 @@
     "lasso-marko": "^2.4.8",
     "marko": "^4.18.24",
     "memory-usage": "^1.2.1",
-    "pouchdb": "^7.1.1",
+    "pouchdb": "^7.2.1",
     "serialport": "^8.0.7",
     "serve-favicon": "^2.5.0"
   }

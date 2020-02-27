@@ -8,6 +8,9 @@
   <body>
     <script>
       window.socket = io();
+      socket.on('eventStream-newEvent-socketStream', (data)=>{
+        console.log(data);
+      })
     </script>
       Cortex.iot.core
   </body>
