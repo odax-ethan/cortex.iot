@@ -20,7 +20,7 @@ marko_template.meta = {
     deps: [
       {
           type: "css",
-          code: "#imgContainer {\n   position: relative;\n   top: 17vh;\n   left: 35vw;\n   }\n      body {\n     background-color:white;\n   }",
+          code: "#imgContainer {\r\n   position: relative;\r\n   top: 17vh;\r\n   left: 35vw;\r\n   }\r\n      body {\r\n     background-color:white;\r\n   }",
           virtualPath: "./index.marko.css",
           path: "./index.marko"
         }

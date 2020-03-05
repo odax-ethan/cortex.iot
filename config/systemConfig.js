@@ -77,7 +77,8 @@ const devices = [
 // color: "rgba(65, 124, 211, .5)"
 
 const crons = [
-         { cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' */15 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
+         // { cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' */15 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
+          { cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' 32 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
   ];
 
 
@@ -104,19 +105,19 @@ const cortexPort = 9090; // define system port
  const {systemSettings} = require('./systemSettings.js');
 
  var boardBank = [] //empty boardBank array used to define Johnny-five,js
- var deviceBank = [] //empty deviceBank array used to define entire system
+ var hardwareBank = [] //empty hardwareBank array used to define entire system
 
   // parse boards create board bank for J5.js
   boards.forEach((board,index,arr)=>{
       //create working board object for each board for j5.js
       boardBank.push({id:board.id, port: board.port })
       //create deveivce bank with board containing devices in an array
-      deviceBank.push({id:board.id, devices:[], color: board.color})
+      hardwareBank.push({id:board.id, devices:[], color: board.color})
 
   })
 
   // parse boards create board bank for J5.js
-  deviceBank.forEach((board,index,arr)=>{
+  hardwareBank.forEach((board,index,arr)=>{
 
       boardDevices = board.devices
 
@@ -158,9 +159,9 @@ const cortexPort = 9090; // define system port
 
       console.log(board.devices);
 
-  }) //end of deviceBank construction
+  }) //end of hardwareBank construction
 
 
 
 
-module.exports = {deviceBank, boardBank, systemSettings};
+module.exports = {hardwareBank, boardBank, systemSettings};

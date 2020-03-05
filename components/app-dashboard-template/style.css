@@ -1,0 +1,45 @@
+
+.cortexWrapper {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(7, minmax(2fr, auto-fit));
+  grid-template-rows: 37rem 15rem;
+  grid-template-areas:
+    "v v v v v b b"
+    "e e e w w w p";
+
+  margin: 1rem;
+}
+
+.cortexWrapper>div {
+  background-color: var(--white-4);
+  /* border: .5px solid ; */
+
+  border-left:    .5px solid var(--black-2);
+  border-right:  .5px solid var(--black-2);
+  border-bottom: .51px solid var(--black-2);
+}
+
+
+
+.visualizerWrapper {
+  grid-area: v;
+
+}
+
+.nodeBankWrapper {
+  grid-area: b;
+}
+
+.eventWrapper {
+  grid-area: e;
+}
+
+.weatherWrapper {
+  grid-area: w;
+}
+
+.promoWrapper {
+  grid-area: p;
+
+}

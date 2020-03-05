@@ -1,0 +1,112 @@
+/* imports */
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:300,600,700&display=swap');
+@import "topBar.css";
+
+/* set break points */
+@custom-media --viewport-4 (min-width: 480px);
+@custom-media --viewport-7 (min-width: 768px);
+@custom-media --viewport-9 (min-width: 992px);
+@custom-media --viewport-12 (min-width: 1200px);
+
+/* presets set in root */
+:root{
+
+    /* set base font */
+    --font-1: 'Titillium Web', sans-serif;
+
+    /* color preset swatches */
+    --black-1: rgb(18, 18, 18);
+    --black-2: rgb(36, 36, 36);
+    --black-3: rgb(48, 48, 48);
+    --black-4: rgb(61, 61, 61);
+    --black-5: rgb(74, 74, 74);
+
+    --grey-1: rgb(97, 97, 97);
+    --grey-2: rgb(117, 117, 117);
+    --grey-3: rgb(138, 138, 138);
+    --grey-4: rgb(161, 161, 161);
+    --grey-5: rgb(181, 181, 181);
+
+    --white-1: rgb(201, 201, 201);
+    --white-2: rgb(219, 219, 219);
+    --white-3: rgb(230, 230, 230);
+    --white-4: rgb(242, 242, 242);
+    --white-5: rgb(252, 252, 252);
+
+    /* color presets styles */
+    --primary: rgb(221, 74, 74);
+    --secondary: rgb(144, 200, 26);
+    --tertiary: rgb(230, 230, 230);
+
+    /* height of the nav bar */
+    --nav-height : 56px;
+    --nav-top-padding : 13px;
+
+}
+
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+    font-size: 100%;
+    color: var(--black-2);
+    font-family: var(--font-1);
+}
+
+body{
+  margin: 0px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+
+.drop-shadow-sharp {
+  box-shadow: 0 1px 1px rgba(0,0,0,0.25),
+              0 2px 2px rgba(0,0,0,0.20),
+              0 4px 4px rgba(0,0,0,0.15),
+              0 8px 8px rgba(0,0,0,0.10),
+              0 16px 16px rgba(0,0,0,0.05);
+}
+
+.drop-shadow-diffuse {
+    box-shadow: 0 1px 1px rgba(0,0,0,0.08),
+                0 2px 2px rgba(0,0,0,0.12),
+                0 4px 4px rgba(0,0,0,0.16),
+                0 8px 8px rgba(0,0,0,0.20);
+}
+
+
+.text-uppercase {
+  text-transform: uppercase;
+  letter-spacing: .3rem;
+}
+.text-lowercase {
+  text-transform: lowercase;
+  letter-spacing: none;
+}
+.text-capitalize {
+  text-transform: capitalize;
+  letter-spacing: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+
+a {
+  text-decoration: none;
+}

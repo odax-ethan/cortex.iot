@@ -35,7 +35,7 @@ function render(input, out, __component, component, state) {
 
   app_under_construction_tag({}, out, __component, "13");
 
-  out.w("<style>\n  body {\n    overflow: hidden; /* Hide scrollbars */\n  }\n</style>");
+  out.w("<style>\r\n  body {\r\n    overflow: hidden; /* Hide scrollbars */\r\n  }\r\n</style>");
 
   lasso_body_tag({}, out, __component, "15");
 

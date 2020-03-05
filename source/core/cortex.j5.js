@@ -3,7 +3,7 @@
 //****************************************************************************\\
 // 'use strict' // strick mode breaks using dynamics variables in a function
 const { Boards, Relay, Thermometer } = require("johnny-five");
-const {deviceBank, boardBank , systemSettings} = require('../../config/systemConfig.js');
+const {hardwareBank, boardBank , systemSettings} = require('../../config/systemConfig.js');
 var CronJob = require('cron').CronJob; // event schedular
 //get local time: timeTime(systemSettings.utcOffSet)
 const {localTime} = require('../utility/utility.js');
@@ -46,9 +46,9 @@ const {systemEmitter} = require('./cortex.emitter');
               // |this| is an array-like object containing references
               // to each initialized board.
               boards.each(board => {
-                 // console.log(deviceBank);
+                 // console.log(hardwareBank);
                  // get current boards devices
-                 deviceBank.forEach((targetBoard,index,arr)=>{
+                 hardwareBank.forEach((targetBoard,index,arr)=>{
 
                   switch (board.id) {
                     case targetBoard.id:

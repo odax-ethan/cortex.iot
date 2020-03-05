@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/odax-ethan/cortex.iot#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.12.1",
     "@lasso/marko-taglib": "^1.0.15",
     "browser-refresh": "^1.7.3",
     "browser-refresh-taglib": "^1.1.0",
@@ -34,6 +35,7 @@
     "lasso-marko": "^2.4.8",
     "marko": "^4.18.24",
     "memory-usage": "^1.2.1",
+    "papaparse": "^5.1.1",
     "pouchdb": "^7.2.1",
     "serialport": "^8.0.7",
     "serve-favicon": "^2.5.0"

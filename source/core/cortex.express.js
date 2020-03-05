@@ -1,7 +1,7 @@
 require('marko/node-require'); // allows node.js to read marko files
 const {socketListener} = require('./cortex.sockets'); // socket.io functionality
 const {systemEmitter} = require('./cortex.emitter'); // systemEmitter functionality
-const {systemSettings} = require('../../config/systemConfig.js'); // all systemSettings
+const {systemSettings, hardwareBank} = require('../../config/systemConfig.js'); // all systemSettings
 const path = require('path'); // node.js path modules
 const express = require('express') // http Module with some goodies
 
@@ -23,7 +23,7 @@ const _404Template = require('../templates/404/index.marko');
 startCortexApp = () =>  {
 
   const app = express() // define express app
-  const port = 8080 // define system port
+  const port = 8089 // define system port
   const hostIP = '0.0.0.0'; // express needs a blank ip to dynamically define itself
 
   //define middleware
@@ -31,7 +31,7 @@ startCortexApp = () =>  {
   app.use(lassoWare.serveStatic()); // serve static files generated from lasso
   app.disable('etag').disable('x-powered-by'); // minor security patch
   app.use(helmet());  // basic security systems
-  app.use(express.static(__dirname + '../../public')); // serve static files
+  app.use(express.static(__dirname + '../../../public')); // serve static files
 
   //set lasso production environment
   const isProduction = (process.env.NODE_ENV === 'production');
@@ -41,7 +41,7 @@ startCortexApp = () =>  {
       plugins: [
           'lasso-marko' // Allow Marko templates to be compiled and transported to the browser
       ],
-      outputDir: __dirname + '../../static', // Place all generated JS/CSS/etc. files into the "static" dir
+      outputDir: __dirname + '../../../static', // Place all generated JS/CSS/etc. files into the "static" dir
       bundlingEnabled: isProduction, // Only enable bundling in production
       minify: isProduction, // Only minify JS and CSS code in production
       fingerprintsEnabled: isProduction, // Only add fingerprints to URLs in production
@@ -53,7 +53,10 @@ startCortexApp = () =>  {
   // define routes for express/http
   app.get('/', function(req, res, next) {
     // send prerendered marko template
-    res.marko(indexTemplate, {});
+    res.marko(indexTemplate, {
+      hardwareBank: hardwareBank,
+      coordinates: systemSettings.coordinates
+    });
   })
 
 

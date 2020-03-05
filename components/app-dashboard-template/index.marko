@@ -1,0 +1,66 @@
+<div class='cortexWrapper'>
+
+  <div class='visualizerWrapper drop-shadow-sharp'>
+  <div class='topBar'>
+       <div class='topBarTabs'>
+          <a href='#'>Visualize Connect Sensors</a>
+       </div>
+       <div class='topBarTabOption'>
+           <a href='#'>|</a>
+       </div>
+    </div>
+    <app-dashboard-visualize-connected-sensor></app-dashboard-visualize-connected-sensor>
+  </div>
+
+
+  <div class='nodeBankWrapper drop-shadow-sharp'>
+  <div class='topBar'>
+       <div class='topBarTabs'>
+          <a href='#'>Connect Devices</a>
+       </div>
+       <div class='topBarTabOption'>
+           <a href='#'>|</a>
+       </div>
+    </div>
+    <app-dashboard-current-board-device-template hardwareBank=input.hardwareBank ></app-dashboard-current-board-device-template>
+  </div>
+
+  <div class='eventWrapper drop-shadow-sharp'>
+  <div class='topBar'>
+    <div class='topBarTabs'>
+      <a href='#'>Event Stream</a>
+      <a href='#'>Event Record</a>
+    </div>
+    <div class='topBarTabOption'>
+      <a href='#'>|</a>
+    </div>
+  </div>
+    <p>${input.hardwareBank}</p>
+  </div>
+
+  <div class='weatherWrapper drop-shadow-sharp'>
+     <div class='topBar'>
+    <div class='topBarTabs'>
+      <a href='#'>Weather Report</a>
+      <a href='#'>Weather Forcast</a>
+    </div>
+    <div class='topBarTabOption'>
+      <a href='#'>|</a>
+    </div>
+  </div>
+    <app-dashboard-weather-template coordinates=input.coordinate></app-dashboard-weather-template>
+  </div>
+
+  <div class='promoWrapper drop-shadow-sharp'>
+   <div class='topBar'>
+    <div class='topBarTabs'>
+      <a href='#'>Our Promo Space</a>
+    </div>
+    <div class='topBarTabOption'>
+      <a href='#'>|</a>
+    </div>
+  </div>
+    promospace
+  </div>
+
+</div>

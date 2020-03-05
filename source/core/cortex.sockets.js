@@ -22,9 +22,6 @@ function socketListener(expressSocket, systemConfig) {
 
       //add custom actions here
 
-
-
-
       // on socket disconnect
       socket.on('disconnect', function(){
         console.log('user disconnected');
