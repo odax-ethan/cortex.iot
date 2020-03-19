@@ -20,6 +20,27 @@
 
 <script>
 
+
+ socket.emit('device-history-request', {target: 'Light', recordCount: 10});
+
+ socket.on('device-history-response', (data)=>{
+    console.log(data);
+
+    dataBundle: Array(10)
+
+    var dataArray = data.data
+    dataArray.forEach((dataObj,index) => {
+
+      var newArray = [dataObj.eventTriggerDate, dataObj.data]
+
+    })
+
+
+   //0: {data: "ON", eventTriggerDate: "3/13/2020, 12:33:32 AM", status: "normal", detail: "event trigger by cron morning_fans"}
+
+  })
+
+
   // Specifying fields and data explicitly
   var csv = Papa.unparse({
     "fields": ["Date", "sensor1", "sensor2"],

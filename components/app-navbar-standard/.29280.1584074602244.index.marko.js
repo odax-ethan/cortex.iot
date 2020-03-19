@@ -8,7 +8,7 @@ var marko_template = module.exports = require("marko/src/html").t(__filename),
 function render(input, out, __component, component, state) {
   var data = input;
 
-  out.w("<div class=\"navBarWrapper\"><div class=\"front\"> <img src=\"/assets/hexel-odax-1.PNG\" alt=\"\"></div><div class=\"middle\"></div><div class=\"back\"><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfcp_bDc_GkOH8iZG7ZAxeSo0FVBqu0nNn3hhVWssExK0cPNA/viewform\"> Feed Back</a><a href=\"https://www.notion.so/Cortex-iot-Documentation-2da6afe6f8c24202820144d89615b7bc\"> Docs </a></div></div>");
+  out.w("<div class=\"navBarWrapper\"><div class=\"front\">logo</div><div class=\"middle\"></div><div class=\"back\"><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfcp_bDc_GkOH8iZG7ZAxeSo0FVBqu0nNn3hhVWssExK0cPNA/viewform\"> Feed Back</a><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSfcp_bDc_GkOH8iZG7ZAxeSo0FVBqu0nNn3hhVWssExK0cPNA/viewform\"> Doc </a></div></div>");
 }
 
 marko_template._ = marko_renderer(render, {

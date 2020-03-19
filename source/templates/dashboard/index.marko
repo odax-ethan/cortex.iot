@@ -11,9 +11,13 @@
   <meta name="Description" content="hub for the cortex.iot system">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" charset="utf-8"></script>
+
   <script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js'></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.css" media="all" title="no title" />
   <script src='https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.js'></script>
+
+  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
   <link rel="stylesheet" href="../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
 
   <link rel="stylesheet" href="./styles/master.css">
@@ -31,16 +35,16 @@
 </head>
 
 <body>
+  <lasso-body />
+
+  <script>
+      window.socket = io();
+  </script>
+
 <app-navbar-standard></app-navbar-standard>
 <app-dashboard-template coordinate=data.coordinates hardwareBank=data.hardwareBank  ></app-dashboard-template>
 
 
-<script>
-  window.socket = io();
-  socket.on('eventStream-newEvent-socketStream', (data)=>{
-    console.log(data);
-  })
-</script>
 
 <!-- alt view -->
 <!-- <app-topbar-box></app-topbar-box> -->
@@ -55,7 +59,7 @@
   }
 </style>
 
-  <lasso-body />
+
 
       <!--
     Page will automatically refresh any time a template is modified

@@ -1,0 +1,36 @@
+#hideMe {
+  color: #F5F4F4;
+  text-align: center;
+}
+
+.promoContainer {
+  display: grid;
+  grid-template: auto;
+  grid-gap: 10px;
+/*   background-color: #2196F3; */
+  padding: 10px;
+}
+
+.guideSection .linkList {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
+  /* background-color: #2196F3; */
+  padding: 10px;
+  text-align: right;
+}
+
+
+.webStoreSection .linkList {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
+  /* background-color: #2196F3; */
+  padding: 10px;
+  text-align: right;
+}
+
+.webStoreSection .linkList a, .guideSection .linkList  a {
+  border: 1px solid black;
+  padding: .5rem .8rem .5rem;
+}

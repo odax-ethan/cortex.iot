@@ -26,11 +26,24 @@
 //  ]
 
 const boards = [
+        // {
+        // id: "testboard",
+        // port: "COM4",
+        // color: "rgba(65, 124, 211, .5)"
+        // }
+
         {
-        id: "testboard",
-        port: "COM3",
-        color: "rgba(65, 124, 211, .5)"
-        }
+          id: "veg_tent",
+          port: "/dev/ttyACM0"
+        },
+         {
+          id: "room",
+          port: "/dev/ttyACM1"
+         },
+         {
+          id: "flowerTent",
+          port: "/dev/ttyACM2"
+         }
       ]
 
 
@@ -52,6 +65,9 @@ const boards = [
 const devices = [
              // { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 6, deviceBOARDS:"testboard", controller: "DS18B20", color: "rgba(65, 124, 211, .5)"},
              { deviceID: "Light", deviceTYPE:"relay", devicePIN: 13, deviceBOARDS:"testboard", relayType: "NO", deviceCONTROLS: "light", color: "rgb(14, 240, 138)", cron: []}
+             // { deviceID: "Bottom", deviceTYPE:"thermometer", devicePIN: "A0", deviceBOARDS:"testboard", controller: "LM35", color: "rgba(65, 124, 211, .5)"},
+             // // { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceBOARDS:"testboard", controller: "DS18B20", color: "rgba(165, 124, 211, .5)"},
+             // { deviceID: "Light", deviceTYPE:"relay", devicePIN: 12, deviceBOARDS:"testboard", relayType: "NO", deviceCONTROLS: "light", color: "rgb(14, 240, 138)", cron: []}
       ];
 
 
@@ -106,11 +122,12 @@ const cortexPort = 9090; // define system port
 
  var boardBank = [] //empty boardBank array used to define Johnny-five,js
  var hardwareBank = [] //empty hardwareBank array used to define entire system
+ var currentConnectedSensorList = []
 
   // parse boards create board bank for J5.js
   boards.forEach((board,index,arr)=>{
       //create working board object for each board for j5.js
-      boardBank.push({id:board.id, port: board.port })
+      boardBank.push({id: board.id, port: board.port })
       //create deveivce bank with board containing devices in an array
       hardwareBank.push({id:board.id, devices:[], color: board.color})
 
@@ -129,6 +146,18 @@ const cortexPort = 9090; // define system port
       //
       devices.forEach((device,index) => {
 
+        //push deviceID into currentConnectedSensorList list
+        switch (device.deviceTYPE) {
+          case 'thermometer':
+                currentConnectedSensorList.push(device.deviceID)
+            break;
+          default:
+            // do nothing currently
+        }
+
+
+
+        //grab cron for said device
         deviceCron = device.cron
 
         switch (device.deviceBOARDS) {
@@ -157,11 +186,11 @@ const cortexPort = 9090; // define system port
 
       })
 
-      console.log(board.devices);
+      // console.log(board.devices);
 
   }) //end of hardwareBank construction
 
 
 
 
-module.exports = {hardwareBank, boardBank, systemSettings};
+module.exports = {hardwareBank, boardBank, systemSettings, currentConnectedSensorList};

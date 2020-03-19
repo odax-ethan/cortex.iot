@@ -61,8 +61,11 @@ const {systemEmitter} = require('./cortex.emitter');
                             case "thermometer":
                                       // assign dynamic variable name
                                       var varname = device.deviceID
+                                      //define the shape of the device
+                                      var shape = {controller: device.controller, pin: device.devicePIN, freq: 3000, board: board};
+                                      // console.log(shape);
                                       //assign dynamic functions value
-                                      var value = new Thermometer({controller: device.controller, pin: device.pin, freq: 3000, board: board});
+                                      var value = new Thermometer(shape);
 
                                       // combine dynamic variables
                                       this[varname] = value;
@@ -79,8 +82,8 @@ const {systemEmitter} = require('./cortex.emitter');
                                               break;
                                             default:
                                             // if there has been no known issues pass data to systemEmitter
-                                            systemEmitter.emit('newEvent',  device.deviceID , 'ON', localTime(systemSettings.utcOffSet), 'normal', `sensor reading for ${device.deviceID} sensor`)
-                                            console.log(thermometer)
+                                            systemEmitter.emit('newEvent',  device.deviceID , this.celsius , localTime(systemSettings.utcOffSet), 'normal', `sensor reading for ${device.deviceID} sensor`)
+                                            // console.log(thermometer)
                                           }
 
                                     })

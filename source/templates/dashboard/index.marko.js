@@ -10,11 +10,11 @@ var marko_template = module.exports = require("marko/src/html").t(__filename),
     marko_attr = require("marko/src/runtime/html/helpers/attr"),
     lasso_head_tag = marko_loadTag(require("@lasso/marko-taglib/taglib/head-tag")),
     component_globals_tag = marko_loadTag(require("marko/src/core-tags/components/component-globals-tag")),
+    lasso_body_tag = marko_loadTag(require("@lasso/marko-taglib/taglib/body-tag")),
     app_navbar_standard_template = require("../../../components/app-navbar-standard"),
     app_navbar_standard_tag = marko_loadTag(app_navbar_standard_template),
     app_dashboard_template_template = require("../../../components/app-dashboard-template"),
     app_dashboard_template_tag = marko_loadTag(app_dashboard_template_template),
-    lasso_body_tag = marko_loadTag(require("@lasso/marko-taglib/taglib/body-tag")),
     browser_refresh_tag = marko_loadTag(require("browser-refresh-taglib/refresh-tag")),
     init_components_tag = marko_loadTag(require("marko/src/core-tags/components/init-components-tag")),
     await_reorderer_tag = marko_loadTag(require("marko/src/core-tags/core/await/reorderer-renderer"));
@@ -27,7 +27,7 @@ function render(input, out, __component, component, state) {
       filename: __filename
     }, out);
 
-  out.w("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Cortex.iot dashboard view</title><meta name=\"Description\" content=\"hub for the cortex.iot system\"><script src=\"https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js\" charset=\"utf-8\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js\"></script><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.css\" media=\"all\" title=\"no title\"><script src=\"https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.js\"></script>");
+  out.w("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Cortex.iot dashboard view</title><meta name=\"Description\" content=\"hub for the cortex.iot system\"><script src=\"https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js\" charset=\"utf-8\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js\"></script><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.css\" media=\"all\" title=\"no title\"><script src=\"https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.js\"></script><script src=\"https://cdn.plot.ly/plotly-latest.min.js\"></script>");
 
   asset_var_tag({
       values: [
@@ -50,16 +50,18 @@ function render(input, out, __component, component, state) {
 
   component_globals_tag({}, out);
 
-  app_navbar_standard_tag({}, out, __component, "16");
+  lasso_body_tag({}, out, __component, "16");
+
+  out.w("<script>\r\n      window.socket = io();\r\n  </script>");
+
+  app_navbar_standard_tag({}, out, __component, "17");
 
   app_dashboard_template_tag({
       coordinate: data.coordinates,
       hardwareBank: data.hardwareBank
-    }, out, __component, "17");
+    }, out, __component, "18");
 
-  out.w("<script>\r\n  window.socket = io();\r\n  socket.on('eventStream-newEvent-socketStream', (data)=>{\r\n    console.log(data);\r\n  })\r\n</script><style>\r\n  body {\r\n    overflow: hidden; /* Hide scrollbars */\r\n  }\r\n</style>");
-
-  lasso_body_tag({}, out, __component, "19");
+  out.w("<style>\r\n  body {\r\n    overflow: hidden; /* Hide scrollbars */\r\n  }\r\n</style>");
 
   browser_refresh_tag({}, out, __component, "20");
 
@@ -87,9 +89,9 @@ marko_template.meta = {
       "@lasso/marko-taglib/taglib/asset-var/renderer",
       "@lasso/marko-taglib/taglib/head-tag",
       "marko/src/core-tags/components/component-globals-tag",
+      "@lasso/marko-taglib/taglib/body-tag",
       "../../../components/app-navbar-standard",
       "../../../components/app-dashboard-template",
-      "@lasso/marko-taglib/taglib/body-tag",
       "browser-refresh-taglib/refresh-tag",
       "marko/src/core-tags/components/init-components-tag",
       "marko/src/core-tags/core/await/reorderer-renderer"

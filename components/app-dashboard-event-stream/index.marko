@@ -1,5 +1,39 @@
-<p>
+<div style='margin:.1rem;'>
 
-I will be the event stream
+  <ul id='eventStreamList'>
+     <!-- <li> [19:30:20][<span class='relay'> relay </span>][Light][<span class='cron'> cron </span>]: ON</li> -->
+     <!-- <li>[19:32:03][<span class='thermometer'> thermometer </span>][Tent-1-Thermometer][<span class='reading'> reading </span>]: Success </li> -->
+  </ul>
+  <!-- <input id="inputREPL" type="text" placeholder=' REPL: [enter commands - future feature]' readonly='true'> -->
+</div>
 
-</p>
+
+
+<script>
+
+ socket.on('eventStream-newEvent', (data)=>{
+    console.log(data);
+
+
+    // var node = document.createElement("LI");                 // Create a <li> node
+    // var textnode = document.createTextNode(data);         // Create a text node
+    // node.appendChild(textnode);                              // Append the text to <li>
+    // document.getElementById("eventStreamList").prepend(node);     // Append <li> to <ul> with id="myList"
+
+
+    var relayText = `<li>[${data.data.eventTriggerDate}][<span class='relay'> relay </span>][${data.deviceID.deviceID}][<span class='cron'> cron </span>]: [${data.data.data}]</li>`;
+    // var thermometerText = `<li>[19:32:03][<span class='thermometer'> thermometer </span>][Tent-1-Thermometer][<span class='reading'> reading </span>]: Success </li>`
+
+    var newItem = document.createElement("LI");
+    // var newDiv = document.createElement("DIV");
+    newItem.innerHTML = relayText
+    // var textnode = document.createTextNode(newDiv);
+    // newItem.appendChild(textnode);
+
+    var list = document.getElementById("eventStreamList");
+    list.insertBefore(newItem, list.childNodes[0]);
+
+  })
+
+
+</script>
