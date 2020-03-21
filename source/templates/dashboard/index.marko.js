@@ -27,7 +27,7 @@ function render(input, out, __component, component, state) {
       filename: __filename
     }, out);
 
-  out.w("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Cortex.iot dashboard view</title><meta name=\"Description\" content=\"hub for the cortex.iot system\"><script src=\"https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js\" charset=\"utf-8\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js\"></script><link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.css\" media=\"all\" title=\"no title\"><script src=\"https://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.js\"></script><script src=\"https://cdn.plot.ly/plotly-latest.min.js\"></script>");
+  out.w("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Cortex.iot dashboard view</title><meta name=\"Description\" content=\"hub for the cortex.iot system\"><script src=\"https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js\" charset=\"utf-8\"></script><script src=\"https://cdn.plot.ly/plotly-latest.min.js\"></script>");
 
   asset_var_tag({
       values: [
@@ -40,7 +40,7 @@ function render(input, out, __component, component, state) {
       }
     }, out, __component, "23");
 
-  out.w("<link rel=\"stylesheet\" href=\"./styles/master.css\"><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"><meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\"><meta name=\"apple-mobile-web-app-title\" content=\"Cortex.iot\"><meta name=\"theme-color\" content=\"#5968e8\">");
+  out.w("<link rel=\"stylesheet\" href=\"./styles/master.css\"><link rel=\"stylesheet\" href=\"./styles/topbar.css\"><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"><meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\"><meta name=\"apple-mobile-web-app-title\" content=\"Cortex.iot\"><meta name=\"theme-color\" content=\"#5968e8\">");
 
   lasso_head_tag({}, out, __component, "13");
 

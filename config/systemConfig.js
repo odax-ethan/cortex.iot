@@ -1,5 +1,3 @@
-
-
 ////////////////////////////////////////////////////////////////////////////////
 // boards
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,24 +24,20 @@
 //  ]
 
 const boards = [
-        // {
-        // id: "testboard",
-        // port: "COM4",
-        // color: "rgba(65, 124, 211, .5)"
-        // }
-
         {
-          id: "veg_tent",
-          port: "/dev/ttyACM0"
-        },
-         {
-          id: "room",
-          port: "/dev/ttyACM1"
-         },
-         {
-          id: "flowerTent",
-          port: "/dev/ttyACM2"
-         }
+          id: "testboard",
+          port: "COM3",
+          color: "rgba(265, 124, 111, .5)"
+        }
+        //
+        // {
+        //   id: "veg_tent",
+        //   port: "/dev/ttyACM0"
+        // },
+        //  {
+        //   id: "flowerTent",
+        //   port: "/dev/ttyACM1"
+        //  }
       ]
 
 
@@ -61,14 +55,33 @@ const boards = [
 // deviceTYPE:"thermometer"
 // deviceTYPE:"relay"
 
+// 15mins = 900000;
+var freq = 5000;
+
+
 
 const devices = [
-             // { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 6, deviceBOARDS:"testboard", controller: "DS18B20", color: "rgba(65, 124, 211, .5)"},
-             { deviceID: "Light", deviceTYPE:"relay", devicePIN: 13, deviceBOARDS:"testboard", relayType: "NO", deviceCONTROLS: "light", color: "rgb(14, 240, 138)", cron: []}
+
+        // { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 8, deviceBOARDS:"veg_tent", controller: "DS18B20", color: "rgba(65, 124, 211, .5)", freq: freq},
+        // { deviceID: "Top-Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceBOARDS:"veg_tent", controller: "DS18B20", color: "rgba(188, 231, 132, .5)"},
+        // { deviceID: "Bottom_Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceBOARDS:"flowerTent", controller: "DS18B20", color: "rgba(74, 64, 153, .5),"},
+        // { deviceID: "Top_Sensor", deviceTYPE:"thermometer", devicePIN: 8, deviceBOARDS:"flowerTent", controller: "DS18B20",color: "rgba(13, 6, 48, .5)"},
+        //
+
+            { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 'A0', deviceBOARDS:"testboard", controller: "LM35", color: "rgba(165, 24, 11, .5)", freq: freq},
+            { deviceID: "Light", deviceTYPE:"relay", devicePIN: 13, deviceBOARDS:"testboard", relayType: "NO", deviceCONTROLS: "light", color: "rgb(14, 240, 138)", cron: []}
              // { deviceID: "Bottom", deviceTYPE:"thermometer", devicePIN: "A0", deviceBOARDS:"testboard", controller: "LM35", color: "rgba(65, 124, 211, .5)"},
              // // { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceBOARDS:"testboard", controller: "DS18B20", color: "rgba(165, 124, 211, .5)"},
              // { deviceID: "Light", deviceTYPE:"relay", devicePIN: 12, deviceBOARDS:"testboard", relayType: "NO", deviceCONTROLS: "light", color: "rgb(14, 240, 138)", cron: []}
       ];
+
+
+
+      //          { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 8, deviceNODE:"veg_tent", controller: "DS18B20", color: "rgba(65, 124, 211, .5)"},
+      //         { deviceID: "Top-Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceNODE:"veg_tent", controller: "DS18B20", color: "rgba(188, 231, 132, .5)"},
+      //        { deviceID: "Bottom_Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceNODE:"flowerTent", controller: "DS18B20", color: "rgba(74, 64, 153, .5),"},
+      //        { deviceID: "Top_Sensor", deviceTYPE:"thermometer", devicePIN: 8, deviceNODE:"flowerTent", controller: "DS18B20",color: "rgba(13, 6, 48, .5)"},
+      //
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +107,7 @@ const devices = [
 
 const crons = [
          // { cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' */15 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
-          { cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' 32 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
+        //   cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' 32 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
   ];
 
 
@@ -164,19 +177,27 @@ const cortexPort = 9090; // define system port
           case board.id:
               //if doard.id is the same put this device into the target board
 
+                    // if there is no crons skip
+                      if (!crons) {
+                        return ;
+                        // do nothing
+                      } else {
 
-                  crons.forEach((cron,index) => {
-                      // console.log(device.deviceID);
-                      switch (cron.deviceID) {
-                        case device.deviceID:
-                            //if doard.id is the same put this cron into the target board
+                        //  if there is a cron check for it
+                        crons.forEach((cron,index) => {
+                            // console.log(device.deviceID);
+                            switch (cron.deviceID) {
+                              case device.deviceID:
+                                  //if doard.id is the same put this cron into the target board
 
-                            deviceCron.push(cron)
-                          break;
-                        default:
-                          //do nothings
-                      };
-                    });
+                                  deviceCron.push(cron)
+                                break;
+                              default:
+                                //do nothings
+                            };
+                          });
+
+                      }
 
                     boardDevices.push(device)
             break;
@@ -194,3 +215,5 @@ const cortexPort = 9090; // define system port
 
 
 module.exports = {hardwareBank, boardBank, systemSettings, currentConnectedSensorList};
+
+console.log(hardwareBank);

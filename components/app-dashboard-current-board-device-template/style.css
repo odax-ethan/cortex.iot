@@ -89,3 +89,7 @@ overflow: scroll;
   /* padding: 20px 0; */
   /* font-size: 30px; */
 }
+
+a i {
+  text-decoration: none;
+}

@@ -35,13 +35,19 @@ function render(input, out, __component, component, state) {
           marko_styleAttr("margin-left:2rem; margin-top:.02rem; background-color: " + device.color) +
           "><div class=\"columns\"><div class=\"column-3\"><div class=\"columns text-left text-capitalize\" style=\"padding-left:.4rem;\"><span class=\"relaySignal background-secondary\"></span> " +
           marko_escapeXml(device.deviceID) +
-          " <small> @ pin 8</small></div><div class=\"columns text-left\"></div><div class=\"columns text-right\" style=\"padding-right:.5rem;\"><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-power-off\"></i></a><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-database\"></i></a><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-cogs\"></i></a><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-ban\"></i></a></div></div></div></div>");
+          " <small> @ " +
+          marko_escapeXml(device.devicePIN) +
+          "</small></div><div class=\"columns text-left\"></div><div class=\"columns text-right\" style=\"padding-right:.5rem;\"><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-power-off\"></i></a><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-database\"></i></a><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-cogs\"></i></a><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-ban\"></i></a></div></div></div></div>");
       }
 
       if (device.deviceTYPE === "thermometer") {
         out.w("<div class=\"columns text-center background-white-4\"" +
           marko_styleAttr("margin-left:2rem; margin-top:.02rem; background-color: " + device.color) +
-          "><div class=\"columns\"><div class=\"column-3\"><div class=\"columns text-left text-capitalize\" style=\"padding-left:.4rem;\"><span>12.39*</span> device name <small> @ pin 8</small></div><div class=\"columns text-left\"></div><div class=\"columns text-right\" style=\"padding-right:.5rem;\"><a href=\"#\"><i class=\"fas fa-temperature-high\"></i></a><a href=\"#\"><i class=\"fas fa-database\"></i></a><a href=\"#\"><i class=\"fas fa-cogs\"></i></a><a href=\"#\"><i class=\"fas fa-ban\"></i></a></div></div></div></div>");
+          "><div class=\"columns\"><div class=\"column-3\"><div class=\"columns text-left text-capitalize\" style=\"padding-left:.4rem;\"><span> " +
+          marko_escapeXml(device.deviceID) +
+          "</span> <small> @ " +
+          marko_escapeXml(device.devicePIN) +
+          "</small></div><div class=\"columns text-left\"></div><div class=\"columns text-right\" style=\"padding-right:.5rem;\"><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-temperature-high\"></i></a><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-database\"></i></a><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-cogs\"></i></a><a href=\"#\" style=\"padding-right:.5rem;\"><i class=\"fas fa-ban\"></i></a></div></div></div></div>");
       }
     });
 

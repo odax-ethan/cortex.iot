@@ -50,19 +50,23 @@ const {systemEmitter} = require('./cortex.emitter');
                  // get current boards devices
                  hardwareBank.forEach((targetBoard,index,arr)=>{
 
+
+
                   switch (board.id) {
                     case targetBoard.id:
                         // assign target
                         var target = targetBoard.devices
                         // for each device check its type an define it.
                         target.forEach((device,index,arr)=>{
+
                           //check for curren target device and assign corrent device settings
                           switch (device.deviceTYPE) {
                             case "thermometer":
+                                      console.log(device.freq);
                                       // assign dynamic variable name
                                       var varname = device.deviceID
                                       //define the shape of the device
-                                      var shape = {controller: device.controller, pin: device.devicePIN, freq: 3000, board: board};
+                                      var shape = {controller: device.controller, pin: device.devicePIN, board: board, freq: device.freq};
                                       // console.log(shape);
                                       //assign dynamic functions value
                                       var value = new Thermometer(shape);
@@ -102,44 +106,47 @@ const {systemEmitter} = require('./cortex.emitter');
 
                                   // get cronList
                                   var cronList = device.cron
-                                  // console.log(cronList);
-                                  // for each cron in said device
-                                  cronList.forEach((cron,index,arr)=>{
+                                  var cronListLength = cronList.length
 
-                                    // { cronID: "morning fans", deviceID: "test-relay" , cronTYPE:"burst", cronOBJ: ' */15 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
+                                  if (cronListLength > 1) {
+                                    // console.log(cronList);
+                                    // for each cron in said device
+                                    cronList.forEach((cron,index,arr)=>{
 
-                                    switch (cron.cronTYPE) {
-                                      case "burst":
-                                            // how long is the event
-                                            let masterCronEventLength = cron.cronEventLength
-                                            // cron event definition
-                                            let masterCronEventTime = cron.cronOBJ
-                                            // CRON TOOLING
+                                      // { cronID: "morning fans", deviceID: "test-relay" , cronTYPE:"burst", cronOBJ: ' */15 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
 
-                                            // console.log(targetName);
-                                            let cronName = `cron-${cron.deviceID}`;
-                                            // console.log(cronName);
-                                            this[cronName] = new CronJob(masterCronEventTime, function() {
-                                              // AT START RUN TOGGLE // RUN ON
-                                              target.on()
-                                              systemEmitter.emit('newEvent',  cron.deviceID , 'ON', localTime(systemSettings.utcOffSet), 'normal', `event trigger by cron ${cron.cronID}`)
-                                              // console.log('burst: turned on');
-                                              setTimeout(function () {
-                                                target.off()
-                                                systemEmitter.emit('newEvent',  cron.deviceID , 'OFF', localTime(systemSettings.utcOffSet), 'normal', `event trigger by cron ${cron.cronID}`)
-                                              }, masterCronEventLength);
-                                            });
+                                      switch (cron.cronTYPE) {
+                                        case "burst":
+                                              // how long is the event
+                                              let masterCronEventLength = cron.cronEventLength
+                                              // cron event definition
+                                              let masterCronEventTime = cron.cronOBJ
+                                              // CRON TOOLING
 
-                                            this[cronName].start();
-                                        break;
-                                      default:
+                                              // console.log(targetName);
+                                              let cronName = `cron-${cron.deviceID}`;
+                                              // console.log(cronName);
+                                              this[cronName] = new CronJob(masterCronEventTime, function() {
+                                                // AT START RUN TOGGLE // RUN ON
+                                                target.on()
+                                                systemEmitter.emit('newEvent',  cron.deviceID , 'ON', localTime(systemSettings.utcOffSet), 'normal', `event trigger by cron ${cron.cronID}`)
+                                                // console.log('burst: turned on');
+                                                setTimeout(function () {
+                                                  target.off()
+                                                  systemEmitter.emit('newEvent',  cron.deviceID , 'OFF', localTime(systemSettings.utcOffSet), 'normal', `event trigger by cron ${cron.cronID}`)
+                                                }, masterCronEventLength);
+                                              });
 
-                                    }
+                                              this[cronName].start();
+                                          break;
+                                        default:
+
+                                      }
 
 
-                                  })
-
-
+                                    })
+                                  }
+                                  //else do nothing
                                 break; // end of relay
                             default:
                             // should only fire if device type has not been define

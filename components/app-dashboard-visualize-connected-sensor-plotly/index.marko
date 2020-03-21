@@ -6,8 +6,13 @@
 
 
 
-<script>
 
+<script >
+
+ // id="allDataChartJS"  hardwareBank = input.hardwareBank
+// var script_tag = document.getElementById('allDataChartJS')
+// var hardwareBank = script_tag.getAttribute("hardwareBank");
+// console.log(hardwareBank)
 
  // socket.emit('device-history-request', {target: 'Light', recordCount: 10});
  //
@@ -37,12 +42,18 @@
     //for each item in the data array response
     data.forEach((device, i) => {
       //current target device id
-      console.log(device.id);
+      console.log(device);
 
       chartSet = {
         x: [],
         y : [],
-        type: 'scatter'
+        type: 'scatter',
+        name: device.id,
+        mode: 'lines',
+         line: {
+           color: device.doc.color,
+           width: 3
+         }
       }
 
       let x = chartSet.x

@@ -21,12 +21,18 @@
     // document.getElementById("eventStreamList").prepend(node);     // Append <li> to <ul> with id="myList"
 
 
-    var relayText = `<li>[${data.data.eventTriggerDate}][<span class='relay'> relay </span>][${data.deviceID.deviceID}][<span class='cron'> cron </span>]: [${data.data.data}]</li>`;
+
+
     // var thermometerText = `<li>[19:32:03][<span class='thermometer'> thermometer </span>][Tent-1-Thermometer][<span class='reading'> reading </span>]: Success </li>`
+    //var relayText = `<li>[${data.data.eventTriggerDate}][<span class='relay'> relay </span>][${data.deviceID.deviceID}][<span class='cron'> cron </span>]: [${data.data.data}]</li>`;
+
+    var placeholderText = `<li>[${data.data.eventTriggerDate}][${data.deviceID.deviceID}]: [${data.data.data}]</li>`;
+
+
 
     var newItem = document.createElement("LI");
     // var newDiv = document.createElement("DIV");
-    newItem.innerHTML = relayText
+    newItem.innerHTML = placeholderText
     // var textnode = document.createTextNode(newDiv);
     // newItem.appendChild(textnode);
 

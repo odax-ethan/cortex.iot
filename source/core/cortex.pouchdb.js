@@ -1,6 +1,6 @@
 var PouchDB = require('pouchdb');
 const {systemEmitter} = require('./cortex.emitter'); // systemEmitter functionality
-const {systemSettings, currentConnectedSensorList} = require('../../config/systemConfig.js'); // systemConfigs
+const {systemSettings, hardwareBank, currentConnectedSensorList} = require('../../config/systemConfig.js'); // systemConfigs
 const {localTime} = require('../utility/utility.js'); // local time for event triggers
 
 // create database for eventstream
@@ -50,22 +50,47 @@ addToDeviceHistoryDB = (target , dataBundle) => {
 
     devicetHistoryDB.get(target).catch(function (err) {
     if (err.name === 'not_found') {
-      return devicetHistoryDB.put({
-        _id: target,
-        data: [dataBundle]
-      });
+
+      //get for said device add add them to db
+
+      // return devicetHistoryDB.put({
+      //   _id: target,
+      //   color: device.color,
+      //   data: []
+      // });
+
+
+          hardwareBank.forEach((board, i) => {
+
+                var targetBoard = board.devices
+                targetBoard.forEach((device, i) => {
+                  // console.log(device.deviceID);
+                  // console.log(target);
+
+                  //check that current device is the same as target device
+                  if (device.deviceID === target) {
+                    return devicetHistoryDB.put({
+                      _id: target,
+                      color: device.color,
+                      data: []
+                    });
+                  }
+
+                });
+            });
+
     } else { // hm, some other error
       throw err;
     }
   }).then(function (devicetHistoryDoc) {
     // sweet, here is our eventHistoryDoc
-
+      // console.log(devicetHistoryDoc.data)
     //define eventHistory.data
     dataTarget = devicetHistoryDoc.data;
     //push data to target
     dataTarget.push(dataBundle);
 
-    console.log(devicetHistoryDoc);
+    // console.log(dataTarget);
 
     //database put doc back
     devicetHistoryDB.put(devicetHistoryDoc);
@@ -83,58 +108,63 @@ addToDeviceHistoryDB = (target , dataBundle) => {
 
 getDeviceHistoryData = async (target, recordCount) => {
 
-  var output = devicetHistoryDB.get(target).catch(function (err) {
-      if (err.name === 'not_found') {
-        return systemEmitter.emit('newEvent', 'io' , 'MINOR ERROR', localTime(systemSettings.utcOffSet), 'ERROR', `System tried to save data to a device which has not be configured`)
-      } else { // hm, some other error
-        throw systemEmitter.emit('newEvent', 'io' , 'ERROR', localTime(systemSettings.utcOffSet), 'ERROR', `${err}`);
-      }
-  }).then(function (devicetHistoryDoc) {
-
-        // get the last X number of records requested
-        function optionTest(recordCount){
-          switch (recordCount) {
-             case 'all':
-                   //get complete history for target device
-               break;
-             default:
-
-               //assign data to variable
-               deviceData = devicetHistoryDoc.data
-               //slice/copy range into output variable
-
-              // declare and copy requested # of records
-              var newData = deviceData.slice(1).slice(-recordCount)
-              var outPutData = []
-
-              newData.forEach((item, i) => {
-
-                  // shape of data
-                 //{data: data, eventTriggerDate: eventTriggerDate, status: status, detail: detail}
-
-
-
-              });
-
-              // console.log(newData);
-               return newData
-
-
-           }
+    var output = devicetHistoryDB.get(target).catch(function (err) {
+        if (err.name === 'not_found') {
+          return systemEmitter.emit('newEvent', 'io' , 'MINOR ERROR', localTime(systemSettings.utcOffSet), 'ERROR', `System tried to save data to a device which has not be configured`)
+        } else { // hm, some other error
+          throw systemEmitter.emit('newEvent', 'io' , 'ERROR', localTime(systemSettings.utcOffSet), 'ERROR', `${err}`);
         }
-        var preOutPut = optionTest(recordCount);
-        // console.log(preOutPut);
+    }).then(function (devicetHistoryDoc) {
 
-        return preOutPut ;
-  }).catch(function (err) {
-      // handle any errors
-      console.log(err);
-    });
+          console.log(devicetHistoryDoc)
+          // get the last X number of records requested
+          function optionTest(recordCount){
+            switch (recordCount) {
+               case 'all':
+                     //get complete history for target device
+                 break;
+               default:
 
-  // console.log(output);
+                 //assign data to variable
+                 deviceData = devicetHistoryDoc.data
+                 //slice/copy range into output variable
 
-  // ouput the select data range
-  return output
+                // declare and copy requested # of records
+                var newData = deviceData.slice(1).slice(-recordCount)
+                var outPutData = []
+
+
+
+                newData.forEach((item, i) => {
+
+                    // shape of data
+                   //{data: data, eventTriggerDate: eventTriggerDate, status: status, detail: detail}
+                    console.log(item);
+
+
+                });
+
+
+
+                // console.log(newData);
+                 return newData
+
+
+             }
+          }
+          var preOutPut = optionTest(recordCount);
+          // console.log(preOutPut);
+
+          return preOutPut ;
+    }).catch(function (err) {
+        // handle any errors
+        console.log(err);
+      });
+
+    // console.log(output);
+
+    // ouput the select data range
+    return output
 
 }
 
@@ -163,10 +193,51 @@ getDeviceBankHistory = async (recordCount) => {
   return output;
 }
 
+// delete each data based
+destroyDeviceHistoryDB = () => {
+    devicetHistoryDB.destroy().then(function () {
+      // database destroyed
+      console.log('deviceHistoryDB deleted');
+    }).catch(function (err) {
+      // error occurred
+      console.log(err);
+    })
+}
 
-getDeviceBankHistory(10).then( (data) => {
-  console.log(data);
-})
+// delete each data based
+destroyeventHistoryDB = () => {
+    eventHistoryDB.destroy().then(function () {
+      // database destroyed
+      console.log('eventHistoryDB deleted');
+    }).catch(function (err) {
+      // error occurred
+      console.log(err);
+    })
+}
+
+//force compaction
+compactDBs = () => {
+
+ devicetHistoryDB.compact().then(function (info) {
+      // compaction complete
+      console.log('devicetHistoryDB compacted');
+  }).catch(function (err) {
+    // handle errors
+      console.log(err);
+  });
+
+  eventHistoryDB.compact().then(function (info) {
+       // compaction complete
+       console.log('eventHistoryDB compacted');
+   }).catch(function (err) {
+     // handle errors
+       console.log(err);
+   });
+
+
+
+}
+
 
 // addToEventStreamDB('data')
 module.exports = {addToEventStreamDB, addToDeviceHistoryDB, getDeviceHistoryData, getDeviceBankHistory};

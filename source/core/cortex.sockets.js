@@ -37,6 +37,12 @@ function socketListener(expressSocket, systemConfig) {
           case "CURRENT":
 
               getDeviceBankHistory(request.recordCount).then( (data) => {
+
+
+                // preshape data
+                // connect data from database with details about it
+                
+
                  socket.emit('device-history-response',  data.rows)
               })
 
