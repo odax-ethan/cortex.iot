@@ -2,7 +2,7 @@
 // Imports and settings
 //****************************************************************************\\
 // 'use strict' // strick mode breaks using dynamics variables in a function
-const { Boards, Relay, Thermometer } = require("johnny-five");
+const { Boards, Relay, Thermometer, Fn, Button } = require("johnny-five");
 const {hardwareBank, boardBank , systemSettings} = require('../../config/systemConfig.js');
 var CronJob = require('cron').CronJob; // event schedular
 //get local time: timeTime(systemSettings.utcOffSet)
@@ -10,6 +10,7 @@ const {localTime} = require('../utility/utility.js');
 // system Emitter
 const {systemEmitter} = require('./cortex.emitter');
 
+// console.log(hardwareBank);
 //****************************************************************************\\
 // for testing memory issues
 //****************************************************************************\\
@@ -50,8 +51,6 @@ const {systemEmitter} = require('./cortex.emitter');
                  // get current boards devices
                  hardwareBank.forEach((targetBoard,index,arr)=>{
 
-
-
                   switch (board.id) {
                     case targetBoard.id:
                         // assign target
@@ -81,14 +80,51 @@ const {systemEmitter} = require('./cortex.emitter');
                                           //filter for anomoly
                                           switch (this.celsius) {
                                             case 185:
+
                                                 // console.error('there has been an error cause for unknown reasons but is normal and occurs generally only at start up');
-                                                systemEmitter.emit('newEvent',  device.deviceID , '185', localTime(systemSettings.utcOffSet), 'known-partial-error', `error cause for unknown reasons but is normal and occurs generally only at start up`)
+                                                systemEmitter.emit('newEvent', 'reading', device.deviceID , '185', localTime(systemSettings.utcOffSet), 'known-partial-error', `error cause for unknown reasons but is normal and occurs generally only at start up`)
                                               break;
                                             default:
-                                            // if there has been no known issues pass data to systemEmitter
-                                            systemEmitter.emit('newEvent',  device.deviceID , this.celsius , localTime(systemSettings.utcOffSet), 'normal', `sensor reading for ${device.deviceID} sensor`)
-                                            // console.log(thermometer)
+
+
+                                            //create function that test threshHold -
+                                            // for each device threshHold - get details - min/max - trigger details -  {TargetDeviceID, action (on - off)}
+
+                                            sensorRangeTest = (data, lowerThreshHold, upperThreshHold) => {
+                                                //if there are range constraints set  trigger event
+                                                if (Fn.inRange(data, lowerThreshHold, upperThreshHold)) {
+                                                  // if there has been no known issues pass data to systemEmitter
+                                                  systemEmitter.emit('newEvent', 'reading' ,device.deviceID , data , localTime(systemSettings.utcOffSet), 'normal', ``)
+                                                  // console.log(thermometer)
+                                                  console.log('in range');
+                                                } else {
+                                                  // if there has been no known issues pass data to systemEmitter
+                                                  systemEmitter.emit('newEvent', 'reading' , device.deviceID , data , localTime(systemSettings.utcOffSet), 'Warning', ` Out of range`)
+                                                  console.log('out of range');
+                                                }//
+                                            }
+
+
+
+                                                  //if there are range constraints set  trigger event
+                                                  if (Fn.inRange(this.celsius, 69, 87 )) {
+                                                    // if there has been no known issues pass data to systemEmitter
+                                                    systemEmitter.emit('newEvent', 'reading' ,device.deviceID , this.celsius , localTime(systemSettings.utcOffSet), 'normal', ``)
+                                                    // console.log(thermometer)
+                                                    console.log('in range');
+                                                  } else {
+                                                    // if there has been no known issues pass data to systemEmitter
+                                                    systemEmitter.emit('newEvent', 'reading' , device.deviceID , this.celsius , localTime(systemSettings.utcOffSet), 'Warning', ` Out of range`)
+                                                    console.log('out of range');
+                                                  }//
+
+
+
+
                                           }
+
+
+
 
                                     })
                                 break; // end of thermometer
@@ -129,11 +165,11 @@ const {systemEmitter} = require('./cortex.emitter');
                                               this[cronName] = new CronJob(masterCronEventTime, function() {
                                                 // AT START RUN TOGGLE // RUN ON
                                                 target.on()
-                                                systemEmitter.emit('newEvent',  cron.deviceID , 'ON', localTime(systemSettings.utcOffSet), 'normal', `event trigger by cron ${cron.cronID}`)
+                                                systemEmitter.emit('newEvent',  'cron', cron.deviceID , 'ON', localTime(systemSettings.utcOffSet), 'normal', `event trigger by cron ${cron.cronID}`)
                                                 // console.log('burst: turned on');
                                                 setTimeout(function () {
                                                   target.off()
-                                                  systemEmitter.emit('newEvent',  cron.deviceID , 'OFF', localTime(systemSettings.utcOffSet), 'normal', `event trigger by cron ${cron.cronID}`)
+                                                  systemEmitter.emit('newEvent', 'cron', cron.deviceID , 'OFF', localTime(systemSettings.utcOffSet), 'normal', `event trigger by cron ${cron.cronID}`)
                                                 }, masterCronEventLength);
                                               });
 
@@ -148,6 +184,20 @@ const {systemEmitter} = require('./cortex.emitter');
                                   }
                                   //else do nothing
                                 break; // end of relay
+                              case "button":
+                                    //device ID
+                                    var varname = device.deviceID
+                                    //define the shape of the device
+                                    var shape = {pin: device.devicePIN, board: board};
+                                    // console.log(shape);
+                                    //assign dynamic functions value
+                                    var value = new Button(shape);
+                                    // combine dynamic variables
+                                    this[varname] = value;
+
+                                    systemEmitter.emit('newEvent',  'io' , cron.deviceID , 'CREATED', localTime(systemSettings.utcOffSet), 'normal', ` `)
+
+                              break;
                             default:
                             // should only fire if device type has not been define
                             // but has been included in the systemConfig

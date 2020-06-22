@@ -15,6 +15,7 @@ const helmet = require('helmet'); // basic security
 // route templates
 const indexTemplate = require('../templates/dashboard/index.marko');
 const _404Template = require('../templates/404/index.marko');
+const settingsTemplate = require('../templates/settings/index.marko');
 
 
 // the entire cortex express app is bundle as a single function which is actived
@@ -56,6 +57,15 @@ startCortexApp = () =>  {
     res.marko(indexTemplate, {
       hardwareBank: hardwareBank,
       coordinates: systemSettings.coordinates
+    });
+  })
+
+  // define routes for express/http
+  app.get('/settings', function(req, res, next) {
+    // send prerendered marko template
+    res.marko(settingsTemplate, {
+      hardwareBank: hardwareBank,
+      systemSettings: systemSettings
     });
   })
 

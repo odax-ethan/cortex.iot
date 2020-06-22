@@ -31,19 +31,19 @@ function render(input, out, __component, component, state) {
       hardwareBank: input.hardwareBank
     }, out, __component, "14");
 
-  out.w("</div><div class=\"eventWrapper drop-shadow-sharp\"><div class=\"topBar\"><div class=\"topBarTabs\"><a href=\"#\">Event Stream</a></div><div class=\"topBarTabOption\"><a href=\"#\">|</a></div></div>");
+  out.w("</div><div class=\"eventWrapper drop-shadow-sharp\"><div class=\"topBar\"><div class=\"topBarTabs\"><a href=\"#\">Event Stream</a><a href=\"#\">Event Record</a></div><div class=\"topBarTabOption\"><a href=\"#\">|</a></div></div>");
 
-  app_dashboard_event_stream_tag({}, out, __component, "21");
+  app_dashboard_event_stream_tag({}, out, __component, "22");
 
-  out.w("</div><div class=\"weatherWrapper drop-shadow-sharp\"><div class=\"topBar\"><div class=\"topBarTabs\"><a href=\"#\">Weather Report</a></div><div class=\"topBarTabOption\"><a href=\"#\">|</a></div></div>");
+  out.w("</div><div class=\"weatherWrapper drop-shadow-sharp\"><div class=\"topBar\"><div class=\"topBarTabs\"><a href=\"#\">Weather Report</a><a href=\"#\">Weather Forcast</a></div><div class=\"topBarTabOption\"><a href=\"#\">|</a></div></div>");
 
   app_dashboard_weather_template_tag({
       coordinates: input.coordinate
-    }, out, __component, "28");
+    }, out, __component, "30");
 
   out.w("</div><div class=\"promoWrapper drop-shadow-sharp\"><div class=\"topBar\"><div class=\"topBarTabs\"><a href=\"#\">Our Promo Space</a></div><div class=\"topBarTabOption\"><a href=\"#\">|</a></div></div>");
 
-  app_dashboard_promo_tag({}, out, __component, "35");
+  app_dashboard_promo_tag({}, out, __component, "37");
 
   out.w("</div></div>");
 }

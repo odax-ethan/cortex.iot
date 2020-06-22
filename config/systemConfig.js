@@ -67,9 +67,10 @@ const devices = [
         // { deviceID: "Bottom_Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceBOARDS:"flowerTent", controller: "DS18B20", color: "rgba(74, 64, 153, .5),"},
         // { deviceID: "Top_Sensor", deviceTYPE:"thermometer", devicePIN: 8, deviceBOARDS:"flowerTent", controller: "DS18B20",color: "rgba(13, 6, 48, .5)"},
         //
-
-            { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 'A0', deviceBOARDS:"testboard", controller: "LM35", color: "rgba(165, 24, 11, .5)", freq: freq},
-            { deviceID: "Light", deviceTYPE:"relay", devicePIN: 13, deviceBOARDS:"testboard", relayType: "NO", deviceCONTROLS: "light", color: "rgb(14, 240, 138)", cron: []}
+            { deviceID: "Bottom-Sensor1", deviceTYPE:"thermometer", devicePIN: 'A3', deviceBOARDS:"testboard", controller: "LM35", color: "rgba(165, 124, 11, .5)", freq: freq},
+            { deviceID: "Bottom-Senso2r", deviceTYPE:"thermometer", devicePIN: 'A1', deviceBOARDS:"testboard", controller: "LM35", color: "rgba(165, 224, 11, .5)", freq: freq},
+            { deviceID: "Bottom-Sensor3", deviceTYPE:"thermometer", devicePIN: 'A0', deviceBOARDS:"testboard", controller: "LM35", color: "rgba(15, 24, 11, .5)", freq: freq},
+            { deviceID: "Light", deviceTYPE:"relay", devicePIN: 13, deviceBOARDS:"testboard", relayType: "NO", color: "rgb(14, 240, 138)", cron: []}
              // { deviceID: "Bottom", deviceTYPE:"thermometer", devicePIN: "A0", deviceBOARDS:"testboard", controller: "LM35", color: "rgba(65, 124, 211, .5)"},
              // // { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceBOARDS:"testboard", controller: "DS18B20", color: "rgba(165, 124, 211, .5)"},
              // { deviceID: "Light", deviceTYPE:"relay", devicePIN: 12, deviceBOARDS:"testboard", relayType: "NO", deviceCONTROLS: "light", color: "rgb(14, 240, 138)", cron: []}
@@ -106,9 +107,25 @@ const devices = [
 // color: "rgba(65, 124, 211, .5)"
 
 const crons = [
-         // { cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' */15 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
-        //   cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' 32 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
+          { cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' */15 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
+          { cronID: "evening_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' */15 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
   ];
+
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // trigger schedular // not implamented yet
+  ////////////////////////////////////////////////////////////////////////////////
+
+
+// trigger types:
+// THRESHHOLD - (min, max, targetDeviceID -
+
+
+  // const triggers = [
+  //          { triggerID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Bottom-Sensor", triggerValue: 87, targetDeviceID: "Light", targetState: 'ON' },
+  //         //   cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' 32 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
+  //   ];
+
 
 
 
@@ -142,7 +159,7 @@ const cortexPort = 9090; // define system port
       //create working board object for each board for j5.js
       boardBank.push({id: board.id, port: board.port })
       //create deveivce bank with board containing devices in an array
-      hardwareBank.push({id:board.id, devices:[], color: board.color})
+      hardwareBank.push({id:board.id, devices:[], color: board.color, port: board.port})
 
   })
 
@@ -168,11 +185,8 @@ const cortexPort = 9090; // define system port
             // do nothing currently
         }
 
-
-
         //grab cron for said device
         deviceCron = device.cron
-
         switch (device.deviceBOARDS) {
           case board.id:
               //if doard.id is the same put this device into the target board
@@ -197,13 +211,39 @@ const cortexPort = 9090; // define system port
                             };
                           });
 
+
+                          //  if there is a cron check for it
+
                       }
+
+
 
                     boardDevices.push(device)
             break;
           default:
           //do nothings
         }
+
+
+
+        // if (!triggers) {
+        //   return ;
+        // } else {
+        //
+        //   trigger.forEach((trigger,index) => {
+        //       // console.log(device.deviceID);
+        //       switch (trigger.deviceID) {
+        //         case device.deviceID:
+        //             //if doard.id is the same put this trigger into the target board
+        //
+        //             deviceCron.push(trigger)
+        //           break;
+        //         default:
+        //           //do nothings
+        //       };
+        //     });
+        // }
+
 
       })
 

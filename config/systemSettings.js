@@ -6,6 +6,13 @@
 
 const systemSettings  = {
 
+  ////////////////////////////////////////////////////////////////////////////////
+  // General Settings
+  ////////////////////////////////////////////////////////////////////////////////
+
+
+  environmentName  :  'GROW338',
+  adminName  :  'Ethan',
 
   ////////////////////////////////////////////////////////////////////////////////
   // coordinates
@@ -35,7 +42,6 @@ const systemSettings  = {
   // 'production' = next start from first first_start being set to true will be a frest install.
 
   first_start_option : 'always',
-
 
   // UTC OFSET
   // This will set time in your data set to your local timeout

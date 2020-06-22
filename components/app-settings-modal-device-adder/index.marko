@@ -1,0 +1,201 @@
+<!-- Trigger/Open The Modal -->
+<a id=`targetBoard_${input.targetBoard}_adder` onclick=`openDeviceAdder("${input.targetBoard}")`><i class="fas fa-plus-circle"></i></a>
+
+<!-- The Modal -->
+<div id=`${input.targetBoard}_Modal_adder` class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span id=`${input.targetBoard}_Modal_adder_closer` class='close'>&times;</span>
+
+    <!-- lets create a new device
+
+    <for|boards| of=input.hardwareBank>
+          <if(boards.id === input.targetBoard)>
+         </if>
+     </for> -->
+
+
+
+       <div id='deviceSettings_Adder'>
+            <p id=`${input.targetBoard}`>  Creating a device for the '${input.targetBoard}' board</p>
+            <span id="targetBoardID">${input.targetBoard}</span>
+            deviceName <input id='deviceID_'> <br>
+            devicePin <input id='devicePIN'> <br>
+            deviceColor <input  id='deviceColor_Adder' value='- Pick Color -' data-huebee='{ "notation": "rgb", "saturations": 2 }' /> <br>
+            deviceType  <select id="deviceTYPE_Adder" onchange="getDeviceTypeInputs()">
+               <option value="NULL">- Pick Type -</option>
+              <option value="Relay">Relay</option>
+              <option value="Thermometer">Thermometer</option>
+              <!-- <option value="Button">Button</option> -->
+            </select>
+
+             <hr>
+
+            <div id='deviceOptionFields'>
+             <span>-- Options --</span>
+            </div>
+
+      </div>
+
+     <button type="button"  onclick='sendNewDevice()'> Set Device</button>
+     <button type="button"> Cancel</button>
+
+
+  </div>
+
+</div>
+
+<script>
+
+  var targetBoard =  document.querySelector('div#deviceSettings_Adder span#targetBoardID').innerHTML;
+  var input = document.querySelectorAll('div#deviceSettings_Adder input'); // get the input element
+  var deviceOptionFields = document.querySelector('#deviceOptionFields') // target where options will be place
+  var deviceOptionFieldsSelector = document.querySelector('div#deviceSettings_Adder select#deviceTYPE_Adder ') // get actual selection
+
+  //function to size inputs to only space needed
+  function resizeInput() {
+    this.style.width = this.value.length + "ch";
+
+  }
+  //set resizing for inputss so they can drop in.
+  input.forEach((input) => {
+    input.addEventListener('input', resizeInput); // bind the "resizeInput" callback on "input" event
+    resizeInput.call(input); // immediately call the function
+
+  });
+
+  //on change of selection of device type update input fields
+  getDeviceTypeInputs = () => {
+
+    	// deviceOptionFields.innerHTML = deviceOptionFieldsSelector.value
+
+   		switch(deviceOptionFieldsSelector.value) {
+        case 'Thermometer':
+
+             var inputBundle = `
+             		  deviceController  <select id="device_controller_adder">
+                      <option value="NULL">- Pick Type -</option>
+                      <option value="LM35">LM35</option>
+                      <option value="TMP36">TMP36</option>
+                      <option value="TMP102">TMP102</option>
+                      <option value="DS18B20 ">DS18B20 </option>
+                      <option value="MPU6050">MPU6050</option>
+                      <option value="BMP180">BMP180</option>
+                      <option value="BMP280">BMP280</option>
+                      <option value="BME280">BME280</option>
+                      <option value="MPL115A2">MPL115A2</option>
+                      <option value="MPL3115A2">MPL3115A2</option>
+                      <option value="HTU21D">HTU21D</option>
+                      <option value="HIH6130">HIH6130</option>
+                      <option value="MCP9808">MCP9808</option>
+                      <option value="SI7020">SI7020</option>
+                      <option value="SI7021">SI7021</option>
+                      <option value="MS5611">MS5611</option>
+                      <option value="DHT11">DHT11</option>
+                      <option value="DHT21">DHT21</option>
+                      <option value="DHT22">DHT22</option>
+                      <option value="SHT31D">SHT31D</option>
+                      <option value="LSM303C">LSM303C</option>
+                  </select>
+             `
+
+             deviceOptionFields.innerHTML = inputBundle
+          break;
+        case 'Relay':
+             var inputBundle = `
+              RelayType  <select id="device_controller_adder">
+              <option value="NULL">- Pick Type -</option>
+              <option value="NC">Normally Closed</option>
+              <option value="N0">Normally Open</option>
+              </select>
+             `
+
+             deviceOptionFields.innerHTML = inputBundle
+          break;
+        case 'Button':
+          // code block
+          alert('hi3')
+          break;
+        default:
+          // code block
+          // Do nothing
+      }
+
+
+
+  }
+
+
+// trigger open of modal
+  openDeviceAdder = (targetName) => {
+         // Get the modal
+         var modal = document.getElementById(targetName+`_Modal_adder`);
+
+         // Get the button that opens the modal
+         var btn = document.getElementById("targetBoard_"+targetName+ "_adder");
+
+         // Get the <span> element that closes the modal
+         var span = document.getElementById(targetName + '_Modal_adder_closer');
+
+         // When the user clicks on the button, open the modal
+         //btn.onclick = function() {
+         //  modal.style.display = "block";
+         //}
+         modal.style.display = "block";
+
+         // When the user clicks on <span> (x), close the modal
+         span.onclick = function() {
+           modal.style.display = "none";
+         }
+
+         // When the user clicks anywhere outside of the modal, close it
+         window.onclick = function(event) {
+           if (event.target == modal) {
+             modal.style.display = "none";
+           }
+         }
+ }
+
+
+ sendNewDevice = () => {
+
+      var deviceID_Adder = input[0].value
+      var devicePIN_Adder = input[1].value
+      var deviceColor_Adder = input[2].value
+      var deviceTYPE_Adder = deviceOptionFieldsSelector.value
+      var deviceOptionFields_Controller = document.querySelector('#deviceOptionFields #device_controller_adder').value // target where options will be place
+
+      //var adderBundle = [devicePIN_Adder, devicePIN_Adder, deviceColor_Adder, deviceTYPE_Adder, deviceOptionFields_Controller]
+
+      switch (deviceTYPE_Adder) {
+        case 'Relay':
+            var newDeviceBundle = { deviceID: deviceID_Adder, deviceTYPE: deviceTYPE_Adder, devicePIN: devicePIN_Adder, deviceBOARDS: targetBoard, color: deviceColor_Adder, relayType: deviceOptionFields_Controller, cron: []}
+            //console.log(newDeviceBundle);
+            socket.emit('add-new-device', newDeviceBundle);
+          break;
+        case 'Thermometer':
+            var newDeviceBundle = { deviceID: deviceID_Adder, deviceTYPE: deviceTYPE_Adder, devicePIN: devicePIN_Adder, deviceBOARDS: targetBoard, color: deviceColor_Adder,  controller: deviceOptionFields_Controller}
+            //console.log(newDeviceBundle);
+            socket.emit('add-new-device', newDeviceBundle);
+          break;
+        default:
+          console.log('please finish settings options');
+      }
+
+
+      //console.log(newDeviceBundle)
+
+      //socket.emit('add-new-board', newBoardBundle);
+
+
+
+
+
+ }
+
+
+
+
+
+</script>
