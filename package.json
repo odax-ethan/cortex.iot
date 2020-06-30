@@ -26,6 +26,7 @@
     "browser-refresh": "^1.7.3",
     "browser-refresh-taglib": "^1.1.0",
     "cron": "^1.8.2",
+    "dateformat": "^3.0.3",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "fast-json-stringify": "^1.15.7",

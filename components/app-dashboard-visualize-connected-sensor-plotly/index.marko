@@ -52,9 +52,11 @@
         mode: 'lines',
          line: {
            color: device.doc.color,
-           width: 3
+           width: 2.3,
+           shape: 'linear'
          }
       }
+
 
       let x = chartSet.x
       let y = chartSet.y
@@ -72,13 +74,74 @@
       return chartData.push(chartSet);
     });
 
+    //function get length of the dataset
+    testDataSetLength = () => {
+      testDataSet = chartData[0].x
+      return testDataSet.length
+    }
+
+    console.log(testDataSetLength()); //report datasetlength
+
+
+    //get upper range of dates
+    getDateUpperRange = (lengthOfDataSet) => {
+      testDataSet = chartData[0].x
+      arrayOffSet = lengthOfDataSet-1
+      return testDataSet[arrayOffSet]
+    }
+
+
+    // get lowest range of dates
+    getDateLowerRange = () => {
+      testDataSet = chartData[0].x
+      return testDataSet[0]
+    }
+
 
 
     var config = {responsive: true};
     var layout = {
-      margin: {t:5,r:5,b:130,l:33},
+      margin: {t:5,r:5,b:10,l:33},
       xaxis: {
        tickangle: 90,
+
+        rangeselector: {buttons: [
+          {
+            count: 12,
+            label: '12h',
+            step: 'hour',
+            stepmode: 'backward'
+          },
+            {
+              count: 1,
+              label: '24h',
+              step: 'day',
+              stepmode: 'backward'
+            },
+            {
+              count: 3,
+              label: '72h',
+              step: 'day',
+              stepmode: 'backward'
+            },
+            {
+              count: 1,
+              label: '1m',
+              step: 'month',
+              stepmode: 'backward'
+            },
+            {
+              count: 6,
+              label: '6m',
+              step: 'month',
+              stepmode: 'backward'
+            },
+            {step: 'all'}
+          ]},
+        rangeslider: {range: [getDateLowerRange(), getDateUpperRange(testDataSetLength())]},
+     },
+     yaxis: {
+      tickangle: 90,
      },
       legend: {
         x: 1,

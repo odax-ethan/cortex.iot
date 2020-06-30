@@ -16,6 +16,7 @@ function socketListener(expressSocket, systemConfig) {
        // io.sockets.emit("**", *)
 
 
+
      //STREAM EVENT DATA TO THE UI
      systemEmitter.on('eventStream-newEvent', (newEventOBJ)=>{
           console.log('eventStream');
@@ -38,8 +39,6 @@ function socketListener(expressSocket, systemConfig) {
               case "CURRENT":
 
                   getDeviceBankHistory(request.recordCount).then( (data) => {
-
-
                     // preshape data
                     // connect data from database with details about it
 
@@ -95,7 +94,6 @@ function socketListener(expressSocket, systemConfig) {
             console.log('destroyed eventHistoryDB');
           })
 
-          eventHistoryDB
 
           // on socket disconnect
           socket.on('disconnect', function(){

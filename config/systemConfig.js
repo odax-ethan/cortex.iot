@@ -24,20 +24,22 @@
 //  ]
 
 const boards = [
-        {
-          id: "testboard",
-          port: "COM3",
-          color: "rgba(265, 124, 111, .5)"
-        }
-        //
         // {
-        //   id: "veg_tent",
-        //   port: "/dev/ttyACM0"
-        // },
-        //  {
-        //   id: "flowerTent",
-        //   port: "/dev/ttyACM1"
-        //  }
+        //   id: "testboard",
+        //   port: "COM3",
+        //   color: "#AAA9E6"
+        // }
+        //
+        {
+          id: "veg_tent",
+          port: "/dev/ttyACM0",
+          color: "#AAA9E6"
+        },
+         {
+          id: "flowerTent",
+          port: "/dev/ttyACM1",
+          color: "#A9E6E6"
+         }
       ]
 
 
@@ -56,21 +58,25 @@ const boards = [
 // deviceTYPE:"relay"
 
 // 15mins = 900000;
-var freq = 5000;
+var freq = 900000;
 
 
 
 const devices = [
 
-        // { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 8, deviceBOARDS:"veg_tent", controller: "DS18B20", color: "rgba(65, 124, 211, .5)", freq: freq},
-        // { deviceID: "Top-Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceBOARDS:"veg_tent", controller: "DS18B20", color: "rgba(188, 231, 132, .5)"},
-        // { deviceID: "Bottom_Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceBOARDS:"flowerTent", controller: "DS18B20", color: "rgba(74, 64, 153, .5),"},
-        // { deviceID: "Top_Sensor", deviceTYPE:"thermometer", devicePIN: 8, deviceBOARDS:"flowerTent", controller: "DS18B20",color: "rgba(13, 6, 48, .5)"},
-        //
-            { deviceID: "Bottom-Sensor1", deviceTYPE:"thermometer", devicePIN: 'A3', deviceBOARDS:"testboard", controller: "LM35", color: "rgba(165, 124, 11, .5)", freq: freq},
-            { deviceID: "Bottom-Senso2r", deviceTYPE:"thermometer", devicePIN: 'A1', deviceBOARDS:"testboard", controller: "LM35", color: "rgba(165, 224, 11, .5)", freq: freq},
-            { deviceID: "Bottom-Sensor3", deviceTYPE:"thermometer", devicePIN: 'A0', deviceBOARDS:"testboard", controller: "LM35", color: "rgba(15, 24, 11, .5)", freq: freq},
-            { deviceID: "Light", deviceTYPE:"relay", devicePIN: 13, deviceBOARDS:"testboard", relayType: "NO", color: "rgb(14, 240, 138)", cron: []}
+
+const devices = [
+
+          { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 8, deviceBOARDS:"veg_tent", controller: "DS18B20", color: "#5647FF", freq: freq},
+          { deviceID: "Top-Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceBOARDS:"veg_tent", controller: "DS18B20", color: "#FFB547", freq: freq},
+          { deviceID: "Bottom_Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceBOARDS:"flowerTent", controller: "DS18B20", color: "#B947FF", freq: freq},
+          { deviceID: "Top_Sensor", deviceTYPE:"thermometer", devicePIN: 8, deviceBOARDS:"flowerTent", controller: "DS18B20", color: "#FF4747", freq: freq}
+
+            // { deviceID: "Bottom-Sensor1", deviceTYPE:"thermometer", devicePIN: 'A3', deviceBOARDS:"testboard", controller: "LM35", color: "#5647FF", freq: freq},
+            // { deviceID: "Bottom-Sensor2", deviceTYPE:"thermometer", devicePIN: 'A1', deviceBOARDS:"testboard", controller: "LM35", color: "#FFB547", freq: freq},
+            // { deviceID: "Bottom-Sensor3", deviceTYPE:"thermometer", devicePIN: 'A0', deviceBOARDS:"testboard", controller: "LM35", color: "#B947FF", freq: freq},
+            // { deviceID: "Light", deviceTYPE:"relay", devicePIN: 13, deviceBOARDS:"testboard", relayType: "NO", color: "#FF4747", cron: []}
+
              // { deviceID: "Bottom", deviceTYPE:"thermometer", devicePIN: "A0", deviceBOARDS:"testboard", controller: "LM35", color: "rgba(65, 124, 211, .5)"},
              // // { deviceID: "Bottom-Sensor", deviceTYPE:"thermometer", devicePIN: 7, deviceBOARDS:"testboard", controller: "DS18B20", color: "rgba(165, 124, 211, .5)"},
              // { deviceID: "Light", deviceTYPE:"relay", devicePIN: 12, deviceBOARDS:"testboard", relayType: "NO", deviceCONTROLS: "light", color: "rgb(14, 240, 138)", cron: []}
@@ -107,8 +113,8 @@ const devices = [
 // color: "rgba(65, 124, 211, .5)"
 
 const crons = [
-          { cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' */15 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
-          { cronID: "evening_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' */15 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
+          // { cronID: "morning_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' */15 * * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
+          // { cronID: "evening_fans",  deviceBOARDS:"testboard", deviceID: "Light" , cronTYPE:"burst", cronOBJ: ' * */15 * * * * ', cronEventLength: 5000, color: "rgba(65, 124, 211, .5)"},
   ];
 
 
