@@ -16,6 +16,7 @@ const helmet = require('helmet'); // basic security
 const indexTemplate = require('../templates/dashboard/index.marko');
 const _404Template = require('../templates/404/index.marko');
 const settingsTemplate = require('../templates/settings/index.marko');
+const device_analytics = require('../templates/device_analytics/index.marko');
 
 
 // the entire cortex express app is bundle as a single function which is actived
@@ -66,6 +67,15 @@ startCortexApp = () =>  {
     res.marko(settingsTemplate, {
       hardwareBank: hardwareBank,
       systemSettings: systemSettings
+    });
+  })
+
+
+  // define routes for express/http
+  app.get('/analytics/sensor/:deviceUID', function(req, res, next) {
+    // send prerendered marko template
+    res.marko(device_analytics, {
+      targetInfo: req.params
     });
   })
 

@@ -8,7 +8,7 @@ const {localTime} = require('../utility/utility.js'); // local time for event tr
   // last time frame requested
   addToEventStreamDB = (data) => {
 
-      eventHistoryDB.get('eventHistory').catch(function (err) {
+    eventHistoryDB.get('eventHistory').catch(function (err) {
       if (err.name === 'not_found') {
         return eventHistoryDB.put({
           _id: 'eventHistory',
@@ -136,9 +136,9 @@ const {localTime} = require('../utility/utility.js'); // local time for event tr
                      break;
                    default:
 
-                     //assign data to variable
-                     deviceData = devicetHistoryDoc.data
-                     //slice/copy range into output variable
+                   //assign data to variable
+                   deviceData = devicetHistoryDoc.data
+                   //slice/copy range into output variable
 
                     // declare and copy requested # of records
                     var newData = deviceData.slice(1).slice(-recordCount)
@@ -146,13 +146,13 @@ const {localTime} = require('../utility/utility.js'); // local time for event tr
 
 
 
-                    newData.forEach((item, i) => {
+                  newData.forEach((item, i) => {
 
-                        // shape of data
-                       //{data: data, eventTriggerDate: eventTriggerDate, status: status, detail: detail}
-                      //  console.log(item);
+                     //  shape of data
+                     // {data: data, eventTriggerDate: eventTriggerDate, status: status, detail: detail}
+                     console.log(item);
 
-                    });
+                  });
 
 
 
@@ -178,15 +178,45 @@ const {localTime} = require('../utility/utility.js'); // local time for event tr
 
     }
 
-    //get all currentConnectedSensorList data for define time step count
-    getDeviceBankHistory = async (recordCount) => {
+    //get selected device histoyr
+    getTargetDeviceHistory = async (targetDeviceID) => {
 
-      var output = devicetHistoryDB.allDocs({include_docs:true, limit:recordCount}, (err,response) => {
+        var output = devicetHistoryDB.allDocs({include_docs:true}, (err,response) => {
+          // console.log();
+          //assign the rows arrays
+          // let rows = response.rows
+          // var preOutPut = []
+          //
+          // rows.forEach((item, i) => {
+          //     if (item === targetDeviceID) {
+          //       var targetID = item.id
+          //       var preDataBundle = item.doc.data
+          //       var dataBundle = []
+          //       preDataBundle.forEach((item, i) => {
+          //         dataBundle.push(item.data)
+          //       });
+          //       // console.log(dataBundle);
+          //       return preOutPut.push(dataBundle);
+          //     }
+          // });
+          console.log(response);
+
+          return preOutPut;
+        })
+        return output;
+
+    }
+
+
+
+    //get all currentConnectedSensorList data for define time step count
+    getDeviceBankHistory = async () => {
+
+      var output = devicetHistoryDB.allDocs({include_docs:true}, (err,response) => {
         // console.log();
         //assign the rows arrays
         let rows = response.rows
         var preOutPut = []
-
         rows.forEach((item, i) => {
             var targetID = item.id
             var preDataBundle = item.doc.data
@@ -201,6 +231,30 @@ const {localTime} = require('../utility/utility.js'); // local time for event tr
       })
       return output;
     }
+
+
+    getDeviceTargetHistory = async () => {
+
+      var output = devicetHistoryDB.allDocs({include_docs:true}, (err,response) => {
+        // console.log();
+        //assign the rows arrays
+        let rows = response.rows
+        var preOutPut = []
+        rows.forEach((item, i) => {
+            var targetID = item.id
+            var preDataBundle = item.doc.data
+            var dataBundle = []
+            preDataBundle.forEach((item, i) => {
+              dataBundle.push(item.data)
+            });
+            // console.log(dataBundle);
+            return preOutPut.push(dataBundle);
+        });
+        return preOutPut;
+      })
+      return output;
+    }
+
 
     // delete each data based
     destroyDeviceHistoryDB = () => {

@@ -1,0 +1,57 @@
+<lasso-page/>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>${input.targetInfo.deviceUID} analytics View</title>
+        <meta name="Description" content="hub for the cortex.iot system"/>
+
+        <!-- socket.io -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" charset="utf-8"/>
+
+        <!-- cortex math tooling -->
+        <script charset="utf-8" src="../../../lib/cortex/math.js"></script>
+
+        <!-- plotly -->
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"/>
+
+        <!-- secondary math tooling -->
+        <script src="https://unpkg.com/mathjs@7.0.2/dist/math.min.js"></script>
+        <!-- style sheets -->
+        <link rel="stylesheet" href="../../../../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css"/>
+        <link rel="stylesheet" href="../../../styles/master.css"/>
+        <link rel="stylesheet" href="../../../styles/topbar.css"/>
+
+        <!-- cortex math tooling -->
+        <!-- system permameters -->
+        <meta name="targetDevice" content=input.targetInfo.deviceUID/>
+        <!-- CODELAB: Add iOS meta tags and icons -->
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+        <meta name="apple-mobile-web-app-title" content="Cortex.iot"/>
+        <!-- <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png"> -->
+        <!-- CODELAB: Add meta theme-color -->
+        <meta name="theme-color" content="#5968e8"/>
+        <lasso-head/>
+    </head>
+    <body>
+        <lasso-body/>
+          <script>
+              window.socket = io();
+          </script>
+          <app-navbar-standard/>
+          <app-analytics-device-template/>
+  <style>
+    body {
+      overflow: hidden; /* Hide scrollbars */
+      }
+  </style>
+        <!--
+    Page will automatically refresh any time a template is modified
+    if launched using the browser-refresh Node.js process launcher:
+    https://github.com/patrick-steele-idem/browser-refresh
+    -->
+        <browser-refresh/>
+      </body>
+</html>

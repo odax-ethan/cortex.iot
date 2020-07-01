@@ -31,27 +31,36 @@ function socketListener(expressSocket, systemConfig) {
           // receive request for data for said device
           socket.on('device-history-request', (request)=> {
 
-            // request is object: { target:" " , recordCount: # }
+            // request is object: { targetUIDUID:" " }
             // console.log(request);
 
             //SWITCH FOR REQUETS
-            switch (request.target) {
-              case "CURRENT":
+            switch (request.targetUID) {
+              case "ALL":
 
-                  getDeviceBankHistory(request.recordCount).then( (data) => {
-                    // preshape data
-                    // connect data from database with details about it
+                getDeviceBankHistory().then( (data) => {
+                  // preshape data
+                  // connect data from database with details about it
 
-
-                     socket.emit('device-history-response',  data.rows)
-                  })
+                  console.log('getting entire database')
+                   socket.emit('device-history-response',  data.rows)
+                })
 
                 break;
               default:
-              //get device history data from target with # of record requested starting from last data entry.
+              //get device history data from targetUID with # of record requested starting from last data entry.
               //this an async function() and will act on when it gets the data.
-               getDeviceHistoryData(request.target, request.recordCount).then( (data) => {
-                 socket.emit('device-history-response', {deviceID: request.target, dataBundle: data})
+               getDeviceTargetHistory(request.targetUID).then( (data) => {
+                 console.log();
+                 rows = data.rows //get all rows of data in history data base
+                 rows.forEach((row, i) => {
+                    if (row.id === request.targetUID) {
+                       socket.emit('device-history-response', row)
+                    }
+                 });
+
+                 // socket.emit('device-history-response', {deviceID: request.targetUID, dataBundle: data})
+                 console.log('my way');
                })
             }
 
