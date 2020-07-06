@@ -4,19 +4,19 @@ const {systemEmitter} = require('./cortex.emitter'); // systemEmitter functional
 const {systemSettings, hardwareBank} = require('../../config/systemConfig.js'); // all systemSettings
 const path = require('path'); // node.js path modules
 const express = require('express') // http Module with some goodies
+var ip = require('ip'); // get the public ip address
+
 
 const markoPress = require('marko/express'); //enable res.marko
 const lassoWare = require('lasso/middleware'); // set express middleware lasso    app.disable('etag').disable('x-powered-by');
 const helmet = require('helmet'); // basic security
-// const session = require('express-session') // session tracker
-// const bodyParser = require('body-parser')
-
 
 // route templates
 const indexTemplate = require('../templates/dashboard/index.marko');
 const _404Template = require('../templates/404/index.marko');
 const settingsTemplate = require('../templates/settings/index.marko');
 const device_analytics = require('../templates/device_analytics/index.marko');
+const events_analytics = require('../templates/events_analytics/index.marko');
 
 
 // the entire cortex express app is bundle as a single function which is actived
@@ -79,6 +79,14 @@ startCortexApp = () =>  {
     });
   })
 
+  // define routes for express/http
+  app.get('/analytics/events', function(req, res, next) {
+    // send prerendered marko template
+    res.marko(events_analytics, {
+      targetInfo: req.params
+    });
+  })
+
 
   // 500 - Any server error
   app.use(function(err, req, res, next) {
@@ -98,7 +106,7 @@ startCortexApp = () =>  {
   // define cortex.iot app
   const cortexApp = app.listen(port, hostIP, () => {
     socketListener(cortexApp) //once you start listening to IP:host start socket.io server
-    console.log(`Cortex.iot Example app listening on port ${port}!`)
+    console.log('running at http://' + ip.address()  + ':' + port)
   })
 
 };

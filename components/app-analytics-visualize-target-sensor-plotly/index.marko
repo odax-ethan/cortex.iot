@@ -8,10 +8,19 @@
 <script>
 
   //get target
+
   var targetDevice = document.getElementsByName('targetDevice')[0].content;
   console.log(targetDevice)
-      //request target data
+
   socket.emit('device-history-request', {targetUID: targetDevice });
+  socket.emit('chart-completeHistory-request', 'hi');
+
+  socket.on('chart-completeHistory-response', (res) => {
+    console.log('hi');
+    console.log(res);
+  })
+
+
 
   //recieve data and parse
   // socket.on('device-history-response', (data)=>{
@@ -33,41 +42,60 @@
 
 
 
- // id="allDataChartJS"  hardwareBank = input.hardwareBank
-// var script_tag = document.getElementById('allDataChartJS')
-// var hardwareBank = script_tag.getAttribute("hardwareBank");
-// console.log(hardwareBank)
-
- // socket.emit('device-history-request', {target: 'Light', recordCount: 10});
- //
- // socket.on('device-history-response', (data)=>{
- //   console.log(data);
- //    var dataArray = data.dataBundle
- //    dataArray.forEach((data) => {
- //      console.log(data)
- //      sensor1.y.push(data.data)
- //      sensor1.x.push(data.eventTriggerDate)
- //    });
- //
- //    console.log(sensor1);
- //   //0: {data: "ON", eventTriggerDate: "3/13/2020, 12:33:32 AM", status: "normal", detail: "event trigger by cron morning_fans"}
- //
- //  })
-
-
- //socket.emit('device-history-request', {targetUID: 'ALL'});
 
  // when you get response
  socket.on('device-history-response', (data)=>{
-    // console.log(data);
+    // // console.log(data);
+    // socket.emit('eventHistory', 'ALL');
+
 
     dataArray = [data] // create array for resuability
 
     //create global variable of dataset so other systems can run math
     window.targetUIDDBDoc = data;
 
-
-    chartData = []
+    chartData = [] // hold all data for chart
+     // //put event bundle in global
+     // socket.on('eventHistory-response', (data) => {
+     //     // number of history values to display
+     //     var lengthValue = 1000;
+     //
+     //     // simple place
+     //     // let pre = document.getElementById('output');
+     //     // let jstring = JSON.stringify(data, null, 4);
+     //     // pre.textContent = jstring;
+     //
+     //
+     //     // get data from dataBundle
+     //     let dataBundle = data.doc.data;
+     //     let preBundle = dataBundle.slice(1).slice(-lengthValue)
+     //     let postBundle = []
+     //
+     //     charSet =  {
+     //        x: [], //event date
+     //        y: [],  // event placer
+     //        text: [], // the event info
+     //        name: 'Event History',
+     //        type: 'scatter',
+     //        mode: 'markers',
+     //        hoverinfo: 'text',
+     //        yaxis: 'y2',
+     //     }
+     //
+     //     x = charSet.x
+     //     y = charSet.y
+     //     text = charSet.text
+     //
+     //     for (var i = lengthValue - 1; i >= 0; i--) {
+     //       // postBundle.push(preBundle[i])
+     //       x.push( preBundle[i].eventTriggerDate)
+     //       y.push(50)
+     //       text.push(preBundle[i].detail)
+     //     }
+     //
+     //     console.log(chartSet)
+     //     return chartData.push(chartSet);
+     // })
 
     //for each item in the data array response
     dataArray.forEach((device, i) => {
@@ -103,8 +131,6 @@
       //console.log(chartSet)
       return chartData.push(chartSet);
     });
-
-
 
     //function get length of the dataset
     testDataSetLength = () => {
@@ -172,7 +198,7 @@
           ]},
         rangeslider: {range: [getDateLowerRange(), getDateUpperRange(testDataSetLength())]},
      },
-     yaxis: {
+      yaxis: {
       tickangle: 90,
      },
       legend: {

@@ -16,7 +16,6 @@ function socketListener(expressSocket, systemConfig) {
        // io.sockets.emit("**", *)
 
 
-
      //STREAM EVENT DATA TO THE UI
      systemEmitter.on('eventStream-newEvent', (newEventOBJ)=>{
           console.log('eventStream');
@@ -27,6 +26,8 @@ function socketListener(expressSocket, systemConfig) {
       // then add it bellow
      io.on('connection', function(socket){
           console.log('a user connected');
+
+//////// device History  ////////////////////////////////////////////////////
 
           // receive request for data for said device
           socket.on('device-history-request', (request)=> {
@@ -50,28 +51,90 @@ function socketListener(expressSocket, systemConfig) {
               default:
               //get device history data from targetUID with # of record requested starting from last data entry.
               //this an async function() and will act on when it gets the data.
+               // getDeviceTargetHistory(request.targetUID).then( (data) => {
+               //   console.log();
+               //   rows = data.rows //get all rows of data in history data base
+               //   rows.forEach((row, i) => {
+               //      if (row.id === request.targetUID) {
+               //         socket.emit('device-history-response', row)
+               //      }
+               //   });
+               //
+               //   // socket.emit('device-history-response', {deviceID: request.targetUID, dataBundle: data})
+               //   console.log('my way');
+               // })
                getDeviceTargetHistory(request.targetUID).then( (data) => {
-                 console.log();
-                 rows = data.rows //get all rows of data in history data base
-                 rows.forEach((row, i) => {
-                    if (row.id === request.targetUID) {
-                       socket.emit('device-history-response', row)
-                    }
-                 });
+                   console.log();
+                   rows = data.rows //get all rows of data in history data base
+                   rows.forEach((row, i) => {
+                      if (row.id === request.targetUID) {
+                         socket.emit('device-history-response', row)
+                      }
+                   });
 
-                 // socket.emit('device-history-response', {deviceID: request.targetUID, dataBundle: data})
-                 console.log('my way');
-               })
-            }
+                   // socket.emit('device-history-response', {deviceID: request.targetUID, dataBundle: data})
+                   console.log('my way');
+            })
+          }
 
           })
+
+// plotly.js dashboard request ///////////////////////////////////////////////////////////////////
+
+        //promise base request for data sets
+        socket.on('chart-completeHistory-request', (data) => {
+
+              //create a promise to get data async from device data base
+              const devicePromise = new Promise((resolve, reject) => {
+                  resolve(getDeviceBankHistory().then((data) => {
+                       // socket.emit('device-history-response',  data.rows)
+                       return data.rows; // push all rows to variable
+                    })
+                  );
+              });
+
+              //create a promise to get data async from event database
+              const eventPromise = new Promise((resolve, reject) => {
+                resolve(getEventsHistoryDB().then((data) => {
+                     return data.rows[0].doc.data; // push all rows to variable
+                  })
+                );
+              });
+
+
+              //check if promises have completed and send an array of results
+              Promise.all([devicePromise, eventPromise]).then((values) => {
+                socket.emit('chart-completeHistory-response', values)
+              });
+
+        });
+
+/////// Event History /////////////////////////////////////////////////////////
+
+        socket.on('eventHistory', (request) => {
+
+          switch (request) {
+            case 'ALL':
+                    //get complete doc no filter of events
+                  getEventsHistoryDB().then((data) => {
+                      socket.emit('eventHistory-response', data.rows[0] )
+                  });
+
+                    return
+              break;
+            default:
+              console.log('request is not valid');
+          }
+
+        });
+
+///////////////// system settings /////////////////////////////////////////////
 
           // add new device
           socket.on('add-new-device', (newDeviceBundle)=> {
             console.log('new device added');
             console.log(newDeviceBundle);
           })
-
           // add new board
           socket.on('add-new-board', (newBoardBundle) => {
             console.log('new board added');
@@ -91,6 +154,8 @@ function socketListener(expressSocket, systemConfig) {
           })
 
 
+/////////////// managed Databases //////////////////////////////////////////////
+
           //destroy device history db
           // can not be undone
           socket.on('destroy-DeviceHistoryDB', () => {
@@ -104,6 +169,8 @@ function socketListener(expressSocket, systemConfig) {
           })
 
 
+
+///////////// disconnect from socket //////////////////////////////////////////
           // on socket disconnect
           socket.on('disconnect', function(){
             console.log('user disconnected');

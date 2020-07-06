@@ -18,7 +18,7 @@
 
 .navBarWrapper > .front {
   margin-top :var(--nav-top-padding);
-  margin-left: 1rem;
+  /* margin-left: var(--frame-margin); */
   grid-area: f;
 }
 
@@ -35,10 +35,15 @@
 
 .navBarWrapper a {
   color: var(--white-4);
-  padding-right: .7rem;
+  padding-left: var(--frame-margin);
 }
 
 
 .navBarWrapper img {
   height:  35px;
+}
+
+.navBarLinksContainer {
+  text-align: right;
+  margin-right: var(--frame-margin);
 }

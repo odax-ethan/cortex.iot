@@ -31,6 +31,7 @@
     "express-session": "^1.17.0",
     "fast-json-stringify": "^1.15.7",
     "helmet": "^3.21.3",
+    "ip": "^1.1.5",
     "johnny-five": "^1.4.0",
     "lasso": "^3.3.1",
     "lasso-marko": "^2.4.8",

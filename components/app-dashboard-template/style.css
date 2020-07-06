@@ -1,13 +1,13 @@
 .cortexWrapper {
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: var(--frame-margin);
   grid-template-columns: repeat(7, minmax(2fr, auto-fit));
-  grid-template-rows: 60vh 28vh;
+  grid-template-rows: 60vh 32.2vh;
   grid-template-areas:
     "v v v v v b b"
     "e e e w w w p";
 
-  margin: 1rem;
+  margin: var(--frame-margin);
 }
 
 .cortexWrapper>div {

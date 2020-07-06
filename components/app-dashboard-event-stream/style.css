@@ -51,3 +51,8 @@
 }
 
 #inputREPL:focus { outline: none; }
+
+
+#eventStreamList{
+  height: 81%;
+}

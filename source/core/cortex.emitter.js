@@ -1,6 +1,6 @@
 const EventEmitter = require('events');
 const {io} = require('./cortex.sockets');
-const {addToEventStreamDB, addToDeviceHistoryDB} = require('./cortex.pouchdb');
+const {addToEventHisoryDB, addToDeviceHistoryDB} = require('./cortex.pouchdb');
 
 
 const systemEmitter = new EventEmitter(); //create event for status
@@ -20,11 +20,15 @@ systemEmitter.on('newEvent', (type, deviceID, data, eventTriggerDate, status, de
     systemEmitter.emit('eventStream-newEvent', {deviceID: newEventOBJ.deviceID, data: newEventOBJ})
 
 
+    // dump event into device db doc
+    addToDeviceHistoryDB(newEventOBJ.deviceID, newEventOBJ)
+    // post data to event history db
+    addToEventHisoryDB(newEventOBJ);
+
+
     //set switch to test type options
     //  reading
     //  trigger
-    //
-
 
     // switch (newEventOrigin.deviceID) {
     //   case 'io':
@@ -42,8 +46,6 @@ systemEmitter.on('newEvent', (type, deviceID, data, eventTriggerDate, status, de
     //       addToDeviceHistoryDB(newEventOrigin.deviceID, newEventOBJ)
     // }
 
-    // dump event into device db doc
-    addToDeviceHistoryDB(newEventOBJ.deviceID, newEventOBJ)
 
 
 })

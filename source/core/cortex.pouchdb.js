@@ -3,16 +3,20 @@ const {systemEmitter} = require('./cortex.emitter'); // systemEmitter functional
 const {systemSettings, hardwareBank, currentConnectedSensorList} = require('../../config/systemConfig.js'); // systemConfigs
 const {localTime} = require('../utility/utility.js'); // local time for event triggers
 
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
   // create database for eventstream
   var eventHistoryDB = new PouchDB('eventHistory',{auto_compaction: true});
   // last time frame requested
-  addToEventStreamDB = (data) => {
+  addToEventHisoryDB = (data) => {
 
     eventHistoryDB.get('eventHistory').catch(function (err) {
       if (err.name === 'not_found') {
         return eventHistoryDB.put({
           _id: 'eventHistory',
-          data: ['data']
+          data: []
         });
       } else { // hm, some other error
         throw systemEmitter.emit('newEvent', 'io' , 'ERROR', localTime(systemSettings.utcOffSet), 'ERROR', `${err}`);
@@ -30,15 +34,40 @@ const {localTime} = require('../utility/utility.js'); // local time for event tr
       //database put doc back
       eventHistoryDB.put(eventHistoryDoc);
       // finish
-      return console.log('worked');
+      return console.log('added to event db');
     }).catch(function (err) {
       // handle any errors
-      throw systemEmitter.emit('newEvent', 'io' , 'ERROR', localTime(systemSettings.utcOffSet), 'ERROR', `${err}`);
+      // throw systemEmitter.emit('newEvent', 'io' , 'ERROR', localTime(systemSettings.utcOffSet), 'ERROR', `${err}`);
+      console.log(err);
     });
       // finish
-    return console.log('done');
 
+    return console.log('done saving to event db');;
   }
+
+  //get all currentConnectedSensorList data for define time step count
+  getEventsHistoryDB = async () => {
+      // asycronoslosy get all docks from events db
+      var output = eventHistoryDB.allDocs({include_docs:true}, (err,response) => {
+        // console.log();
+        //assign the rows arrays
+        let rows = response.rows
+        var preOutPut = []
+        rows.forEach((item, i) => {
+            var targetID = item.id
+            var preDataBundle = item.doc.data
+            var dataBundle = []
+            preDataBundle.forEach((item, i) => {
+              dataBundle.push(item.data)
+            });
+            // console.log(dataBundle);
+            return preOutPut.push(dataBundle);
+        });
+        return preOutPut;
+      })
+      return output;
+    }
+
 
   // delete each data based
   destroyeventHistoryDB = () => {
@@ -53,6 +82,16 @@ const {localTime} = require('../utility/utility.js'); // local time for event tr
 
   // TODO: GET addToEventStreamDB data
   // todo: download dump event history
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
 
     // create database for eventstream
     var devicetHistoryDB = new PouchDB('deviceHistory', {auto_compaction: true});
@@ -97,11 +136,11 @@ const {localTime} = require('../utility/utility.js'); // local time for event tr
         // sweet, here is our eventHistoryDoc
           // console.log(devicetHistoryDoc.data)
         //define eventHistory.data
-        dataTarget = devicetHistoryDoc.data;
-        //push data to target
-        dataTarget.push(dataBundle);
 
-        // console.log(dataTarget);
+        // get data bundle.data
+        dataTarget = devicetHistoryDoc.data;
+        //push data to target.data array
+        dataTarget.push(dataBundle);
 
         //database put doc back
         devicetHistoryDB.put(devicetHistoryDoc);
@@ -117,97 +156,95 @@ const {localTime} = require('../utility/utility.js'); // local time for event tr
 
     }
 
-    getDeviceHistoryData = async (target, recordCount) => {
-
-        var output = devicetHistoryDB.get(target).catch(function (err) {
-            if (err.name === 'not_found') {
-              return systemEmitter.emit('newEvent', 'io' , 'MINOR ERROR', localTime(systemSettings.utcOffSet), 'ERROR', `System tried to save data to a device which has not be configured`)
-            } else { // hm, some other error
-              throw systemEmitter.emit('newEvent', 'io' , 'ERROR', localTime(systemSettings.utcOffSet), 'ERROR', `${err}`);
-            }
-        }).then(function (devicetHistoryDoc) {
-
-              console.log(devicetHistoryDoc)
-              // get the last X number of records requested
-              function optionTest(recordCount){
-                switch (recordCount) {
-                   case 'all':
-                         //get complete history for target device
-                     break;
-                   default:
-
-                   //assign data to variable
-                   deviceData = devicetHistoryDoc.data
-                   //slice/copy range into output variable
-
-                    // declare and copy requested # of records
-                    var newData = deviceData.slice(1).slice(-recordCount)
-                    var outPutData = []
-
-
-
-                  newData.forEach((item, i) => {
-
-                     //  shape of data
-                     // {data: data, eventTriggerDate: eventTriggerDate, status: status, detail: detail}
-                     console.log(item);
-
-                  });
-
-
-
-                    // console.log(newData);
-                     return newData
-
-
-                 }
-              }
-              var preOutPut = optionTest(recordCount);
-              // console.log(preOutPut);
-
-              return preOutPut ;
-        }).catch(function (err) {
-            // handle any errors
-            console.log(err);
-          });
-
-        // console.log(output);
-
-        // ouput the select data range
-        return output
-
-    }
-
-    //get selected device histoyr
-    getTargetDeviceHistory = async (targetDeviceID) => {
-
-        var output = devicetHistoryDB.allDocs({include_docs:true}, (err,response) => {
-          // console.log();
-          //assign the rows arrays
-          // let rows = response.rows
-          // var preOutPut = []
-          //
-          // rows.forEach((item, i) => {
-          //     if (item === targetDeviceID) {
-          //       var targetID = item.id
-          //       var preDataBundle = item.doc.data
-          //       var dataBundle = []
-          //       preDataBundle.forEach((item, i) => {
-          //         dataBundle.push(item.data)
-          //       });
-          //       // console.log(dataBundle);
-          //       return preOutPut.push(dataBundle);
-          //     }
-          // });
-          console.log(response);
-
-          return preOutPut;
-        })
-        return output;
-
-    }
-
-
+    // getDeviceHistoryData = async (target, recordCount) => {
+    //
+    //     var output = devicetHistoryDB.get(target).catch(function (err) {
+    //         if (err.name === 'not_found') {
+    //           return systemEmitter.emit('newEvent', 'io' , 'MINOR ERROR', localTime(systemSettings.utcOffSet), 'ERROR', `System tried to save data to a device which has not be configured`)
+    //         } else { // hm, some other error
+    //           throw systemEmitter.emit('newEvent', 'io' , 'ERROR', localTime(systemSettings.utcOffSet), 'ERROR', `${err}`);
+    //         }
+    //     }).then(function (devicetHistoryDoc) {
+    //
+    //           console.log(devicetHistoryDoc)
+    //           // get the last X number of records requested
+    //           function optionTest(recordCount){
+    //             switch (recordCount) {
+    //                case 'all':
+    //                      //get complete history for target device
+    //                  break;
+    //                default:
+    //
+    //                //assign data to variable
+    //                deviceData = devicetHistoryDoc.data
+    //                //slice/copy range into output variable
+    //
+    //                 // declare and copy requested # of records
+    //                 var newData = deviceData.slice(1).slice(-recordCount)
+    //                 var outPutData = []
+    //
+    //
+    //
+    //               newData.forEach((item, i) => {
+    //
+    //                  //  shape of data
+    //                  // {data: data, eventTriggerDate: eventTriggerDate, status: status, detail: detail}
+    //                  console.log(item);
+    //
+    //               });
+    //
+    //
+    //
+    //                 // console.log(newData);
+    //                  return newData
+    //
+    //
+    //              }
+    //           }
+    //           var preOutPut = optionTest(recordCount);
+    //           // console.log(preOutPut);
+    //
+    //           return preOutPut ;
+    //     }).catch(function (err) {
+    //         // handle any errors
+    //         console.log(err);
+    //       });
+    //
+    //     // console.log(output);
+    //
+    //     // ouput the select data range
+    //     return output
+    //
+    // }
+    //
+    // //get selected device histoyr
+    // getTargetDeviceHistory = async (targetDeviceID) => {
+    //
+    //     var output = devicetHistoryDB.allDocs({include_docs:true}, (err,response) => {
+    //       // console.log();
+    //       //assign the rows arrays
+    //       // let rows = response.rows
+    //       // var preOutPut = []
+    //       //
+    //       // rows.forEach((item, i) => {
+    //       //     if (item === targetDeviceID) {
+    //       //       var targetID = item.id
+    //       //       var preDataBundle = item.doc.data
+    //       //       var dataBundle = []
+    //       //       preDataBundle.forEach((item, i) => {
+    //       //         dataBundle.push(item.data)
+    //       //       });
+    //       //       // console.log(dataBundle);
+    //       //       return preOutPut.push(dataBundle);
+    //       //     }
+    //       // });
+    //       console.log(response);
+    //
+    //       return preOutPut;
+    //     })
+    //     return output;
+    //
+    // }
 
     //get all currentConnectedSensorList data for define time step count
     getDeviceBankHistory = async () => {
@@ -232,7 +269,7 @@ const {localTime} = require('../utility/utility.js'); // local time for event tr
       return output;
     }
 
-
+    //
     getDeviceTargetHistory = async () => {
 
       var output = devicetHistoryDB.allDocs({include_docs:true}, (err,response) => {
@@ -267,6 +304,13 @@ const {localTime} = require('../utility/utility.js'); // local time for event tr
         })
     }
 
+/////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
 // create database for eventstream
 var systemSettingsDB = new PouchDB('systemSettings', {auto_compaction: true});
 
@@ -370,7 +414,7 @@ var systemSettingsDB = new PouchDB('systemSettings', {auto_compaction: true});
 
 
     }
-
+/////////////////////////////////////////////////////////////////////////////////
 
 // addToEventStreamDB('data')
-module.exports = {addToEventStreamDB, addToDeviceHistoryDB, getDeviceHistoryData, getDeviceBankHistory};
+module.exports = {addToEventHisoryDB, addToEventHisoryDB,addToDeviceHistoryDB, getDeviceBankHistory};
