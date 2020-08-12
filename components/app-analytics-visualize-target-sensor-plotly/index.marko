@@ -13,12 +13,12 @@
   console.log(targetDevice)
 
   socket.emit('device-history-request', {targetUID: targetDevice });
-  socket.emit('chart-completeHistory-request', 'hi');
 
-  socket.on('chart-completeHistory-response', (res) => {
-    console.log('hi');
-    console.log(res);
-  })
+  // socket.emit('chart-completeHistory-request', 'hi');
+  // socket.on('chart-completeHistory-response', (res) => {
+  //   console.log('hi');
+  //   console.log(res);
+  // })
 
 
 
@@ -161,8 +161,7 @@
     var layout = {
       margin: {t:5,r:5,b:10,l:33},
       xaxis: {
-       tickangle: 90,
-
+        tickangle: 90,
         rangeselector: {buttons: [
           {
             count: 12,
@@ -201,6 +200,13 @@
       yaxis: {
       tickangle: 90,
      },
+     yaxis2: {
+        title: 'yaxis2 title',
+        titlefont: {color: 'rgb(148, 103, 189)'},
+        tickfont: {color: 'rgb(148, 103, 189)'},
+        overlaying: 'y',
+        side: 'right'
+      },
       legend: {
         x: 1,
         y: 0.5
