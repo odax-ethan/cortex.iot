@@ -12,7 +12,7 @@ const system_nick_name = 'HIGH338CityCaps';
 // host port - any open port on your device
 
 const system_network = '0.0.0.0';
-const system_port = 9090;
+const system_port = 9090; //http services
 
 // connect you to your goverments local weather services 
 // check weather service for applicable api
@@ -38,3 +38,16 @@ const system_location = {
 const system_db = 'POUCHDB' 
 const system_db_URL = 'localhost'
 
+
+
+// bundle config into object
+const config = {
+    system_nick_name, 
+    system_port, 
+    system_network, 
+    system_location, 
+    system_db, 
+    system_db_URL
+}
+
+module.exports = { config };
