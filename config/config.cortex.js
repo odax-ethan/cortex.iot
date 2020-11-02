@@ -1,0 +1,40 @@
+
+
+// location nick name for data management 
+// not required
+
+const system_nick_name = 'HIGH338CityCaps';
+
+
+// network options
+// for local network access able set as -> '0.0.0.0'
+// for only localhost access set as - 'localhost'
+// host port - any open port on your device
+
+const system_network = '0.0.0.0';
+const system_port = 9090;
+
+// connect you to your goverments local weather services 
+// check weather service for applicable api
+// based on ISO ALPHA-3 Code 
+// contries that are supported can be found here: 
+// please help use expand our auto country weather services 
+
+const system_location = {
+    'alpha-3': 'USA',
+    'options': {
+        'long': 42.3601,
+        'lat': 71.0589, 
+    }
+};
+
+
+
+// database option
+// system is primarily for pounchdb/couchdb
+// set your db network location
+// if local set as -> localhost
+
+const system_db = 'POUCHDB' 
+const system_db_URL = 'localhost'
+

@@ -1,8 +1,8 @@
 {
   "name": "cortex.iot",
-  "version": "0.0.40",
-  "description": "node.js based hardware infustructure",
-  "main": "cortex.js",
+  "version": "0.0.6",
+  "description": "refactory of the cortex.iot systems. moving to a client oriented system",
+  "main": "core.cortex.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,36 +10,17 @@
     "type": "git",
     "url": "git+https://github.com/odax-ethan/cortex.iot.git"
   },
-  "keywords": [
-    "node.js",
-    "iot"
-  ],
-  "author": "Ethan Drory @ Odax Systems",
+  "author": "ethan drory @ odax systems, LLC",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/odax-ethan/cortex.iot/issues"
   },
   "homepage": "https://github.com/odax-ethan/cortex.iot#readme",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.12.1",
-    "@lasso/marko-taglib": "^1.0.15",
-    "browser-refresh": "^1.7.3",
-    "browser-refresh-taglib": "^1.1.0",
-    "cron": "^1.8.2",
-    "dateformat": "^3.0.3",
     "express": "^4.17.1",
-    "express-session": "^1.17.0",
-    "fast-json-stringify": "^1.15.7",
-    "helmet": "^3.21.3",
-    "ip": "^1.1.5",
-    "johnny-five": "^1.4.0",
-    "lasso": "^3.3.1",
-    "lasso-marko": "^2.4.8",
-    "marko": "^4.18.24",
-    "memory-usage": "^1.2.1",
-    "papaparse": "^5.1.1",
-    "pouchdb": "^7.2.1",
-    "serialport": "^8.0.7",
-    "serve-favicon": "^2.5.0"
+    "figlet": "^1.5.0",
+    "johnny-five": "^2.0.0",
+    "pouchdb": "^7.2.2",
+    "socket.io": "^2.3.0"
   }
 }
