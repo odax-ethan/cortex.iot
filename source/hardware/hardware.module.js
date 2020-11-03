@@ -39,3 +39,10 @@ const { Switch } = require('./hardware.switch.js'); //untested
 //   });
 
 // });
+
+setupHardware = () => {
+    console.log('create device connections');    
+}
+
+
+module.exports = { setupHardware };
