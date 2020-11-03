@@ -18,7 +18,7 @@ setupServer = () => {
 
     //mains route
     app.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, '../view/test.html'))
+        res.sendFile(path.join(__dirname, '../view/landing.html'))
     });
 
     app.use('/graphql', graphqlHTTP({
