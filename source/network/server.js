@@ -1,14 +1,14 @@
 const path = require('path'); // node.js path modules
 const express = require('express') // http Module with some goodies
 var ip = require('ip'); // get the public ip address
-const helmet = require('helmet'); // basic security
+// const helmet = require('helmet'); // basic security
 
 
 setupServer = () => {
 
     const app = express() // define express app
     const port = 8089 // define system port
-    const hostIP = '0.0.0.0'; // express needs a blank ip to dynamically define itself
+    const hostIP = null; // express needs a blank ip to dynamically define itself
     app.disable('etag').disable('x-powered-by'); // minor security patch
     // app.use(helmet());  // basic security systems
 

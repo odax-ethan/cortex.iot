@@ -7,7 +7,7 @@ const { introSplash } = require('./source/util/boot/boot.js');
 const { systemEmitter } = require('./source/network/event.emitter.js');
 
 // get configurations + get quick deploy if fresh install
-const { System_config, Hardware_config } = require('./source/util/boot/settings.pouchdb.js');
+const { System_config, Hardware_config } = require('./source/database/settings.pouchdb.js');
 
  
 // create master thread

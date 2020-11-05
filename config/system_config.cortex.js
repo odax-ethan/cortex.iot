@@ -41,7 +41,7 @@ const system_db_URL = 'localhost'
 
 
 // bundle config into object
-const config = {
+const system_config = {
     system_nick_name, 
     system_port, 
     system_network, 
@@ -50,4 +50,4 @@ const config = {
     system_db_URL
 }
 
-module.exports = { config };
+module.exports = { system_config };

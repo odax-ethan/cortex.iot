@@ -21,9 +21,11 @@
     "express-graphql": "^0.11.0",
     "figlet": "^1.5.0",
     "graphql": "^15.4.0",
+    "graphql-type-json": "^0.3.2",
     "helmet": "^4.2.0",
     "ip": "^1.1.5",
     "johnny-five": "^2.0.0",
+    "node-fetch": "^2.6.1",
     "pouchdb": "^7.2.2",
     "socket.io": "^2.3.0"
   }

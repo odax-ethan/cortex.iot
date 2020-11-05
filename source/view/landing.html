@@ -5,21 +5,44 @@
     <title></title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/socket.io-redis@5.4.0/index.js"></script>
 
   </head>
   <body>
     
 
-      fish
+      Cortex.io Basic Home
 
 
 
     <script>
 
-        var io = require('socket.io')(3000);
-        var redis = require('socket.io-redis');
-        io.adapter(redis({ host: 'localhost', port: 6379 }));
+         
+        var complete_hardware_history, System_config, Hardware_config;
+        var query = `query {complete_hardware_history, System_config, Hardware_config}`;
+        
+        fetch('/graphql', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            query
+          })
+        })
+        .then(r => r.json())
+        .then(data => {
+        
+          // data.Hardware_config
+          Hardware_config = JSON.parse(data.data.Hardware_config)
+          System_config = JSON.parse(data.data.System_config)
+          // complete_hardware_history = JSON.parse(data.complete_hardware_history)
+          console.log(Hardware_config);
+          console.log(System_config);
+          // data.complete_hardware_history
+          // console.log('data returned:', data)
+        });
+
 
     </script>
 
