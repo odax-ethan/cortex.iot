@@ -3,8 +3,6 @@ var five = require("johnny-five"); // Generic J5
 //Board refactored
 const { Board } = require('./hardware.board.js'); // untested
 
-
-
 //Board Sensor refactored
 const { Sensor } = require('./hardware.sensor.js'); // untested
 
@@ -24,7 +22,7 @@ const { Button } = require('./hardware.button.js'); //untested
 const { Switch } = require('./hardware.switch.js'); //untested
 
 
-const {Hardware_config} = require('../database/settings.pouchdb');
+const {Hardware_config, System_config} = require('../database/settings.pouchdb');
 
 
 //build ports obj for boards.j5
@@ -45,10 +43,13 @@ board_port_builder = (board_map) => {
 }
 
 //assemble ports + board.j5
-board_assembler = (port_obj, board_map) => {
+board_assembler = (port_obj, board_map, hardware_settings) => {
 
-
-
+    let hardware_standards = {
+        freq : hardware_settings.system_master_freq,  //grab hardware master freq
+        standard_temp : hardware_settings.system_reading_temp_standard  //standardized temp to one reading C,F, or K
+    }
+  
     new five.Boards(port_obj).on("ready", function() {
 
         // Both "A" and "B" are initialized
@@ -60,14 +61,8 @@ board_assembler = (port_obj, board_map) => {
       
         //get devices from board_map
         boards_devices = board_map.get(board.id).devices
-        device_switch(boards_devices , board) // run boards devices through switch
+        device_switch(boards_devices, board, hardware_standards) // run boards devices through switch
        
-
-        // Initialize an Led instance on pin 13 of
-        // each initialized board and strobe it.
-        //   new five.Led({ pin: 13, board: board }).strobe();
-
-
 
          });//end of boards.each
     }); //end of boards
@@ -77,7 +72,7 @@ board_assembler = (port_obj, board_map) => {
 };
 
 //switch and run correct p5 class based on device array
-device_switch = (devices, target_board) => {
+device_switch = (devices, target_board, hardware_standards) => {
 
     devices.forEach(device => {
 
@@ -87,7 +82,8 @@ device_switch = (devices, target_board) => {
                 console.log(device.id);
                 break;
             case "thermometer":
-                console.log(device.id);
+                // run standard Thermometer Function
+                Thermometer(device, target_board, hardware_standards)
                 break;
             case "hygrometer":
                 console.log(device.id);
@@ -99,9 +95,17 @@ device_switch = (devices, target_board) => {
                 console.log(device.id);
                 break;
             case "relay":
-                varname = 'test'
-                this[varname] = new five.Led({ id: 'west', pin: 13, board: target_board })
-                this[varname].strobe();        
+                // run standard Relay Function
+                Relay(device, target_board)
+ 
+                Relay
+                break;
+            case "led":
+                varname = device.id
+                this[varname] = new five.Led({ id: device.id, pin: device.pin, board: target_board })
+                // this[varname].open()
+                // this[varname].close()
+                // this[varname].toggle()
                 break;
             default:
                 console.log('no functionality is present to handle this device');
@@ -115,6 +119,7 @@ device_switch = (devices, target_board) => {
 //get hardware_config and start process of staring/running johnny-five
 setupHardware = () => {
     
+
     Hardware_config().then((data)=>{
         // console.log(data);
         return [data, board_port_builder(data)]
@@ -123,37 +128,21 @@ setupHardware = () => {
     }).then((data)=>{
         // console.log(data[0]);
         // console.log(data[1]);
-        board_assembler(data[1], data[0]); // send prebuilt board_ports + full hardware_map
+
+        //get system_settings
+        System_config().then((data_bundle)=>{
+            // console.log(data);
+            return board_assembler(data[1], data[0], data_bundle ); // send prebuilt board_ports + full hardware_map
+        }).catch(err =>{
+            console.log(err);
+        })
+    
+        
     })
 
 }
 
-setupHardware()
 
-// var ports = [
-//     { id: "A", port: "COM3" },
-//   ];
-  
-//   new five.Boards(ports).on("ready", function() {
-  
-//     // Both "A" and "B" are initialized
-//     // (connected and available for communication)
-  
-//     // |this| is an array-like object containing references
-//     // to each initialized board.
-//     this.each(function(board) {
-  
-//         // Initialize an Led instance on pin 13 of
-//         // each initialized board and strobe it.
-//         varname = 'test'
-        
-//         this[varname] = new five.Led({ id: 'west', pin: 13, board: board })
-//         this[varname].strobe();
-
-//     });
-//   });
-
-
-
+// setupHardware()
 
 module.exports = { setupHardware };

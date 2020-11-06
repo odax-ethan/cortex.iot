@@ -45,6 +45,6 @@ setupServer = () => {
         })
 };
 
-setupServer()
+// setupServer()
 
 module.exports = {setupServer} ;

@@ -2,31 +2,15 @@ var five = require("johnny-five");
 
 
 // Creating a new class from the parent
-class Relay {
-    constructor(data) {
-        // Chain constructor with super
-
-        this.relay = new five.Relay({
-            id : data.id, // nick(name) ID
-            type : data.type, // device system display color
-            pin : data.pin,
-        });
-
-        // Add a new property
-        this.nid = data.nid; // nick(name) ID
-        this.color = data.color; // device system display color
-
-    }
-
-    action() {
-        this.relay.on()
-        console.log(this.relay);
-    }
-
-
-
+Relay = (device, target_board) => {               
+                if (target_board === device.board) { //check that device.board matches the current target board
+                    varname = device.id
+                    this[varname] = new five.Relay({ id: device.id, type: device.type, pin: device.pin, board: target_board })
+                    // this[varname].open()
+                    // this[varname].close()
+                    this[varname].toggle()
+                }    
 }
-
 
 
 

@@ -39,9 +39,15 @@ const system_db = 'POUCHDB'
 const system_db_URL = 'localhost'
 
 
-
 // embeded hardware master frequency
-const system_master_freq = 90000
+const system_master_freq = 9000
+
+// sensor reading temp standard 
+// 'C' : celsius 
+// 'F' : fahrenheit
+// 'K' : kelvin
+const system_reading_temp_standard = 'C'
+
 
 
 // bundle config into object
@@ -52,7 +58,8 @@ const system_config = {
     system_location, 
     system_db, 
     system_db_URL,
-    system_master_freq
+    system_master_freq,
+    system_reading_temp_standard
 }
 
 module.exports = { system_config };

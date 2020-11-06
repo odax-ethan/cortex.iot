@@ -21,7 +21,9 @@ const { System_config, Hardware_config } = require('./source/database/settings.p
 // spawn new j5 instance with hardware config
 // be able to reset or restore on failures
 const { setupHardware } = require('./source/hardware/hardware.module.js');
+setupHardware()
 
 
 // create http connections
 const { setupServer } = require('./source/network/server.js');
+setupServer()
