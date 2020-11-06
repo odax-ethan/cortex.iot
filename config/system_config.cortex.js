@@ -40,6 +40,10 @@ const system_db_URL = 'localhost'
 
 
 
+// embeded hardware master frequency
+const system_master_freq = 90000
+
+
 // bundle config into object
 const system_config = {
     system_nick_name, 
@@ -47,7 +51,8 @@ const system_config = {
     system_network, 
     system_location, 
     system_db, 
-    system_db_URL
+    system_db_URL,
+    system_master_freq
 }
 
 module.exports = { system_config };

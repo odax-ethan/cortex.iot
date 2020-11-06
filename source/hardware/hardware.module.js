@@ -19,6 +19,7 @@ const { Button } = require('./hardware.button.js'); //untested
 const { Switch } = require('./hardware.switch.js'); //untested
 
 
+const {Hardware_config} = require('../database/settings.pouchdb')
 
 
 // test systems
