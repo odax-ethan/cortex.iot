@@ -15,7 +15,7 @@ var schema = buildSchema(`
 var root = {
   System_config: () => {      
     return System_config().then((data)=>{
-      // console.log(data);
+      console.log(data);
       return JSON.stringify(data)
     }).catch(err =>{
       console.log(err);
@@ -23,8 +23,12 @@ var root = {
   },
   Hardware_config: () => {
     return Hardware_config().then((data)=>{
-      // console.log(data);
-      return JSON.stringify(data)
+      let new_bundle = []
+      data.forEach(element => {
+        new_bundle.push(element)
+      });
+      console.log(new_bundle);
+      return JSON.stringify(new_bundle)
     }).catch(err =>{
       console.log(err);
     });   

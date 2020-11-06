@@ -1,7 +1,7 @@
 var PouchDB = require('pouchdb');
 var db = new PouchDB('settings');
 const { system_config } = require('../../config/system_config.cortex.js');
-const { hardware_config } = require('../../config/quick.deploy.js');
+const { board_bank } = require('../../config/quick.deploy.js');
 
 //get system config from local db
 // if this is clean install ie. no ver. already exist from system_config.cortex.js
@@ -15,7 +15,7 @@ const System_config = async () => {
     }).then(function (configDoc) {
       // sweet, here is our configDoc
       // console.log(configDoc);
-      return {data:configDoc}
+      return configDoc
     }).catch(function (err) {
       // handle any errors
       throw err;
@@ -46,16 +46,16 @@ const System_config_update = async () => {
 //get system config from local db
 // if this is clean install ie. no ver. already exist from hardware_config in quick.deploy.js
 const Hardware_config = async () => {
-  const result = await db.get('system_config').catch(function (err) {
+  const result = await db.get('board_bank').catch(function (err) {
      if (err.name === 'not_found') {
-       return hardware_config
+       return board_bank
      } else { // hm, some other error
        throw err;
      }
    }).then(function (configDoc) {
      // sweet, here is our configDoc
      // console.log(configDoc);
-     return {data:configDoc}
+     return configDoc
    }).catch(function (err) {
      // handle any errors
      throw err;
@@ -67,9 +67,9 @@ const Hardware_config = async () => {
 
 //check for config- if none use quick deploy - if there is one update to ubject
 const Hardware_config_update = async () => {
-  await db.get('system_config').catch(function (err) {
+  await db.get('board_bank').catch(function (err) {
      if (err.name === 'not_found') {
-       return hardware_config
+       return board_bank
      } else { // hm, some other error
        throw err;
      }
@@ -82,6 +82,7 @@ const Hardware_config_update = async () => {
      throw err;
  });
 }
+
 
 
 module.exports = { System_config, Hardware_config }

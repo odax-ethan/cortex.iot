@@ -1,7 +1,7 @@
 
 // start systems.
 // show boot sequences / splash screen
-const { introSplash } = require('./source/util/boot/boot.js');
+const { introSplash } = require('./source/boot/boot.js');
 
 //system event handler
 const { systemEmitter } = require('./source/network/event.emitter.js');

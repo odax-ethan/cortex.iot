@@ -18,8 +18,11 @@
   <body>
     
 
-      Cortex.io Basic Home
-      <div id="chart" style="height: 60vh;"></div>
+    Cortex.io Basic Home
+    <div class='system_hardware_list'>
+
+    </div>
+  
 
     <!-- get data from graphql -->
     <script>
@@ -28,6 +31,57 @@
         var complete_hardware_history, System_config, Hardware_config;
         var query = `query {complete_hardware_history, System_config, Hardware_config}`;
         
+
+        //render list
+        render_hardware = (hardware_config, data) => {
+          //get render container
+          var system_list_container = document.querySelector('.system_hardware_list')
+
+
+          //sort by board
+          hardware_config.forEach(board => {
+            
+            console.log(board.devices);
+
+            //current board display container
+            // basic template
+            let board_dom_elements = `
+            <p>${board.nid}</p>
+            `
+            //place board container
+            var board_dom_container = document.createElement("div");
+            board_dom_container.setAttribute("id", `${board.id}`);
+            board_dom_container.innerHTML = board_dom_elements
+            system_list_container.appendChild(board_dom_container)
+
+            //render top container 
+            //board info
+            board.devices.forEach(device => {
+
+              console.log(device);
+
+              let device_dom_elements = `
+              <span>data</span> - <span>${device.nid}</span>
+              `
+            
+              //current device display container
+
+              var device_dom_container = document.createElement("div");
+              device_dom_container.setAttribute("id", `${device.id}`);
+              device_dom_container.innerHTML = device_dom_elements
+              board_dom_container.appendChild(device_dom_container)
+              
+              
+
+            });
+
+          });
+
+
+        }
+
+
+
         fetch('/graphql', {
           method: 'POST',
           headers: {
@@ -45,20 +99,20 @@
           Hardware_config = JSON.parse(data.data.Hardware_config)
           System_config = JSON.parse(data.data.System_config)
           // complete_hardware_history = JSON.parse(data.complete_hardware_history)
-          console.log(Hardware_config);
-          console.log(System_config);
+          // console.log(Hardware_config);
+          // console.log(System_config);
           // data.complete_hardware_history
           // console.log('data returned:', data)
+
+
+           return render_hardware(Hardware_config, data)
+
+
+
         });
 
 
     </script>
-
-
-    <script>
-
-    </script>
-
 
   </body>
 </html>

@@ -52,8 +52,8 @@ const devices = [
         id:'fruiting_humidifier', 
         nid:'Humidifier', 
         class:'relay',
-        type: 'NO',
         pin: 13,
+        type: 'NO',
         board:'dev_test_board',
         color: "#5647FF",
         CRON: []
@@ -157,6 +157,12 @@ device_bank.forEach(element => {
 board_bank.forEach( device => {
     // console.log(device.devices);
     device.devices.forEach(target => {
-        console.log(target.CRON);
+        // console.log(target.CRON);
     });
 });
+
+// console.log(board_bank.get('dev_test_board').devices[1].CRON);
+
+
+module.exports = { board_bank };
+
