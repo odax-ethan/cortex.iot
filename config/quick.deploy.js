@@ -137,16 +137,16 @@ board_bank.forEach(element => {
 });
 
 //sort crons.id's into the correct device.CRON[]
-device_bank.forEach(element => {
-    device_id = element.id //grab current board id
-    cron_bank.forEach(element => { //for each device in the bank 
-        cron_id = element.target //grab this.devices target board id
-        if (device_id === cron_id ) { //if equal grab device and set it
-            target_device = device_bank.get(device_id)
-            target_device.CRON.push(element)   
-        }
-    });
-});
+// device_bank.forEach(element => {
+//     device_id = element.id //grab current board id
+//     cron_bank.forEach(element => { //for each device in the bank 
+//         cron_id = element.target //grab this.devices target board id
+//         if (device_id === cron_id ) { //if equal grab device and set it
+//             target_device = device_bank.get(device_id)
+//             target_device.CRON.push(element)   
+//         }
+//     });
+// });
 
 
 // console.log(device_bank);

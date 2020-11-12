@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/odax-ethan/cortex.iot#readme",
   "dependencies": {
+    "dateformat": "^3.0.3",
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
     "figlet": "^1.5.0",

@@ -2,7 +2,7 @@ const path = require('path'); // node.js path modules
 const express = require('express') // http Module with some goodies
 var ip = require('ip'); // get the public ip address
 // const helmet = require('helmet'); // basic security
-
+const {socketListener} = require('./socket'); // socket.io functionality
 
 setupServer = () => {
 
@@ -41,6 +41,7 @@ setupServer = () => {
 
     // define cortex.iot app
     const cortexApp = app.listen(port, hostIP, () => {
+        socketListener(cortexApp) //once you start listening to IP:host start socket.io server
         console.log('running at http://' + ip.address()  + ':' + port)
         })
 };
