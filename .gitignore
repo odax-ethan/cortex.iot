@@ -1,6 +1,7 @@
 /node_modules
 source/boot/settings
 source/database/settings
+source/database/history
 source/hardware/settings
 /settings
 

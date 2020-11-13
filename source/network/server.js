@@ -15,6 +15,9 @@ setupServer = () => {
     var { graphqlHTTP } = require('express-graphql'); 
     var { schema, root } = require(path.join(__dirname, 'graphql.js'));
 
+    //public client view assets
+    app.use('/static', express.static(path.join(__dirname, '../view/public')))
+
 
     //mains route
     app.get('/', (req, res) => {
@@ -43,7 +46,7 @@ setupServer = () => {
     const cortexApp = app.listen(port, hostIP, () => {
         socketListener(cortexApp) //once you start listening to IP:host start socket.io server
         console.log('running at http://' + ip.address()  + ':' + port)
-        })
+    })
 };
 
 // setupServer()

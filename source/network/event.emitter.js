@@ -2,7 +2,6 @@ const EventEmitter = require('events');
 
 const systemEmitter = new EventEmitter(); //create event for all status
 
-
 // data = {deviceID, typeID, dataID}
 systemEmitter.on('event', (data) => {
 
@@ -12,9 +11,10 @@ systemEmitter.on('event', (data) => {
     // then plug in your custom event or module... ect.
     switch (data.typeID) {
         case 'hardwareEvent': //event to save data to local db and submit event to io stream
-                // console.log('an event occurred!');
+                console.log('an event occurred!');
                 // console.log(data.deviceID, data.typeID, data.dataBundle, data.timeStamp);
-                systemEmitter.emit('stream', data) 
+                systemEmitter.emit('stream', data)
+                 
             break;
         case 'myCustomCase':
                 console.log('an event occurred!');
@@ -26,13 +26,8 @@ systemEmitter.on('event', (data) => {
     }
 
 
-
-
-
-
-
-
 });
+
 
 
 

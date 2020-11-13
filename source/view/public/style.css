@@ -1,0 +1,40 @@
+
+        body, html {
+            height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+          }
+  
+        .grid-container {
+          display: grid;
+          grid-template-columns: minmax(1, 1fr ) repeat(2, minmax(0,1fr)) minmax(1,1fr);
+          grid-template-rows: 10% 1fr;
+          gap: 0px 0px;
+          grid-template-areas:
+            "header header header header"
+            "s-1 list list s-2";
+        }
+  
+        .header { grid-area: header; }
+        .list { grid-area: list; }
+        .s-1 { grid-area: s-1; }
+        .s-2 { grid-area: s-2; }
+  
+  
+        .systemContainer {
+          padding: .5rem;
+  
+        }
+  
+  
+        .systemBoardContainer {
+            padding: 1rem;
+  
+        }
+        .systemDeviceContainer {
+           padding-left: .8rem;
+           padding-top: .3rem;
+        }
+  
