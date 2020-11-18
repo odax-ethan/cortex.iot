@@ -1,3 +1,6 @@
+### THIS READ ME FILE IS OUT OF DATE AS OF 11/18/2020
+
+
 # Cortex.iot
 commuminity edition node.js/Javascript based iot infustructure
 

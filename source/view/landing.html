@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"></script>
+
+    <link  rel="stylesheet" href="static/style.css">
+
+  </head>
+  <body>
+    
+
+    <!-- main view container -->
+    <div class="grid-container">
+      <!-- top bar of ui -->
+      <div class="header">
+        <a href='/'><img width="52" height="52" src="static/cortex.iot-brand-logo-mark-black.png" alt="Cortex.iot" /></a>
+      </div>
+      <!-- list container in ui -->
+      <div class="list">
+       
+
+
+          <!-- list shape -->
+<!-- 
+          <div class='systemContainer'>
+            <div class="systemBoardContainer">
+              <span>Board Name</span>
+              <div class="systemDeviceContainer">
+                <span>Current Reading</span> -
+                <span>Device Name</span>
+                
+              </div>
+            </div> -->
+            
+
+            <div class='systemContainer'>
+                <!-- system will be placed here -->
+              </div>
+          
+
+
+        </div>
+      </div>
+      <!-- spacing elements on either side of ui -->
+      <div class="s-1"></div>
+      <div class="s-2"></div>
+    </div>
+  
+
+    <!-- get data from graphql -->
+    <script>
+
+        
+        //master variables
+        var complete_hardware_history, System_config, Hardware_config;
+        //graphql query to set up view
+        var query = `query {complete_hardware_history, System_config, Hardware_config}`;
+        
+
+        //place hardware  by device into viewlist
+        render_hardware = (hardware_config, data) => {
+          //get render container
+          var system_list_container = document.querySelector('.systemContainer')
+
+
+          //sort by board
+          hardware_config.forEach(board => {
+            
+            console.log(board.devices);
+
+            //current board display container
+            // basic template
+            let board_dom_elements = `
+              <span>${board.nid}</span>
+            `
+            //place board container
+            var board_dom_container = document.createElement("div");
+            board_dom_container.setAttribute("id", `${board.id}`);
+            board_dom_container.setAttribute("class", 'systemBoardContainer');
+            board_dom_container.innerHTML = board_dom_elements
+            system_list_container.appendChild(board_dom_container)
+
+            //render top container 
+            //board info
+            board.devices.forEach(device => {
+
+              console.log(device);
+
+              let device_dom_elements = `
+              <span class='deviceData' id='${device.id}_listViewData'>data</span> - <span class='deviceName'>${device.nid}</span>
+              `
+            
+              //current device display container
+
+              var device_dom_container = document.createElement("div");
+              device_dom_container.setAttribute("id", `${device.id}`);
+              device_dom_container.setAttribute("class", 'systemDeviceContainer');
+              device_dom_container.innerHTML = device_dom_elements
+              board_dom_container.appendChild(device_dom_container)
+              
+              
+
+            });
+
+          });
+
+
+        }
+
+        //listen for socket events
+
+
+        //get all devices history -> pull outlast reading and place in view
+        
+
+        //get data and create init View
+        fetch('/graphql', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            query
+          })
+        })
+        .then(r => r.json())
+        .then(data => {
+        
+          // data.Hardware_config
+          Hardware_config = JSON.parse(data.data.Hardware_config)
+          System_config = JSON.parse(data.data.System_config)
+          // complete_hardware_history = JSON.parse(data.complete_hardware_history)
+          // console.log(Hardware_config);
+          // console.log(System_config);
+          // data.complete_hardware_history
+          // console.log('data returned:', data)
+
+
+           return render_hardware(Hardware_config, data)
+
+
+
+        });
+
+
+    </script>
+
+    <!-- socket.io -->
+    <script>
+
+      // connect to socket at url 
+      const socket = io();
+
+      //log event on client when connect to server
+      socket.on('connect', () => {
+        console.log('connected');
+      });
+
+      //stream events and update DOM with data
+      socket.on('stream', (eventBundle) => {
+        console.log(eventBundle);
+        let target_data_placeholder = document.querySelector(`#${eventBundle.deviceID}_listViewData`);
+        target_data_placeholder.innerHTML = eventBundle.dataBundle
+      }); 
+
+    </script>
+
+
+
+  </body>
+</html>

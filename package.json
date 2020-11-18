@@ -1,47 +1,33 @@
 {
-  "name": "corext.iot",
-  "version": "0.0.3alpha",
-  "description": "a node based iot infustructure",
-  "main": "cortex.js",
+  "name": "cortex.iot",
+  "version": "0.0.6",
+  "description": "refactory of the cortex.iot systems. moving to a client oriented system",
+  "main": "core.cortex.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "browser-refresh server.js",
-    "css-build": "node-sass --omit-source-map-url scr/styles/masterStyle.scss scr/template/style.css",
-    "css-watch": "npm run css-build -- --watch",
-    "start": "npm run css-watch"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/odax-ethan/corext.iot.git"
+    "url": "git+https://github.com/odax-ethan/cortex.iot.git"
   },
-  "author": "Ethan Drory @ Odax Systems",
-  "license": "SEE LICENSE IN <filename>",
+  "author": "ethan drory @ odax systems, LLC",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/odax-ethan/corext.iot/issues"
+    "url": "https://github.com/odax-ethan/cortex.iot/issues"
   },
-  "homepage": "https://github.com/odax-ethan/corext.iot#readme",
+  "homepage": "https://github.com/odax-ethan/cortex.iot#readme",
   "dependencies": {
-    "@lasso/marko-taglib": "^1.0.15",
-    "browser-refresh": "^1.7.3",
-    "browser-refresh-taglib": "^1.1.0",
-    "chart.js": "^2.9.2",
-    "cron": "^1.7.2",
-    "date-fns": "^2.7.0",
+    "dateformat": "^3.0.3",
     "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "figlet": "^1.5.0",
+    "graphql": "^15.4.0",
+    "graphql-type-json": "^0.3.2",
+    "helmet": "^4.2.0",
     "ip": "^1.1.5",
-    "johnny-five": "1.3.1",
-    "lasso": "^3.3.0",
-    "lasso-marko": "^2.4.7",
-    "marko": "^4.18.10",
-    "open": "^7.0.0",
-    "pouchdb": "^7",
-    "serialport": "^7",
-    "socket.io": "^2.3.0",
-    "socket.io-client": "^2.3.0"
-  },
-  "devDependencies": {
-    "bulma": "^0.7.5",
-    "memory-usage": "^1.2.1",
-    "node-sass": "^4.12.0"
+    "johnny-five": "^2.0.0",
+    "node-fetch": "^2.6.1",
+    "pouchdb": "^7.2.2",
+    "socket.io": "^2.3.0"
   }
 }
