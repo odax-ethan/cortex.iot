@@ -8,6 +8,8 @@ const { board_bank } = require('../../config/quick.deploy.js');
 const System_config = async () => {
    const result = await db.get('system_config').catch(function (err) {
       if (err.name === 'not_found') {
+        console.log('new setting system');
+        //make changes act you need to put here
         return system_config
       } else { // hm, some other error
         throw err;
@@ -48,13 +50,15 @@ const System_config_update = async () => {
 const Hardware_config = async () => {
   const result = await db.get('board_bank').catch(function (err) {
      if (err.name === 'not_found') {
+       console.log('new setting hardware');
+       //make changes act you need to put here
        return board_bank
      } else { // hm, some other error
        throw err;
      }
    }).then(function (configDoc) {
      // sweet, here is our configDoc
-     // console.log(configDoc);
+    //  console.log(configDoc);
      return configDoc
    }).catch(function (err) {
      // handle any errors

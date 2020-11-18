@@ -41,23 +41,44 @@ const devices = [
         id:'fruiting_temp', 
         nid:'Fruiting Temp', 
         class:'thermometer',
-        controller: 'LM35',
-        pin: 8,
+        controller: 'SHT31D',
+        // pin: '7',
         board:'dev_test_board',
         color: '#d82c2c'
     },
 
-    //relay to controll relay for humidifier
-    { 
-        id:'fruiting_humidifier', 
-        nid:'Humidifier', 
-        class:'relay',
-        pin: 13,
-        type: 'NO',
-        board:'dev_test_board',
-        color: "#5647FF",
-        CRON: []
-    }
+    // //relay to controll relay for humidifier
+    // { 
+    //     id:'fruiting_humidifier', 
+    //     nid:'Humidifier', 
+    //     class:'relay',
+    //     pin: 13,
+    //     type: 'NO',
+    //     board:'dev_test_board',
+    //     color: "#5647FF",
+    //     CRON: []
+    // },
+
+    //Hygrometer
+    // { 
+    //     id:'fruiting_temp', 
+    //     nid:'Fruiting Temp', 
+    //     class:'hygrometer',
+    //     controller: 'SHT31D',
+    //     board:'dev_test_board',
+    //     color: '#d82c2c'
+    // },
+
+    //    fruiting chamber temp
+    // { 
+    //     id:'fruiting_temp', 
+    //     nid:'Fruiting Temp', 
+    //     class:'thermometer',
+    //     controller: 'SHT31D',
+    //     board:'dev_test_board',
+    //     color: '#d82c2c'
+    // },
+
 
 ]
 

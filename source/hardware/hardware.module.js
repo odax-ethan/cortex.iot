@@ -1,25 +1,27 @@
 var five = require("johnny-five"); // Generic J5
+const { systemEmitter } = require('../network/event.emitter.js');
+const { TimeStamp } = require('../boot/time.js'); // tested
 
 //Board refactored
-const { Board } = require('./hardware.board.js'); // untested
+// const { Board } = require('./hardware.board.js'); // untested - maybe unneeded
 
 //Board Sensor refactored
-const { Sensor } = require('./hardware.sensor.js'); // untested
+// const { Sensor } = require('./hardware.sensor.js'); // untested
 
 //Board Relay refactored
-const { Relay } = require('./hardware.relay.js'); //untested
+// const { Relay } = require('./hardware.relay.js'); //untested
 
-//Board Thermometer refactored
-const { Thermometer } = require('./hardware.thermometer.js'); // untested
+// Board Thermometer refactored
+const { Thermometer } = require('./hardware.thermometer.js'); //tested
 
 //Board Hygrometer refactored
-const { Hygrometer } = require('./hardware.hygrometer.js'); //untested
+const { Hygrometer } = require('./hardware.hygrometer.js'); //tested
 
 //Board Button refactored
-const { Button } = require('./hardware.button.js'); //untested
+// const { Button } = require('./hardware.button.js'); //untested
 
 //Board Switch refactored
-const { Switch } = require('./hardware.switch.js'); //untested
+// const { Switch } = require('./hardware.switch.js'); //untested
 
 
 const {Hardware_config, System_config} = require('../database/settings.pouchdb');
@@ -74,19 +76,22 @@ board_assembler = (port_obj, board_map, hardware_settings) => {
 //switch and run correct p5 class based on device array
 device_switch = (devices, target_board, hardware_standards) => {
 
-    devices.forEach(device => {
+    return devices.forEach(device => {
 
         //test for class
         switch (device.class) {
             case "sensor":
-                console.log(device.id);
+                console.log(`there is a j5.sensor with id being built:${device.id}`);
                 break;
             case "thermometer":
+                console.log(`there is a j5.thermometer with id being built:${device.id}`);
                 // run standard Thermometer Function
-                Thermometer(device, target_board, hardware_standards)
+                // Thermometer(device, target_board, hardware_standards)
+                new Thermometer(device, target_board, hardware_standards).build()
                 break;
             case "hygrometer":
-                console.log(device.id);
+                console.log(`there is a j5.hygrometer with id being built:${device.id}`);
+                new Hygrometer(device, target_board, hardware_standards).build()
             break;
             case "button":
                 console.log(device.id);
@@ -96,13 +101,13 @@ device_switch = (devices, target_board, hardware_standards) => {
                 break;
             case "relay":
                 // run standard Relay Function
-                Relay(device, target_board)
+                // Relay(device, target_board)
  
                 Relay
                 break;
             case "led":
-                varname = device.id
-                this[varname] = new five.Led({ id: device.id, pin: device.pin, board: target_board })
+                // varname = device.id
+                // this[varname] = new five.Led({ id: device.id, pin: device.pin, board: target_board })
                 // this[varname].open()
                 // this[varname].close()
                 // this[varname].toggle()
@@ -119,27 +124,30 @@ device_switch = (devices, target_board, hardware_standards) => {
 //get hardware_config and start process of staring/running johnny-five
 setupHardware = () => {
     
-
-    Hardware_config().then((data)=>{
-        // console.log(data);
-        return [data, board_port_builder(data)]
+    return Hardware_config().then((data)=>{
+        //get the current hardware configs from db source
+        console.log(data);
+        // build J5 boards
+        var prebuild = board_port_builder(data)
+        //send complete configs + boardsOBJ_prebuild
+        return [data, prebuild ]
     }).catch(err =>{
         console.log(err);
     }).then((data)=>{
-        // console.log(data[0]);
-        // console.log(data[1]);
+        // console.log(data[0]); // = configs
+        // console.log(data[1]); // = boardsOBJ_prebuild
 
         //get system_settings
-        System_config().then((data_bundle)=>{
-            // console.log(data);
-            return board_assembler(data[1], data[0], data_bundle ); // send prebuilt board_ports + full hardware_map
+        return System_config().then((system_config)=>{
+            // console.log('data');
+            return board_assembler(data[1], data[0], system_config ); // send prebuilt board_ports + full hardware_map and run embeded hardware
         }).catch(err =>{
             console.log(err);
         })
-    
-        
+    }).catch(err =>{
+        console.log(err);
     })
-
+ 
 }
 
 

@@ -1,6 +1,6 @@
 var five = require("johnny-five");
-const { systemEmitter } = require('../network/event.emitter.js'); // untested
-const { TimeStamp } = require('../boot/time.js'); // untested
+const { systemEmitter } = require('../network/event.emitter.js'); // tested
+const { TimeStamp } = require('../boot/time.js'); // tested
 
 // function to get correct temp reading based on your db prefrances
 tempSwitch = (tempOBJ, dbPref) =>{
@@ -18,42 +18,48 @@ tempSwitch = (tempOBJ, dbPref) =>{
             // console.log("celsius: %d", tempOBJ.C);
              return tempOBJ.C    
         default:
-            console.log('error');
+            console.log('error: for some reason we cant seem to tell what your reading unit is (K,F,C) ');
+            console.log(dbPref);
     }
 
 
 }
 
-var dbPRFTemp = 'F'
+class Thermometer {
+    constructor(device, target_board, system_config) {
+    
+        this.device = device;
+        this.id = this.device.id
+        this.target_board = target_board;
+        this.system_config = system_config // get baseline hardware settings
+        this.dbPRFTemp = 'F' //tell class which reading formate to save
 
-// Creating a new class from the parent
-Thermometer = (device, target_board, hardware_standards) => {      
-    // console.log( target_board);        
-    if (target_board.id === device.board) { //check that device.board matches the current target board
-        varname = device.id
-        this[varname] = new five.Thermometer({ id: device.id, controller: device.controller, pin: device.pin, board: target_board, freq: hardware_standards.freq })
-        this[varname].on("data", function() {
 
-            //filter output for anomlies
-            //rerun datapull.
-            
-            //make sure to get temp in correct messurement
-            // tempSwitch(this, dbPRFTemp)
+        console.log(this.device );
 
-            eventOBJ = {
+        // place holder class variable for current sensor reading
+        this.currentReading
+    }
+
+
+
+    build (){
+        let dbPRFTemp = this.dbPRFTemp
+        this[ this.id] = new five.Thermometer({id: this.device.id, controller: this.device.controller, pin: this.device.pin, board: this.target_board, freq: this.system_config.freq })
+        this[ this.id].on("data", function() {
+        // console.log(this);
+        let eventOBJ = {
                 'timeStamp': TimeStamp.local,
-                'deviceID': varname,
+                'deviceID': this.id,
                 'typeID': 'hardwareEvent',
                 'dataBundle': tempSwitch(this, dbPRFTemp)
-            }
-            systemEmitter.emit('event', (eventOBJ));
+        }
+        return systemEmitter.emit('event', eventOBJ);
+        })
 
-            //trigger event output
+    } // end of build()
 
-          });
 
-    }    
-}
-
+} // end of class Thermometer
 
 module.exports = { Thermometer };
