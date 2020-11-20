@@ -11,7 +11,7 @@
     "url": "git+https://github.com/odax-ethan/cortex.iot.git"
   },
   "author": "ethan drory @ odax systems, LLC",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/odax-ethan/cortex.iot/issues"
   },
