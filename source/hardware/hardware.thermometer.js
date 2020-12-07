@@ -33,6 +33,7 @@ class Thermometer {
         this.target_board = target_board;
         this.system_config = system_config // get baseline hardware settings
         this.dbPRFTemp = 'F' //tell class which reading formate to save
+        this.triggers = this.device.triggers
 
 
         console.log(this.device );
@@ -42,18 +43,60 @@ class Thermometer {
     }
 
 
-
     build (){
         let dbPRFTemp = this.dbPRFTemp
-        this[ this.id] = new five.Thermometer({id: this.device.id, controller: this.device.controller, pin: this.device.pin, board: this.target_board, freq: this.system_config.freq })
-        this[ this.id].on("data", function() {
-        // console.log(this);
+        let triggerBundle = this.triggers
+
+        this[this.id] = new five.Thermometer({id: this.device.id, controller: this.device.controller, pin: this.device.pin, board: this.target_board, freq: this.system_config.freq })
+        
+        // console.log(this[this.id]);
+        
+        this[this.id].on("data", function() {
+           
+            // console.log(this);
         let eventOBJ = {
                 'timeStamp': TimeStamp.local,
                 'deviceID': this.id,
                 'typeID': 'hardwareEvent',
                 'dataBundle': tempSwitch(this, dbPRFTemp)
         }
+
+        triggerBundle.forEach(element => {
+
+                // This is called when the sensor's value property falls within 100-200
+                // console.log(element.origin);
+                // console.log(element.target);
+
+                let rangeBottom = element.range[0]
+                let rangeCap = element.range[1]
+
+
+
+                if (rangeBottom < eventOBJ.dataBundle < rangeCap) {
+                    console.log('in range');
+
+                    switch (element.state) {
+                        case true:
+                            systemEmitter.emit(`relay-trigger-${element.target}-on`)
+                            break;
+
+                        case false:
+                            systemEmitter.emit(`relay-trigger-${devielement.targetceID}-off`)
+                            break;
+                        default:
+                            console.log('error: trigger range');
+                            break;
+                    }
+
+
+                } else {
+                    console.log('out range');
+                }
+
+
+            
+        });
+
         return systemEmitter.emit('event', eventOBJ);
         })
 

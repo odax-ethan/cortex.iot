@@ -9,7 +9,7 @@ const { TimeStamp } = require('../boot/time.js'); // tested
 // const { Sensor } = require('./hardware.sensor.js'); // untested
 
 //Board Relay refactored
-// const { Relay } = require('./hardware.relay.js'); //untested
+const { Relay } = require('./hardware.relay.js'); //tested
 
 // Board Thermometer refactored
 const { Thermometer } = require('./hardware.thermometer.js'); //tested
@@ -23,7 +23,7 @@ const { Hygrometer } = require('./hardware.hygrometer.js'); //tested
 //Board Switch refactored
 // const { Switch } = require('./hardware.switch.js'); //untested
 
-
+// get configs
 const {Hardware_config, System_config} = require('../database/settings.pouchdb');
 
 
@@ -81,16 +81,15 @@ device_switch = (devices, target_board, hardware_standards) => {
         //test for class
         switch (device.class) {
             case "sensor":
-                console.log(`there is a j5.sensor with id being built:${device.id}`);
+                console.log(`there is a j5.sensor with id being built: ${device.id}`);
                 break;
             case "thermometer":
-                console.log(`there is a j5.thermometer with id being built:${device.id}`);
+                console.log(`there is a j5.thermometer with id being built: ${device.id}`);
                 // run standard Thermometer Function
-                // Thermometer(device, target_board, hardware_standards)
                 new Thermometer(device, target_board, hardware_standards).build()
                 break;
             case "hygrometer":
-                console.log(`there is a j5.hygrometer with id being built:${device.id}`);
+                console.log(`there is a j5.hygrometer with id being built: ${device.id}`);
                 new Hygrometer(device, target_board, hardware_standards).build()
             break;
             case "button":
@@ -101,16 +100,14 @@ device_switch = (devices, target_board, hardware_standards) => {
                 break;
             case "relay":
                 // run standard Relay Function
-                // Relay(device, target_board)
- 
-                Relay
+                console.log(`there is a j5.relay with id being built: ${device.id}`);
+                varname = device.id
+                this[varname] = new Relay(device, target_board, hardware_standards).build()
+
                 break;
             case "led":
                 // varname = device.id
                 // this[varname] = new five.Led({ id: device.id, pin: device.pin, board: target_board })
-                // this[varname].open()
-                // this[varname].close()
-                // this[varname].toggle()
                 break;
             default:
                 console.log('no functionality is present to handle this device');

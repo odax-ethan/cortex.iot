@@ -15,8 +15,9 @@ const { TimeStamp } = require('../boot/time.js'); // tested
                             build (){
                             
                                 this[ this.id] = new five.Hygrometer({ id: this.device.id, controller: this.device.controller, board: this.target_board, freq: this.system_config.freq })
+                              
                                 this[ this.id].on("data", function() {
-
+                                   
                                 let eventOBJ = {
                                         'timeStamp': TimeStamp.local,
                                         'deviceID': this.id,

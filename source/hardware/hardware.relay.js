@@ -3,42 +3,41 @@ const { systemEmitter } = require('../network/event.emitter.js'); // tested
 const { TimeStamp } = require('../boot/time.js'); // tested
 
 
-// Creating a new class from the parent
-// Relay = (device, target_board) => {               
-//                 if (target_board === device.board) { //check that device.board matches the current target board
-//                     varname = device.id
-//                     this[varname] = new five.Relay({ id: device.id, type: device.type, pin: device.pin, board: target_board })
-//                     // this[varname].open()
-//                     // this[varname].close()
-//                     this[varname].toggle()
-//                 }    
-// }
-
  class Relay {
                             constructor(device, target_board, system_config) {
                             
-                                this.device = device;
-                                this.id = this.device.id
-                                this.target_board = target_board;
-                                this.system_config = system_config
+                                this.device = device; //devices shape
+                                this.id = this.device.id // pull id out 
+                                this.target_board = target_board; //the devices board
+                                this.system_config = system_config //grab general settings 
 
                             }
 
                             build (){
-                            
-                                this[ this.id] = new five.Hygrometer({ id: this.device.id, controller: this.device.controller, board: this.target_board, freq: this.system_config.freq })
-                                this[ this.id].on("data", function() {
+                                
+                                this[this.id] = new five.Relay({id: this.device.id, type: this.device.type, pin: this.device.pin, board: this.target_board})
 
-                                // let eventOBJ = {
-                                //         'timeStamp': TimeStamp.local,
-                                //         'deviceID': this.id,
-                                //         'typeID': 'hardwareEvent',
-                                //         'dataBundle': this.relativeHumidity
-                                // }
-                                // return systemEmitter.emit('event', eventOBJ);
-                                })
+                                let currentRelay =  this[this.id]
+
+                                // listen for events in system
+                                systemEmitter.on(`relay-trigger-${this.id}-on`, () => {
+                                    
+                                    currentRelay.close()
+
+                                });// end of system emitter
+
+                                // listen for events in system
+                                systemEmitter.on(`relay-trigger-${this.id}-off`, () => {
+    
+                                    currentRelay.open()
+
+                                })// end of system emitter
+
+
 
                             } // end of build()
+
+
 
 } // end of class Hygrometer
 

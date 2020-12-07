@@ -13,8 +13,8 @@ systemEmitter.on('event', (data) => {
         case 'hardwareEvent': //event to save data to local db and submit event to io stream
                 console.log('an event occurred!');
                 // console.log(data.deviceID, data.typeID, data.dataBundle, data.timeStamp);
-                 return systemEmitter.emit('stream', data)
-                 
+
+                 return systemEmitter.emit('stream', data)           
             break;
         case 'myCustomCase':
                 console.log('an event occurred!');
