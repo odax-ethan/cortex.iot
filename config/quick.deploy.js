@@ -140,7 +140,7 @@ triggers = [
         origin: 'fruiting_temp',
         target: 'fruiting_heater',
         state: true, 
-        range: [-999, 200],
+        range: [-999, -100],
         color: '#7def71'
     }
 
