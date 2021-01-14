@@ -11,17 +11,16 @@ var CronJob = require('cron').CronJob; // event schedular
                                 this.id = this.device.id // pull id out 
                                 this.target_board = target_board; //the devices board
                                 this.system_config = system_config //grab general settings 
-
-
-                                this.CRON = this.device.CRON
-                                console.log(this.CRON);
+                                this.CRON = this.device.CRON // grab cron array
 
                             }
 
                             build (){
                                 
+                                //create a relay device with a dynamic variables using the device ID
                                 this[this.id] = new five.Relay({id: this.device.id, type: this.device.type, pin: this.device.pin, board: this.target_board})
 
+                                //create a variable to call within build()
                                 let currentRelay =  this[this.id]
 
                                 // create listeners for triggers
@@ -29,14 +28,22 @@ var CronJob = require('cron').CronJob; // event schedular
                                 // listen for events in system
                                 systemEmitter.on(`relay-trigger-${this.id}-on`, () => {
                                     
-                                    currentRelay.close()
+                                    //check current state if off then turn on
+                                    if (currentRelay.isOn === false){
+                                        currentRelay.close()
+                                    }
+                                    
 
                                 });// end of system emitter
 
                                 // listen for events in system
                                 systemEmitter.on(`relay-trigger-${this.id}-off`, () => {
     
-                                    currentRelay.open()
+                                     //check current state if on then turn off
+                                     if (currentRelay.isOn === true){
+                                        currentRelay.open()
+                                    }
+                                    
 
                                 })// end of system emitter
 
@@ -91,9 +98,52 @@ var CronJob = require('cron').CronJob; // event schedular
                                                 this[cronID].start();
 
                                                 break;
-                                        
-                                            default:
+                                            case 'on/off':
+
+                                                //create cron for on/off start
+                                                var cronID_on = `cron-${cron.id}-on` // create dynamic variable for cron
+                                               
+                                                this[cronID_on] = new CronJob(cron.shape[0], function() {
+
+                                                    
+                                                    //notify the event stream event has occured
+                                                    let eventOBJ = {
+                                                        'timeStamp': TimeStamp.local,
+                                                        'deviceID': cron.id,
+                                                        'typeID': 'hardwareEvent',
+                                                        'dataBundle': `cron on/off event [${cron.id}][on]`
+                                                    }
+                                                    systemEmitter.emit('event', eventOBJ);
+                                                    
+
+                                                    // at start of event close relay (i.e. turn it on)
+                                                    return currentRelay.close()
+                                                });
+
                                                 
+
+                                                //create cron for on/off end
+                                                var cronID_off = `cron-${cron.id}-off` // create dynamic variable for cron
+                                                this[cronID_off] = new CronJob(cron.shape[1], function() {
+
+                                                   
+                                                    let eventOBJ = {
+                                                        'timeStamp': TimeStamp.local,
+                                                        'deviceID': cron.target,
+                                                        'typeID': 'hardwareEvent',
+                                                        'dataBundle': `cron on/off event [${cron.id}][off]`
+                                                    }
+                                                    systemEmitter.emit('event', eventOBJ);
+                                                    return  currentRelay.open()
+                                                })
+
+                                                this[cronID_on].start()
+                                                this[cronID_off].start()
+                                                
+                                                break;
+                    
+                                            default:
+                                                console.log('device type is not defined');
                                                 break;
                                         } //end of switch for cron type
 

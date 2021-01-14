@@ -15,6 +15,7 @@ const Device_history_add = async (device_id, to_save) => {
         eventHistory: []
       }
 
+        //to save iteration push
       return documentSchema
     } else { // hm, some other error
       throw err;

@@ -33,10 +33,7 @@ class Thermometer {
         this.target_board = target_board;
         this.system_config = system_config // get baseline hardware settings
         this.dbPRFTemp = 'F' //tell class which reading formate to save
-        this.triggers = this.device.triggers
-
-
-        console.log(this.device );
+        this.triggers = this.device.triggers // get triggers from device bundle
 
         // place holder class variable for current sensor reading
         this.currentReading
@@ -61,7 +58,10 @@ class Thermometer {
                 'dataBundle': tempSwitch(this, dbPRFTemp)
         }
 
-        triggerBundle.forEach(element => {
+        //test if there is a trigger
+        if (triggerBundle) {
+
+            triggerBundle.forEach(element => {
 
                 // This is called when the sensor's value property falls within 100-200
                 // console.log(element.origin);
@@ -77,10 +77,12 @@ class Thermometer {
 
                     switch (element.state) {
                         case true:
+                            console.log('triggered on');
                             systemEmitter.emit(`relay-trigger-${element.target}-on`)
                             break;
 
                         case false:
+                            console.log('triggered off');
                             systemEmitter.emit(`relay-trigger-${devielement.targetceID}-off`)
                             break;
                         default:
@@ -92,12 +94,16 @@ class Thermometer {
                 } else {
                     console.log('out range');
                 }
-
-
+ 
+            }); // end triggerBundle.forEach()
             
-        });
+        } else {
+            console.log('no triggers to handle');
+        }
 
-        return systemEmitter.emit('event', eventOBJ);
+       
+
+            return systemEmitter.emit('event', eventOBJ);
         })
 
     } // end of build()
