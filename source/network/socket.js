@@ -1,7 +1,7 @@
 // Learn more or give us feedback
 const serverIO = require('socket.io')
 const { systemEmitter } = require('./event.emitter.js'); // socket.io functionality
-
+const {Hardware_config, System_config} = require('../database/settings.pouchdb');
 
 socketListener = (expressSocket) => {
     const socket = expressSocket
@@ -16,17 +16,28 @@ socketListener = (expressSocket) => {
         return io.emit("stream", eventBundle)
     });
     
-    // watch for client connections
-    // io.on('connection', socket => {
-    //   console.log('New Client Connected')
+   // watch for client connections
+    io.on('connection', socket => {
+      console.log('New Client Connected')
 
-    //   // on socket disconnect
-    //   socket.on('disconnect', function(){
-    //     console.log('user disconnected');
-    //     // disconnect service
-    //     socket.disconnect(true)
-    //   });
-    // });
+    //   // responce to request for board sturcture
+    //   socket.on('system-config', ()=> {
+    //         socket.emit(System_config)
+    //   })
+
+    // // responce to request for board sturcture
+    // socket.on('hardware-config', ()=> {
+    //     socket.emit(Hardware_config)
+    // })
+       
+
+      // on socket disconnect
+      socket.on('disconnect', function(){
+        console.log('user disconnected');
+        // disconnect service
+        socket.disconnect(true)
+      });
+    });
 
     
 }; //end of socketListener

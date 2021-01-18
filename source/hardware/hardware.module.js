@@ -45,14 +45,14 @@ board_port_builder = (board_map) => {
 }
 
 //assemble ports + board.j5
-board_assembler = (port_obj, board_map, hardware_settings) => {
+board_assembler = (j5_boards, board_map, hardware_settings) => {
 
     let hardware_standards = {
         freq : hardware_settings.system_master_freq,  //grab hardware master freq
         standard_temp : hardware_settings.system_reading_temp_standard  //standardized temp to one reading C,F, or K
     }
   
-    new five.Boards(port_obj).on("ready", function() {
+    new five.Boards(j5_boards).on("ready", function() {
 
         // Both "A" and "B" are initialized
         // (connected and available for communication)

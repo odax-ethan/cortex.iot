@@ -21,8 +21,6 @@ const Device_history_add = async (device_id, to_save) => {
       throw err;
     }
   }).then(function (doc) {
-    // sweet, here is our configDoc
-    // console.log(configDoc);
 
     //define eventHistory.data
     // dataTarget = doc.eventHistory;
@@ -35,6 +33,7 @@ const Device_history_add = async (device_id, to_save) => {
     target.eventHistory.push(to_save)
 
     historyDB.put(target)
+    // console.log('new doc saved');
     // console.log(doc);
     
     return doc
@@ -46,12 +45,14 @@ return result
 }
 
 
-const bulk_device_history = async (device_id, to_save) => {
+//get all data from history
+const bulk_device_history = async () => {
   const result = await historyDB.allDocs({
     include_docs: true,
     attachments: true
   }).then(function (result) {
     // handle result
+    console.log(result);
     return result
   }).catch(function (err) {
     console.log(err);
@@ -67,9 +68,7 @@ const bulk_device_history = async (device_id, to_save) => {
 //   throw err;
 // });
 
-bulk_device_history().then(data =>{
-  console.log(data.rows)
-}).catch(function (err) {
-  // handle any errors
-  throw err;
-});
+
+
+
+module.exports = {Device_history_add, bulk_device_history}

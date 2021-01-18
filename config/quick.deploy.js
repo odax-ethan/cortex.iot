@@ -48,7 +48,7 @@ const devices = [
         nid:'Tent Grow Light', 
         class:'relay', // relay class
         pin: '2', // digital or analog pinv
-        type: 'NO', // either NO or NC 
+        type: 'NC', // either NO or NC 
         board:'fruiting_tent',
         color: "#ff8e51",
         CRON: [] //do not manually add
@@ -59,7 +59,7 @@ const devices = [
         nid:'Fan + Humidifier', 
         class:'relay', // relay class
         pin: '3', // digital or analog pin
-        type: 'NO', // either NO or NC 
+        type: 'NC', // either NO or NC 
         board:'fruiting_tent',
         color: "#71ffad",
         CRON: [] //do not manually add
@@ -124,7 +124,23 @@ const devices = [
 
 CRONs = [
  
-  
+    {
+       id:'light_cycle_cron', 
+       nid:'Light Cycle CRON',
+       target: 'tent_light_relay',
+       type: 'on/off',
+       shape: [' 0 0 6 * * * ' , ' 0 0 22 * * * '],
+       color: '#0dce8b'
+   },
+    {
+        id:'humidity-cycle', 
+        nid:'Fan/Humidity Cycle',
+        target: 'tent_light_relay',
+        type: 'burst',
+        shape: ' * */15 * * * * ',
+        length: 60000,
+        color: '#0dce8b'
+    }
 
 ]
 
