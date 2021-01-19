@@ -129,7 +129,7 @@ CRONs = [
        nid:'Light Cycle CRON',
        target: 'tent_light_relay',
        type: 'on/off',
-       shape: [' * * * * * * ' , ' * * * * * * '],
+       shape: [' * */5 * * * * ' , ' * */8 * * * * '],
        color: '#0dce8b'
    },
     {
@@ -137,7 +137,7 @@ CRONs = [
         nid:'Fan/Humidity Cycle',
         target: 'input_air_relay',
         type: 'burst',
-        shape: ' * */15 * * * * ',
+        shape: ' * */5 * * * * ',
         length: 60000,
         color: '#0dce8b'
     }
