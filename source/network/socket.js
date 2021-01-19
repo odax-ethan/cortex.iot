@@ -12,7 +12,7 @@ socketListener = (expressSocket) => {
 
     //stream to any connected client event that just happened
     systemEmitter.on('stream', (eventBundle)=>{
-        console.log('eventStream');
+        // console.log('eventStream');
         return io.emit("stream", eventBundle)
     });
     

@@ -10,6 +10,9 @@ const systemEmitter = new EventEmitter(); //create event for all status
 systemEmitter.on('event', (data) => {
 
 
+
+    console.log(data);
+
     //create a place to run your custom event fuctionality here. 
     // set the case base on youre typeID 
     // then plug in your custom event or module... ect.

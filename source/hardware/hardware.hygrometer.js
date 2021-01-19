@@ -11,7 +11,7 @@ const { TimeStamp } = require('../boot/time.js'); // tested
                                 this.system_config = system_config
                                 this.triggers = this.device.triggers // get triggers from device bundle
 
-                                console.log(this.device);
+                                // console.log(this.device);
 
                                 // place holder class variable for current sensor reading
                                 this.currentReading
