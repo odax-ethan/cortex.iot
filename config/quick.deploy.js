@@ -129,7 +129,7 @@ CRONs = [
        nid:'Light Cycle CRON',
        target: 'tent_light_relay',
        type: 'on/off',
-       shape: ['* * 6 * * *' , '* * 23 * * *'],
+       shape: ['0 6 * * *' , '0 23 * * *'],
        color: '#0dce8b'
    },
 
