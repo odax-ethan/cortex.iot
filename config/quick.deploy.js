@@ -132,12 +132,58 @@ CRONs = [
        shape: ['* * 6 * * *' , '* * 23 * * *'],
        color: '#0dce8b'
    },
+
     {
-        id:'humidity-cycle', 
+        id:'humidity-cycle-0', 
         nid:'Fan/Humidity Cycle',
         target: 'input_air_relay',
         type: 'burst',
-        shape: '* 10,20,30,40,50,0 * * * *',
+        shape: '* 0 * * * *',
+        length: 120000,
+        color: '#0dce8b'
+    },
+    {
+        id:'humidity-cycle-1', 
+        nid:'Fan/Humidity Cycle',
+        target: 'input_air_relay',
+        type: 'burst',
+        shape: '* 10 * * * *',
+        length: 120000,
+        color: '#0dce8b'
+    },
+    {
+        id:'humidity-cycle-2', 
+        nid:'Fan/Humidity Cycle',
+        target: 'input_air_relay',
+        type: 'burst',
+        shape: '* 20 * * * *',
+        length: 120000,
+        color: '#0dce8b'
+    },
+    {
+        id:'humidity-cycle-3', 
+        nid:'Fan/Humidity Cycle',
+        target: 'input_air_relay',
+        type: 'burst',
+        shape: '* 30 * * * *',
+        length: 120000,
+        color: '#0dce8b'
+    },
+    {
+        id:'humidity-cycle-4', 
+        nid:'Fan/Humidity Cycle',
+        target: 'input_air_relay',
+        type: 'burst',
+        shape: '* 40 * * * *',
+        length: 120000,
+        color: '#0dce8b'
+    },
+    {
+        id:'humidity-cycle-5', 
+        nid:'Fan/Humidity Cycle',
+        target: 'input_air_relay',
+        type: 'burst',
+        shape: '* 50 * * * *',
         length: 120000,
         color: '#0dce8b'
     }
