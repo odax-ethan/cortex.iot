@@ -1,7 +1,7 @@
 var five = require("johnny-five");
 const { systemEmitter } = require('../network/event.emitter.js'); // tested
 const { TimeStamp } = require('../boot/time.js'); // tested
-var cron = require('node-cron');
+var cronNode = require('node-cron');
 
 
  class Relay {
@@ -62,7 +62,7 @@ var cron = require('node-cron');
                                                 console.log(cron.shape);
                                                 
                                                 var cronID = `cron-${cron.id}` // create dynamic variable for cron
-                                                this[cronID] = cron.schedule(cron.shape, () => {
+                                                this[cronID] = cronNode.schedule(cron.shape, () => {
 
                                                     console.log('cron started');
 
@@ -95,7 +95,7 @@ var cron = require('node-cron');
                                                }); // end of cron
 
                                                 //start cron that was just created
-                                                this[cronID].start();
+                                                // this[cronID].start();
                                                
 
                                                 break;
@@ -106,7 +106,7 @@ var cron = require('node-cron');
                                                 //create cron for on/off start
                                                 var cronID_on = `cron-${cron.id}-on` // create dynamic variable for cron
                                                
-                                                this[cronID_on]   = cron.schedule(cron.shape[0], () => {
+                                                this[cronID_on] = cronNode.schedule(cron.shape[0], () => {
 
 
                                                     console.log('running cron on');
@@ -130,7 +130,7 @@ var cron = require('node-cron');
                                                 //create cron for on/off end
                                                 var cronID_off = `cron-${cron.id}-off` // create dynamic variable for cron
                                                 // this[cronID_off] = new CronJob(cron.shape[1], function() {
-                                                this[cronID_off] = cron.schedule(cron.shape[1], () => {
+                                                this[cronID_off] = cronNode.schedule(cron.shape[1], () => {
 
 
                                                     console.log('running cron off');
@@ -145,8 +145,8 @@ var cron = require('node-cron');
                                                     return  currentRelay.open()
                                                 });  // end of cron off
 
-                                                 this[cronID_on].start()
-                                                 this[cronID_off].start()
+                                                //  this[cronID_on].start()
+                                                //  this[cronID_off].start()
                                                  
                                                 
                                                 break;
