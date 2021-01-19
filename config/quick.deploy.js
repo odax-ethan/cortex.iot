@@ -18,7 +18,7 @@ const boards = [
     {
       id: 'fruiting_tent',
       nid: 'Fruiting Tent',
-      port: "/dev/ttyAM0",
+      port: "/dev/ttyACM0",
       color: "#0078ff",
       devices: [] // don't add to array
     }
