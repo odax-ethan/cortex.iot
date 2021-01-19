@@ -18,7 +18,7 @@ const boards = [
     {
       id: 'fruiting_tent',
       nid: 'Fruiting Tent',
-      port: "COM4",
+      port: "/dev/ttyAM0",
       color: "#0078ff",
       devices: [] // don't add to array
     }
@@ -129,13 +129,13 @@ CRONs = [
        nid:'Light Cycle CRON',
        target: 'tent_light_relay',
        type: 'on/off',
-       shape: [' 0 0 6 * * * ' , ' 0 0 22 * * * '],
+       shape: [' * * * * * * ' , ' * * * * * * '],
        color: '#0dce8b'
    },
     {
         id:'humidity-cycle', 
         nid:'Fan/Humidity Cycle',
-        target: 'tent_light_relay',
+        target: 'input_air_relay',
         type: 'burst',
         shape: ' * */15 * * * * ',
         length: 60000,

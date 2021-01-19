@@ -71,7 +71,7 @@ var CronJob = require('cron').CronJob; // event schedular
                                                     //notify the event stream event has occured
                                                     let eventOBJ = {
                                                         'timeStamp': TimeStamp.local,
-                                                        'deviceID': cron.id,
+                                                        'deviceID': cron.target,
                                                         'typeID': 'hardwareEvent',
                                                         'dataBundle': `cron burst event [${cron.id}][on]`
                                                     }
@@ -92,10 +92,11 @@ var CronJob = require('cron').CronJob; // event schedular
 
                                                     
                                                 
-                                                }); // end of cron
+                                                }, null, true); // end of cron
 
                                                 //start cron that was just created
                                                 this[cronID].start();
+                                                console.log(this[cronID].nextDates);
 
                                                 break;
                                             case 'on/off':
@@ -105,11 +106,12 @@ var CronJob = require('cron').CronJob; // event schedular
                                                
                                                 this[cronID_on] = new CronJob(cron.shape[0], function() {
 
+                                                    console.log('running cron on');
                                                     
                                                     //notify the event stream event has occured
                                                     let eventOBJ = {
                                                         'timeStamp': TimeStamp.local,
-                                                        'deviceID': cron.id,
+                                                        'deviceID': cron.target,
                                                         'typeID': 'hardwareEvent',
                                                         'dataBundle': `cron on/off event [${cron.id}][on]`
                                                     }
@@ -118,7 +120,7 @@ var CronJob = require('cron').CronJob; // event schedular
 
                                                     // at start of event close relay (i.e. turn it on)
                                                     return currentRelay.close()
-                                                });
+                                                }, null, null);
 
                                                 
 
@@ -126,6 +128,7 @@ var CronJob = require('cron').CronJob; // event schedular
                                                 var cronID_off = `cron-${cron.id}-off` // create dynamic variable for cron
                                                 this[cronID_off] = new CronJob(cron.shape[1], function() {
 
+                                                    console.log('running cron off');
                                                    
                                                     let eventOBJ = {
                                                         'timeStamp': TimeStamp.local,
@@ -135,10 +138,12 @@ var CronJob = require('cron').CronJob; // event schedular
                                                     }
                                                     systemEmitter.emit('event', eventOBJ);
                                                     return  currentRelay.open()
-                                                })
+                                                }, null, null)
 
-                                                this[cronID_on].start()
-                                                this[cronID_off].start()
+                                                 this[cronID_on].start()
+                                                 this[cronID_off].start()
+                                                 console.log(this[cronID_on].nextDates);
+                                                 console.log(this[cronID_off].nextDates);
                                                 
                                                 break;
                     
