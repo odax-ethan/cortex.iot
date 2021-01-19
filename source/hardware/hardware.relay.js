@@ -92,11 +92,11 @@ var CronJob = require('cron').CronJob; // event schedular
 
                                                     
                                                 
-                                                }, null, true); // end of cron
+                                                }, null, null); // end of cron
 
                                                 //start cron that was just created
                                                 this[cronID].start();
-                                                console.log(this[cronID].nextDates);
+                                               
 
                                                 break;
                                             case 'on/off':
