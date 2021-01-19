@@ -101,6 +101,8 @@ var CronJob = require('cron').CronJob; // event schedular
                                                 break;
                                             case 'on/off':
 
+                                                console.log(cron.shape);
+
                                                 //create cron for on/off start
                                                 var cronID_on = `cron-${cron.id}-on` // create dynamic variable for cron
                                                
@@ -120,7 +122,7 @@ var CronJob = require('cron').CronJob; // event schedular
 
                                                     // at start of event close relay (i.e. turn it on)
                                                     return currentRelay.close()
-                                                }, null, null);
+                                                }, null, null)
 
                                                 
 
@@ -142,8 +144,7 @@ var CronJob = require('cron').CronJob; // event schedular
 
                                                  this[cronID_on].start()
                                                  this[cronID_off].start()
-                                                 console.log(this[cronID_on].nextDates);
-                                                 console.log(this[cronID_off].nextDates);
+                                                 
                                                 
                                                 break;
                     
