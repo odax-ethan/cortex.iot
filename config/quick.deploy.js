@@ -137,7 +137,7 @@ CRONs = [
         nid:'Fan/Humidity Cycle',
         target: 'input_air_relay',
         type: 'burst',
-        shape: ' * */10 * * * * ',
+        shape: ' * 10,20,30,40,50,0 * * * * ',
         length: 120000,
         color: '#0dce8b'
     }
