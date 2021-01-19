@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/odax-ethan/cortex.iot#readme",
   "dependencies": {
-    "cron": "^1.8.2",
     "dateformat": "^3.0.3",
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
@@ -27,6 +26,7 @@
     "helmet": "^4.2.0",
     "ip": "^1.1.5",
     "johnny-five": "^2.0.0",
+    "node-cron": "^2.0.3",
     "node-fetch": "^2.6.1",
     "pouchdb": "^7.2.2",
     "socket.io": "^2.3.0"
