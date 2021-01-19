@@ -48,7 +48,7 @@ const devices = [
         nid:'Tent Grow Light', 
         class:'relay', // relay class
         pin: '2', // digital or analog pinv
-        type: 'NO', // either NO or NC 
+        type: 'NC', // either NO or NC 
         board:'fruiting_tent',
         color: "#ff8e51",
         CRON: [] //do not manually add
@@ -59,7 +59,7 @@ const devices = [
         nid:'Fan + Humidifier', 
         class:'relay', // relay class
         pin: '3', // digital or analog pin
-        type: 'NO', // either NO or NC 
+        type: 'NC', // either NO or NC 
         board:'fruiting_tent',
         color: "#71ffad",
         CRON: [] //do not manually add
