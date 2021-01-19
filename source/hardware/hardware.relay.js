@@ -1,7 +1,6 @@
 var five = require("johnny-five");
 const { systemEmitter } = require('../network/event.emitter.js'); // tested
 const { TimeStamp } = require('../boot/time.js'); // tested
-// var CronJob = require('cron').CronJob; // event schedular
 var cron = require('node-cron');
 
 
@@ -63,7 +62,6 @@ var cron = require('node-cron');
                                                 console.log(cron.shape);
                                                 
                                                 var cronID = `cron-${cron.id}` // create dynamic variable for cron
-                                              //  this[cronID] = new CronJob(cron.shape, function() {
                                                 this[cronID] = cron.schedule(cron.shape, () => {
 
                                                     console.log('cron started');
@@ -108,7 +106,6 @@ var cron = require('node-cron');
                                                 //create cron for on/off start
                                                 var cronID_on = `cron-${cron.id}-on` // create dynamic variable for cron
                                                
-                                                // this[cronID_on] = new CronJob(cron.shape[0], function() {
                                                 this[cronID_on]   = cron.schedule(cron.shape[0], () => {
 
 
