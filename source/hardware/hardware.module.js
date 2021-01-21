@@ -153,4 +153,4 @@ setupHardware = () => {
 
 // setupHardware()
 
-module.exports = { setupHardware , systemREPL };
+module.exports = { setupHardware };
