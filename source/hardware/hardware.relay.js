@@ -39,8 +39,10 @@ var cronNode = require('node-cron');
                                 systemEmitter.on(`relay-trigger-${this.id}-on`, () => {
 
                                     console.log('triggered on');
-                                    console.log(currentRelay);
+                                    console.log();
                                     
+                                    let this_relay = currentRelay
+
                                     //check current state if off then turn on
                                     // if (currentRelay.isOn === false){
                                     //     currentRelay.close()
@@ -49,7 +51,7 @@ var cronNode = require('node-cron');
                                     //     console.log('error');
                                     // }
 
-                                          currentRelay.close()
+                                    this_relay.close()
                                     
 
                                 });// end of system emitter
@@ -58,7 +60,7 @@ var cronNode = require('node-cron');
                                 systemEmitter.on(`relay-trigger-${this.id}-off`, () => {
     
                                     console.log('triggered off');
-                                    console.log(currentRelay);
+                                    let this_relay = currentRelay
 
                                      //check current state if on then turn off
                                     //  if (currentRelay.isOn === true){
@@ -69,7 +71,7 @@ var cronNode = require('node-cron');
                                     // }
                                     
 
-                                    currentRelay.open()
+                                    this_relay.open()
 
                                 })// end of system emitter
 
