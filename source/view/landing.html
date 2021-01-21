@@ -80,6 +80,11 @@
                   console.log('event sent');
               }
 
+              relay_toggle = (id) => {
+                  socket.emit('systemEmitter-emit', `relay-trigger-${id}-toggle`); 
+                  console.log('event sent');
+              }
+
         </script>
 
         <!-- get function to build render hardware -->
