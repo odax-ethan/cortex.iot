@@ -67,6 +67,19 @@
             socket.on('connect', () => {
               console.log('connected');
             });
+
+
+            relay_on = (id) => {
+                  socket.emit('systemEmitter-emit', `relay-trigger-${id}-on`); 
+                  console.log('event sent');
+              }
+
+
+              relay_off = (id) => {
+                  socket.emit('systemEmitter-emit', `relay-trigger-${id}-off`); 
+                  console.log('event sent');
+              }
+
         </script>
 
         <!-- get function to build render hardware -->
