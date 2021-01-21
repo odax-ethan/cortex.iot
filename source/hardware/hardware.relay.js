@@ -22,6 +22,7 @@ var cronNode = require('node-cron');
 
                                 //create a variable to call within build()
                                 let currentRelay =  this[this.id]
+                                let currentID = this.id
 
                                 // system init does stop the flow of power to the digital pin
                                 // causing the all relays to be on when system has initiated
@@ -46,11 +47,20 @@ var cronNode = require('node-cron');
                                     if (currentRelay.isOn === false){
                                         currentRelay.close()
                                         console.log('should be closed');
+
+                                        let eventOBJ = {
+                                            'timeStamp': TimeStamp.local,
+                                            'deviceID': currentID,
+                                            'typeID': 'hardwareEvent',
+                                            'dataBundle': `cron burst event [${cron.id}][on]`
+                                        }
+                                        systemEmitter.emit('event', eventOBJ);
+
                                     } else {
                                         console.log('error');
                                     }
 
-                                    currentRelay.close()
+                                    // currentRelay.close()
                                     
 
                                 });// end of system emitter
@@ -65,6 +75,15 @@ var cronNode = require('node-cron');
                                      if (currentRelay.isOn === true){
                                         currentRelay.open()
                                         console.log('should be open');
+
+                                        let eventOBJ = {
+                                            'timeStamp': TimeStamp.local,
+                                            'deviceID': currentID,
+                                            'typeID': 'hardwareEvent',
+                                            'dataBundle': `cron burst event [${cron.id}][off]`
+                                        }
+                                        systemEmitter.emit('event', eventOBJ);
+
                                     } else {
                                         console.log('error');
                                     }
