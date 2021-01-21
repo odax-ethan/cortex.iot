@@ -39,19 +39,18 @@ var cronNode = require('node-cron');
                                 systemEmitter.on(`relay-trigger-${this.id}-on`, () => {
 
                                     console.log('triggered on');
-                                    console.log();
                                     
-                                    let this_relay = currentRelay
+                                    // let this_relay = currentRelay
 
                                     //check current state if off then turn on
-                                    // if (currentRelay.isOn === false){
-                                    //     currentRelay.close()
-                                    //     console.log('should be closed');
-                                    // } else {
-                                    //     console.log('error');
-                                    // }
+                                    if (currentRelay.isOn === false){
+                                        currentRelay.close()
+                                        console.log('should be closed');
+                                    } else {
+                                        console.log('error');
+                                    }
 
-                                    this_relay.close()
+                                    currentRelay.close()
                                     
 
                                 });// end of system emitter
@@ -60,18 +59,18 @@ var cronNode = require('node-cron');
                                 systemEmitter.on(`relay-trigger-${this.id}-off`, () => {
     
                                     console.log('triggered off');
-                                    let this_relay = currentRelay
+                                    // let this_relay = currentRelay
 
                                      //check current state if on then turn off
-                                    //  if (currentRelay.isOn === true){
-                                    //     currentRelay.open()
-                                    //     console.log('should be open');
-                                    // } else {
-                                    //     console.log('error');
-                                    // }
+                                     if (currentRelay.isOn === true){
+                                        currentRelay.open()
+                                        console.log('should be open');
+                                    } else {
+                                        console.log('error');
+                                    }
                                     
 
-                                    this_relay.open()
+                                    // currentRelay.open()
 
                                 })// end of system emitter
 
