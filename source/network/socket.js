@@ -33,6 +33,7 @@ socketListener = (expressSocket) => {
        // // responce to request for board sturcture
     socket.on('systemEmitter-emit', (toEmit)=> {
       systemEmitter.emit(toEmit);
+      console.log(toEmit);
     })
        
 
