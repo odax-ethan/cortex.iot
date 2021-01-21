@@ -30,11 +30,15 @@ socketListener = (expressSocket) => {
     //     socket.emit(Hardware_config)
     // })
 
-       // // responce to request for board sturcture
-    socket.on('systemEmitter-emit', (toEmit)=> {
-      systemEmitter.emit(toEmit);
-      console.log(toEmit);
-    })
+    //    // // responce to request for board sturcture
+    // socket.on('systemEmitter-emit', (toEmit)=> {
+    //   systemEmitter.emit(toEmit);
+    //   console.log(toEmit);
+    // })
+
+    socket.on("hello", (arg) => {
+      console.log(arg); // world
+    });
        
 
       // on socket disconnect
