@@ -49,6 +49,8 @@
 
             <button class="donwload_btn" onclick="download_system_history()"> Download System History</button>
 
+            
+
 
         </div>
       </div>
@@ -57,6 +59,15 @@
       <div class="s-2"></div>
     </div>
   
+        <!-- init socket -->
+        <script>
+            window.socket = io();
+            
+            //log event on client when connected to server
+            socket.on('connect', () => {
+              console.log('connected');
+            });
+        </script>
 
         <!-- get function to build render hardware -->
         <script src="static/js/hardware_render.js"></script> 

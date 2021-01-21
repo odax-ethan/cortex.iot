@@ -28,8 +28,6 @@ const { Hygrometer } = require('./hardware.hygrometer.js'); //tested
 // get configs
 const {Hardware_config, System_config} = require('../database/settings.pouchdb');
 
-const systemREPL
-
 
 //build ports obj for boards.j5
 board_port_builder = (board_map) => {
@@ -60,10 +58,6 @@ board_assembler = (j5_boards, board_map, hardware_settings) => {
 
         // Both "A" and "B" are initialized
         // (connected and available for communication)
-
-        //tag the repl instance for system
-        //this is exported for use in all classes
-        systemREPL = this.repl
         
       
         // |this| is an array-like object containing references
