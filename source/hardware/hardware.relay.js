@@ -44,23 +44,32 @@ var cronNode = require('node-cron');
                                     // let this_relay = currentRelay
 
                                     //check current state if off then turn on
-                                    if (currentRelay.isOn === false){
-                                        currentRelay.close()
-                                        console.log('should be closed');
+                                    // if (currentRelay.isOn === false){
+                                    //     currentRelay.close()
+                                    //     console.log('should be closed');
 
-                                        let eventOBJ = {
-                                            'timeStamp': TimeStamp.local,
-                                            'deviceID': currentID,
-                                            'typeID': 'hardwareEvent',
-                                            'dataBundle': `cron burst event [${cron.id}][on]`
-                                        }
-                                        systemEmitter.emit('event', eventOBJ);
+                                    //     let eventOBJ = {
+                                    //         'timeStamp': TimeStamp.local,
+                                    //         'deviceID': currentID,
+                                    //         'typeID': 'hardwareEvent',
+                                    //         'dataBundle': `cron burst event [${cron.id}][on]`
+                                    //     }
+                                    //     systemEmitter.emit('event', eventOBJ);
 
-                                    } else {
-                                        console.log('error');
+                                    // } else {
+                                    //     console.log('error');
+                                    // }
+
+                                    currentRelay.close()
+                                    console.log('should be closed');
+
+                                    let eventOBJ = {
+                                        'timeStamp': TimeStamp.local,
+                                        'deviceID': currentID,
+                                        'typeID': 'hardwareEvent',
+                                        'dataBundle': `cron burst event [${cron.id}][on]`
                                     }
-
-                                    // currentRelay.close()
+                                    systemEmitter.emit('event', eventOBJ);
                                     
 
                                 });// end of system emitter
@@ -72,24 +81,34 @@ var cronNode = require('node-cron');
                                     // let this_relay = currentRelay
 
                                      //check current state if on then turn off
-                                     if (currentRelay.isOn === true){
-                                        currentRelay.open()
-                                        console.log('should be open');
+                                    //  if (currentRelay.isOn === true){
+                                    //     currentRelay.open()
+                                    //     console.log('should be open');
 
-                                        let eventOBJ = {
-                                            'timeStamp': TimeStamp.local,
-                                            'deviceID': currentID,
-                                            'typeID': 'hardwareEvent',
-                                            'dataBundle': `cron burst event [${cron.id}][off]`
-                                        }
-                                        systemEmitter.emit('event', eventOBJ);
+                                    //     let eventOBJ = {
+                                    //         'timeStamp': TimeStamp.local,
+                                    //         'deviceID': currentID,
+                                    //         'typeID': 'hardwareEvent',
+                                    //         'dataBundle': `cron burst event [${cron.id}][off]`
+                                    //     }
+                                    //     systemEmitter.emit('event', eventOBJ);
 
-                                    } else {
-                                        console.log('error');
-                                    }
+                                    // } else {
+                                    //     console.log('error');
+                                    // }
                                     
 
-                                    // currentRelay.open()
+                                    currentRelay.open()
+                                    console.log('should be open');
+
+                                    let eventOBJ = {
+                                        'timeStamp': TimeStamp.local,
+                                        'deviceID': currentID,
+                                        'typeID': 'hardwareEvent',
+                                        'dataBundle': `cron burst event [${cron.id}][off]`
+                                    }
+                                    systemEmitter.emit('event', eventOBJ);
+
 
                                 })// end of system emitter
 
