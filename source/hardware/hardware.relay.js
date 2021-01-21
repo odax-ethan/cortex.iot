@@ -2,6 +2,7 @@ var five = require("johnny-five");
 const { systemEmitter } = require('../network/event.emitter.js'); // tested
 const { TimeStamp } = require('../boot/time.js'); // tested
 var cronNode = require('node-cron');
+const  { systemREPL } = require('./hardware.module.js'); // untested
 
 
  class Relay {
@@ -22,6 +23,7 @@ var cronNode = require('node-cron');
 
                                 //create a variable to call within build()
                                 let currentRelay =  this[this.id]
+                                let currentID = this.id
 
                                 // system init does stop the flow of power to the digital pin
                                 // causing the all relays to be on when system has initiated
@@ -58,7 +60,6 @@ var cronNode = require('node-cron');
 
 
                                 //create Crons
-
                                 if (this.CRON.length > 0 ) {
 
                                     // for each cron in the devices cron array create a cron based on its type
@@ -173,6 +174,19 @@ var cronNode = require('node-cron');
                                     return console.log('No Cron');
 
                                 }//end of CRON relay Builder
+
+                                // create repl connectors
+                                systemREPL.inject({
+                                    // Allow limited on/off control access to the
+                                    // Led instance from the REPL.
+                                    [currentID + "_" + on]: function() {
+                                        currentRelay.close();
+                                    },
+                                    [currentID + "_" + off]: function() {
+                                        currentRelay.open();
+                                    }
+                                  });
+
 
 
 

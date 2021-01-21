@@ -35,18 +35,18 @@ const system_location = {
 // set your db network location
 // if local set as -> localhost
 
-const system_db = 'POUCHDB' 
-const system_db_URL = 'localhost'
+const system_db = 'POUCHDB';
+const system_db_URL = 'localhost';
 
 
 // embeded hardware master frequency
-const system_master_freq = 9000
+const system_master_freq = 30000;
 
 // sensor reading temp standard 
 // 'C' : celsius 
 // 'F' : fahrenheit
 // 'K' : kelvin
-const system_reading_temp_standard = 'C'
+const system_reading_temp_standard = 'C';
 
 
 

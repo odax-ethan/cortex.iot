@@ -2,6 +2,8 @@ var five = require("johnny-five"); // Generic J5
 const { systemEmitter } = require('../network/event.emitter.js');
 const { TimeStamp } = require('../boot/time.js'); // tested
 
+
+
 //Board refactored
 // const { Board } = require('./hardware.board.js'); // untested - maybe unneeded
 
@@ -25,6 +27,8 @@ const { Hygrometer } = require('./hardware.hygrometer.js'); //tested
 
 // get configs
 const {Hardware_config, System_config} = require('../database/settings.pouchdb');
+
+
 
 
 //build ports obj for boards.j5
@@ -56,6 +60,11 @@ board_assembler = (j5_boards, board_map, hardware_settings) => {
 
         // Both "A" and "B" are initialized
         // (connected and available for communication)
+
+        //tag the repl instance for system
+        //this is exported for use in all classes
+        const systemREPL = this.repl
+        module.exports = { systemREPL };
       
         // |this| is an array-like object containing references
         // to each initialized board.
@@ -150,4 +159,4 @@ setupHardware = () => {
 
 // setupHardware()
 
-module.exports = { setupHardware };
+module.exports = { setupHardware  };
