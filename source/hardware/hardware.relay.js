@@ -28,7 +28,7 @@ var cronNode = require('node-cron');
                                 // it may make sense to add a single call at the beginning to turn everything off.
                                 // ie cycle off so they are in the right state to start
 
-                                currentRelay.off();
+                                currentRelay.open();
 
 
 
