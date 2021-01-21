@@ -67,7 +67,7 @@ var cronNode = require('node-cron');
                                         'timeStamp': TimeStamp.local,
                                         'deviceID': currentID,
                                         'typeID': 'hardwareEvent',
-                                        'dataBundle': `cron burst event [${cron.id}][on]`
+                                        'dataBundle': `on`
                                     }
                                     systemEmitter.emit('event', eventOBJ);
                                     
@@ -105,7 +105,7 @@ var cronNode = require('node-cron');
                                         'timeStamp': TimeStamp.local,
                                         'deviceID': currentID,
                                         'typeID': 'hardwareEvent',
-                                        'dataBundle': `cron burst event [${cron.id}][off]`
+                                        'dataBundle': `off`
                                     }
                                     systemEmitter.emit('event', eventOBJ);
 
