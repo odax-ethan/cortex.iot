@@ -41,12 +41,14 @@ var cronNode = require('node-cron');
                                     console.log('triggered on');
                                     
                                     //check current state if off then turn on
-                                    if (currentRelay.isOn === false){
-                                        currentRelay.close()
-                                        console.log('should be closed');
-                                    } else {
-                                        console.log('error');
-                                    }
+                                    // if (currentRelay.isOn === false){
+                                    //     currentRelay.close()
+                                    //     console.log('should be closed');
+                                    // } else {
+                                    //     console.log('error');
+                                    // }
+
+                                          currentRelay.close()
                                     
 
                                 });// end of system emitter
@@ -57,13 +59,15 @@ var cronNode = require('node-cron');
                                     console.log('triggered off');
 
                                      //check current state if on then turn off
-                                     if (currentRelay.isOn === true){
-                                        currentRelay.open()
-                                        console.log('should be open');
-                                    } else {
-                                        console.log('error');
-                                    }
+                                    //  if (currentRelay.isOn === true){
+                                    //     currentRelay.open()
+                                    //     console.log('should be open');
+                                    // } else {
+                                    //     console.log('error');
+                                    // }
                                     
+
+                                    currentRelay.open()
 
                                 })// end of system emitter
 
