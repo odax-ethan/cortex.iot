@@ -1,17 +1,23 @@
-render_hardware = (hardware_config, data) => {
+render_hardware = (hardware_config) => {
           //get render container
           var system_list_container = document.querySelector('.systemContainer')
-
 
           //sort by board
           hardware_config.forEach(board => {
             
-            console.log(board.devices);
+            // console.log(board.devices);
 
             //current board display container
             // basic template
             let board_dom_elements = `
-              <span>${board.nid}</span>
+            <div class='board_panel' style='color:${board.color};'>
+              <span class='board_title'>${board.nid}</span> <br/>
+              <span>${board.port}</span>
+            </div>
+              
+              
+              
+              
             `
             //place board container
             var board_dom_container = document.createElement("div");
@@ -24,11 +30,19 @@ render_hardware = (hardware_config, data) => {
             //board info
             board.devices.forEach(device => {
 
-              // console.log(device);
+              console.log(device);
 
               let device_dom_elements = `
-              <span class='deviceData' id='${device.id}_listViewData'>data</span> - <span class='deviceName'>${device.nid}</span>
+              <div style="background-color:${device.color};">
+              </div>
+              <div>
+                <span" class='deviceData' id='${device.id}_listViewData'>data</span>
+              </div>
+              <div>
+                <span class='deviceName'>${device.nid}</span>
+              </div>     
               `
+              
             
               //current device display container
 

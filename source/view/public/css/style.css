@@ -1,40 +1,122 @@
 
+        
+        /* Root */
+
+        :root {
+          background: #464056;
+          --basic-white: #f3f2f2;
+        }
+        
         body, html {
             height: 100%;
             font-family: Arial, Helvetica, sans-serif;
             margin: 0;
             padding: 0;
             height: 100vh;
+            background: #464056;
           }
   
+
+
+        /* core placements */
+
         .grid-container {
           display: grid;
-          grid-template-columns: minmax(1, 1fr ) repeat(2, minmax(0,1fr)) minmax(1,1fr);
-          grid-template-rows: 10% 1fr;
+          grid-template-columns: minmax(0, 1f) 1fr minmax(0, 1f);
+          grid-template-rows: 60px 1fr;
           gap: 0px 0px;
           grid-template-areas:
             "header header header header"
             "s-1 list list s-2";
         }
   
-        .header { grid-area: header; }
+
+        .header { grid-area: header;}
         .list { grid-area: list; }
         .s-1 { grid-area: s-1; }
         .s-2 { grid-area: s-2; }
   
-  
-        .systemContainer {
-          padding: .5rem;
-  
+
+        /* navbar and icon */
+        .navTab {
+          background-color: var(--basic-white);
+          height: 45px;
+          width: 40px;
+          margin-left: 3rem;
+          padding: .3rem;
         }
   
+
+        /* display boards and devices */
   
+  
+        /* each board container */
         .systemBoardContainer {
             padding: 1rem;
-  
+            background-color: var(--basic-white);
+            margin-bottom: 1rem;
         }
+
+
+        /* board panel styles */
+        .board_panel {
+
+
+        }
+
+
+        /* each device branch */
         .systemDeviceContainer {
-           padding-left: .8rem;
-           padding-top: .3rem;
+           padding-left: 1rem;
+           padding-top: .5rem;
+
+           display: grid;
+           grid-template-columns: .4fr 3fr auto;
+           grid-template-rows: 1fr;
+           gap: 0px 10px;
+           grid-template-areas:
+             ". . .";
+
         }
   
+        
+
+
+
+        /* download button */
+
+        .donwload_btn {
+          background: #3498db;
+          background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+          background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+          background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+          background-image: -o-linear-gradient(top, #3498db, #2980b9);
+          background-image: linear-gradient(to bottom, #3498db, #2980b9);
+          -webkit-border-radius: 3;
+          -moz-border-radius: 3;
+          border-radius: 3px;
+          border:none;
+          font-family: Arial;
+          color: #ffffff;
+          font-size: 20px;
+          padding: 10px 20px 10px 20px;
+          text-decoration: none;
+        }
+        
+        .donwload_btn:hover {
+          background: #3cb0fd;
+          background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+          background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+          background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+          background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+          background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+          text-decoration: none;
+        }
+
+
+        /* text styles */
+
+        .board_title {
+          font-size: 1.4rem;
+          font-weight: 600;
+        }

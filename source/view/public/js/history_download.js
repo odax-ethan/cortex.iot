@@ -34,21 +34,4 @@ function download_system_history() {
     });
 
 
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
   }
-  
-  // Start file download.
-  // download("hello.txt","This is the content of my file :)");

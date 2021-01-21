@@ -8,15 +8,6 @@
 
     <link  rel="stylesheet" href="static/css/style.css">
 
-    <!-- get function to build render hardware -->
-    <script src="static/js/hardware_render.js"></script> 
-    <!-- last thing called is render to build ui -->
-    <script src="static/js/init_render.js"></script>
-    <!-- render data from system.emmiter -->
-    <script src="static/js/socket_render_stream.js"></script>
-    <!-- script to download system history -->
-    <script src="static/js/history_download.js"></script>
-
   </head>
   <body>
     
@@ -25,7 +16,12 @@
     <div class="grid-container">
       <!-- top bar of ui -->
       <div class="header">
-        <a href='/'><img width="52" height="52" src="static/assets/cortex.iot-brand-logo-mark-black.png" alt="Cortex.iot" /></a>
+        <div class='navTab'>
+
+          <a href='/'><img width="40" height="40" src="static/assets/cortex.iot-brand-logo-mark-black.png" alt="Cortex.iot" /></a>
+
+        </div>
+        
       </div>
       <!-- list container in ui -->
       <div class="list">
@@ -51,7 +47,7 @@
           
             <br>
 
-            <button onclick="download_system_history('This is the content of my file :)')"> Download System History</button>
+            <button class="donwload_btn" onclick="download_system_history()"> Download System History</button>
 
 
         </div>
@@ -62,7 +58,14 @@
     </div>
   
 
+        <!-- get function to build render hardware -->
+        <script src="static/js/hardware_render.js"></script> 
+        <!-- last thing called is render to build ui -->
+        <script src="static/js/hardware_query.js"></script>
+        <!-- render data from system.emmiter -->
+        <script src="static/js/socket_render_stream.js"></script>
+        <!-- script to download system history -->
+        <script src="static/js/history_download.js"></script>
 
 
-  </body>
 </html>

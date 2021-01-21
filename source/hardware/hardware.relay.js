@@ -23,6 +23,15 @@ var cronNode = require('node-cron');
                                 //create a variable to call within build()
                                 let currentRelay =  this[this.id]
 
+                                // system init does stop the flow of power to the digital pin
+                                // causing the all relays to be on when system has initiated
+                                // it may make sense to add a single call at the beginning to turn everything off.
+                                // ie cycle off so they are in the right state to start
+
+                                currentRelay.off();
+
+
+
                                 // create listeners for triggers
 
                                 // listen for events in system
