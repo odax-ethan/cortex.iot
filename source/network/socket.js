@@ -29,6 +29,11 @@ socketListener = (expressSocket) => {
     // socket.on('hardware-config', ()=> {
     //     socket.emit(Hardware_config)
     // })
+
+       // // responce to request for board sturcture
+    socket.on('systemEmitter-emit', (toEmit)=> {
+      systemEmitter.emit(toEmit);
+    })
        
 
       // on socket disconnect
