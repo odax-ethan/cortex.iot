@@ -35,7 +35,7 @@ render_hardware = (hardware_config) => {
               // place buttons for override if its a relay device.class
               var relayButtons
               if (device.class === 'relay') {
-                  relayButtons = `<button onclick='relay_on('${device.id}')'>on</button> <button onclick='relay_on('${device.id}')' >off</button> `
+                  relayButtons = `<button onclick='relay_on("${device.id}")'>on</button> <button onclick='relay_on("${device.id}")' >off</button> `
               } else {
                 relayButtons = ' '
               }
