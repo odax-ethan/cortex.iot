@@ -20,7 +20,7 @@ function download_system_history() {
 
       var filename = 'history.js'
       var element = document.createElement('a');
-      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(`var history = ${data.data.complete_hardware_history}`));
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(`var table = ${data.data.complete_hardware_history}; module.exports = { table };`));
       element.setAttribute('download', filename);
     
       element.style.display = 'none';

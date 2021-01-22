@@ -32,6 +32,14 @@ render_hardware = (hardware_config) => {
 
               console.log(device);
 
+              // place buttons for override if its a relay device.class
+              var relayButtons
+              if (device.class === 'relay') {
+                  relayButtons = `<button onclick='relay_on('${device.id}')'>on</button> <button onclick='relay_on('${device.id}')' >off</button> `
+              } else {
+                relayButtons = ' '
+              }
+
               let device_dom_elements = `
               <div style="background-color:${device.color};">
               </div>
@@ -40,7 +48,8 @@ render_hardware = (hardware_config) => {
               </div>
               <div>
                 <span class='deviceName'>${device.nid}</span>
-              </div>     
+                ${relayButtons}
+              </div>
               `
               
             
