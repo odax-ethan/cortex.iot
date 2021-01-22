@@ -2,7 +2,7 @@ function download_system_history() {
 
 
     // graphql call for complete dataset
-    var query = `query { complete_hardware_history}`;
+    var query = `query { complete_hardware_history }`;
 
     fetch('/graphql', {
       method: 'POST',
@@ -17,9 +17,10 @@ function download_system_history() {
     .then(r => r.json())
     .then(data => {
     
-      var filename = 'system_device_history.txt'
+
+      var filename = 'history.js'
       var element = document.createElement('a');
-      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data.data.complete_hardware_history));
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(`var history = ${data.data.complete_hardware_history}`));
       element.setAttribute('download', filename);
     
       element.style.display = 'none';
