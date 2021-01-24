@@ -20,15 +20,17 @@ socketListener = (expressSocket) => {
     io.on('connection', socket => {
       console.log('New Client Connected')
 
-    //   // responce to request for board sturcture
-    //   socket.on('system-config', ()=> {
-    //         socket.emit(System_config)
-    //   })
+      // responce to request for system sturcture
+      socket.on('system-config-req', ()=> {
+            socket.emit('system-config-res', System_config)
+      })
 
-    // // responce to request for board sturcture
-    // socket.on('hardware-config', ()=> {
-    //     socket.emit(Hardware_config)
-    // })
+    // responce to request for board sturcture
+    socket.on('hardware-config-req', ()=> {
+        socket.emit('hardware-config-res', Hardware_config)
+    })
+
+
 
     //    // // responce to request for board sturcture
     socket.on('systemEmitter-emit', (toEmit)=> {
