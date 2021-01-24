@@ -27,7 +27,18 @@ socketListener = (expressSocket) => {
 
     // responce to request for board sturcture
     socket.on('hardware-config-req', ()=> {
-        socket.emit('hardware-config-res', Hardware_config)
+        socket.emit('hardware-config-res', () => {
+          return Hardware_config().then((data)=>{
+            let new_bundle = []
+            data.forEach(element => {
+              new_bundle.push(element)
+            });
+            // console.log(new_bundle);
+            return JSON.stringify(new_bundle)
+          }).catch(err =>{
+            console.log(err);
+          });   
+        })
     })
 
 
