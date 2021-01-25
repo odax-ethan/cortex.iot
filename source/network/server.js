@@ -5,6 +5,8 @@ var ip = require('ip'); // get the public ip address
 // const helmet = require('helmet'); // basic security
 const {socketListener} = require('./socket'); // socket.io functionality
 
+process.env.NODE_ENV = 'production'
+
 setupServer = () => {
 
     const app = express() // define express app
@@ -22,8 +24,8 @@ setupServer = () => {
     //force https for local
     app.enable('trust proxy') // inform Express that its is behind a proxy
     app.use( (req, res, next) => {
-        if (req.header('x-forwarded-proto') == 'http') {
-          res.redirect(301, 'https://' + 'dummy.com' + req.url)
+        if (process.env.NODE_ENV != 'development' && !req.secure) {
+          res.redirect(301, "https://" + req.headers.host + req.url)
           return
         }
         next()
