@@ -34,7 +34,7 @@ socketListener = (expressSocket) => {
           new_bundle.push(element)
         });
         // console.log(new_bundle);
-        return socket.emit('hardware-config-res', JSON.stringify(new_bundle))
+        return socket.emit('hardware-config-res', JSON.stringify(new_bundle));
       }).catch(err =>{
         console.log(err);
       });   

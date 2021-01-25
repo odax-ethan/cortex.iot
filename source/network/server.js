@@ -13,8 +13,21 @@ setupServer = () => {
     app.disable('etag').disable('x-powered-by'); // minor security patch
     // app.use(helmet());  // basic security systems
 
+
+
+    //graphql system
     var { graphqlHTTP } = require('express-graphql'); 
     var { schema, root } = require(path.join(__dirname, 'graphql.js'));
+
+    //force https for local
+    app.enable('trust proxy') // inform Express that its is behind a proxy
+    app.use( (req, res, next) => {
+        if (req.header('x-forwarded-proto') == 'http') {
+          res.redirect(301, 'https://' + 'dummy.com' + req.url)
+          return
+        }
+        next()
+    })
 
     //public client view assets
     app.use('/static', express.static(path.join(__dirname, '../view/public')))
