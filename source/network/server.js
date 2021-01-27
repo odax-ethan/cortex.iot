@@ -1,4 +1,6 @@
 const path = require('path'); // node.js path modules
+var fs = require('fs');
+var https = require('https');
 const express = require('express') // http Module with some goodies
 const { systemEmitter } = require('./event.emitter.js'); // socket.io functionality
 var ip = require('ip'); // get the public ip address
@@ -15,25 +17,12 @@ setupServer = () => {
     app.disable('etag').disable('x-powered-by'); // minor security patch
     // app.use(helmet());  // basic security systems
 
-
-
     //graphql system
     var { graphqlHTTP } = require('express-graphql'); 
     var { schema, root } = require(path.join(__dirname, 'graphql.js'));
 
-    //force https for local
-    app.enable('trust proxy') // inform Express that its is behind a proxy
-    app.use( (req, res, next) => {
-        if (process.env.NODE_ENV != 'development' && !req.secure) {
-          res.redirect(301, "https://" + req.headers.host + req.url)
-          return
-        }
-        next()
-    })
-
     //public client view assets
     app.use('/static', express.static(path.join(__dirname, '../view/public')))
-
 
     //mains route
     app.get('/', (req, res) => {
@@ -51,18 +40,24 @@ setupServer = () => {
     return res.status(500).send({ error: err });
     });
 
-
     app.use(function(err,req, res, next) {
         return res.status(404).send({ error: err })
         //send a predesign not found html page
     });
 
+    var credentials = {
+        key: fs.readFileSync(path.join(__dirname, '../../config/ssl/key.pem'), 'utf8'),
+        cert: fs.readFileSync(path.join(__dirname, '../../config/ssl/cert.pem'), 'utf8')
+    };
+    
+    var httpsServer = https.createServer(credentials, app);
 
     // define cortex.iot app
-    const cortexApp = app.listen(port, hostIP, () => {
+    const cortexApp = httpsServer.listen(port, hostIP, () => {
         socketListener(cortexApp) //once you start listening to IP:host start socket.io server
-        console.log('running at http://' + ip.address()  + ':' + port)
+        console.log('running at https://' + ip.address()  + ':' + port)
     })
+
 };
 
 // setupServer()

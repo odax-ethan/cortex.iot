@@ -5,3 +5,5 @@ source/database/history
 source/hardware/settings
 /settings
 /history
+/config/ssl/cert.pem
+/config/ssl/key.pem
