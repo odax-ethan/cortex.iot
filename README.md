@@ -1,2 +1,2 @@
 # cortex.iot
-a node.js based iot infustructure
+A node.js based iot infrastructure

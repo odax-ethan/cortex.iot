@@ -8,11 +8,26 @@
     "quick_deploy": "node -r dotenv/config cortex.core.js dotenv_config_path=config/.env"
   },
   "author": "Odax Systems, LLC",
-  "license": "See license.txt",
+  "license": "SEE LICENCE IN license.txt",
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "pouchdb": "^7.2.2",
     "socket.io": "^3.1.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/odax-ethan/cortex.iot.git"
+  },
+  "keywords": [
+    "iot",
+    "stack",
+    "database",
+    "hardware"
+  ],
+  "bugs": {
+    "url": "https://github.com/odax-ethan/cortex.iot/issues"
+  },
+  "homepage": "https://github.com/odax-ethan/cortex.iot#readme"
 }
