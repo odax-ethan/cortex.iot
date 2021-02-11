@@ -16,9 +16,9 @@
 
 const boards = [
     {
-      id: 'fruiting_tent',
-      nid: 'Fruiting Tent',
-      port: "/dev/ttyACM0",
+      id: 'test_board',
+      nid: 'test board',
+      port: "COM3",
       color: "#0078ff",
       devices: [] // don't add to array
     }
@@ -41,75 +41,16 @@ const devices = [
     // 2 hygrometer - main room - fruiting chamber
 
 
-    // relays
-
-    { //fruiting chamber light relay
-        id:'tent_light_relay', 
-        nid:'Tent Grow Light', 
-        class:'relay', // relay class
-        pin: '2', // digital or analog pinv
-        type: 'NC', // either NO or NC 
-        board:'fruiting_tent',
-        color: "#ff8e51",
-        CRON: [] //do not manually add
+    { //TEST fruiting chamber fan relay
+        id:'water_level_trigger', 
+        nid:'water float', 
+        class:'switch', // relay class
+        pin: '7', // digital or analog pin
+        board:'test_board',
+        color: "#0078ff",
+        trigger: [] //do not manually add
     },
 
-    { // fruiting chamber fan/humidifier relay
-        id:'input_air_relay', 
-        nid:'Fan + Humidifier', 
-        class:'relay', // relay class
-        pin: '3', // digital or analog pin
-        type: 'NC', // either NO or NC 
-        board:'fruiting_tent',
-        color: "#71ffad",
-        CRON: [] //do not manually add
-    },
-
-    // thermometers
-
-    { // fruiting environment temperature main space
-        id:'temp_main_space', 
-        nid:'Main Space Temp', 
-        class:'thermometer', // thermometer class
-        controller: 'DS18B20', //examples controller 
-        pin: '8', // input digital pin
-        board:'fruiting_tent',
-        color: '#83baf8',
-        triggers: [] //do not manually add
-    },
-
-    { // fruiting environment temperature fruiting tent
-        id:'temp_fruiting_tent', 
-        nid:'Fruiting Tent Temp', 
-        class:'thermometer', // thermometer class
-        controller: 'DS18B20', //examples controller 
-        pin: '7', // input digital pin
-        board:'fruiting_tent',
-        color: '#f672b2v',
-        triggers: [] //do not manually add
-    },
-
-    //hygrometer
-
-    { //main room hygrometer
-        id:'hygro_main_room', 
-        nid:'Main Room Humidity', 
-        class:'hygrometer', // hygrometer class
-        controller: 'SHT31D', //examples controller uses i2c no pins need to be defined
-        board:'fruiting_tent',
-        color: '#fa7d7d',
-        triggers: []  //do not manually add
-    },
-
-    { // fruiting tent hygrometer
-        id:'hygro_fruiting_tent', 
-        nid:'Fruiting Tent Humidity', 
-        class:'hygrometer', // hygrometer class
-        controller: 'SHT31D', //examples controller uses i2c no pins need to be defined
-        board:'fruiting_tent',
-        color: '#f6de80',
-        triggers: []  //do not manually add
-    },
 
 
 
@@ -123,25 +64,7 @@ const devices = [
 //create a cron system for on/off schedualled events
 
 CRONs = [
- 
-    {
-       id:'light_cycle_cron', 
-       nid:'Light Cycle CRON',
-       target: 'tent_light_relay',
-       type: 'on/off',
-       shape: ['0 6 * * *' , '0 23 * * *'],
-       color: '#0dce8b'
-   },
-
-    {
-        id:'humidity-cycle-0', 
-        nid:'Fan/Humidity Cycle',
-        target: 'input_air_relay',
-        type: 'burst',
-        shape: '30 */7 * * * *',
-        length: 120000,
-        color: '#0dce8b'
-    }
+    
 ]
 
 

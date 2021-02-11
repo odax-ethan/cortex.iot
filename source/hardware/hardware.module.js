@@ -20,7 +20,7 @@ const { Thermometer } = require('./hardware.thermometer.js'); //tested
 const { Hygrometer } = require('./hardware.hygrometer.js'); //tested
 
 //Board Button refactored
-// const { Button } = require('./hardware.button.js'); //untested
+const { Button } = require('./hardware.button.js'); //untested
 
 //Board Switch refactored
 // const { Switch } = require('./hardware.switch.js'); //untested
@@ -96,7 +96,8 @@ device_switch = (devices, target_board, hardware_standards) => {
                 new Hygrometer(device, target_board, hardware_standards).build()
             break;
             case "button":
-                console.log(device.id);
+                console.log(`there is a j5.button with id being built: ${device.id}`);
+                new Button(device, target_board, hardware_standards).build()
                 break;
             case "switch":
                 console.log(device.id);

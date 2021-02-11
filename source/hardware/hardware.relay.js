@@ -17,12 +17,12 @@ var cronNode = require('node-cron');
 
                             build (){
                                 
-                                //create a relay device with a dynamic variables using the device ID
-                                this[this.id] = new five.Relay({id: this.device.id, type: this.device.type, pin: this.device.pin, board: this.target_board})
+                            //create a relay device with a dynamic variables using the device ID
+                            this[this.id] = new five.Relay({id: this.device.id, type: this.device.type, pin: this.device.pin, board: this.target_board})
 
-                                //create a variable to call within build()
-                                let currentRelay =  this[this.id]
-                                let currentID = this.id
+                            //create a variable to call within build()
+                            let currentRelay =  this[this.id]
+                            let currentID = this.id
 
                                 // system init does stop the flow of power to the digital pin
                                 // causing the all relays to be on when system has initiated

@@ -7,3 +7,5 @@ source/hardware/settings
 /history
 /config/ssl/cert.pem
 /config/ssl/key.pem
+/source/network/history
+/source/network/settings

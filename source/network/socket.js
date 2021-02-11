@@ -20,14 +20,13 @@ socketListener = (expressSocket) => {
     io.on('connection', socket => {
       console.log('New Client Connected')
 
-      // responce to request for system sturcture
-      socket.on('system-config-req', ()=> {
-            socket.emit('system-config-res', System_config)
-      })
+    // responce to request for system sturcture
+    socket.on('system-config-req', ()=> {
+          socket.emit('system-config-res', System_config)
+    })
 
     // responce to request for board sturcture
     socket.on('hardware-config-req', ()=> {
-
       return Hardware_config().then((data)=>{
         let new_bundle = []
         data.forEach(element => {
@@ -38,14 +37,11 @@ socketListener = (expressSocket) => {
       }).catch(err =>{
         console.log(err);
       });   
-
-
-        
     })
 
 
 
-    //    // // responce to request for board sturcture
+    // responce to request for board sturcture
     socket.on('systemEmitter-emit', (toEmit)=> {
       systemEmitter.emit(toEmit);
       console.log(toEmit);

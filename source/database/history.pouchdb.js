@@ -61,14 +61,5 @@ const bulk_device_history = async () => {
 }
 
 
-// Device_history_add('test_device', {timeStamp: "2020-11-12 23:07:47", deviceID: "fruiting_temp", typeID: "hardwareEvent", dataBundle: 248} ).then(data=>{
-//   console.log(data)
-// }).catch(function (err) {
-//   // handle any errors
-//   throw err;
-// });
-
-
-
 
 module.exports = {Device_history_add, bulk_device_history}

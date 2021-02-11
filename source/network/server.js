@@ -29,6 +29,11 @@ setupServer = () => {
         res.sendFile(path.join(__dirname, '../view/landing.html'))
     });
 
+    app.get('/settings', (req, res) => {
+        res.sendFile(path.join(__dirname, '../view/settings.html'))
+    });
+
+
     app.use('/graphql', graphqlHTTP({
         schema: schema,
         rootValue: root,
@@ -52,11 +57,17 @@ setupServer = () => {
     
     var httpsServer = https.createServer(credentials, app);
 
+
+
+
     // define cortex.iot app
     const cortexApp = httpsServer.listen(port, hostIP, () => {
-        socketListener(cortexApp) //once you start listening to IP:host start socket.io server
         console.log('running at https://' + ip.address()  + ':' + port)
     })
+
+    //listen to connections to the HTTPS server
+    socketListener(cortexApp) 
+    
 
 };
 
