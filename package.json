@@ -1,34 +1,18 @@
 {
   "name": "cortex.iot",
-  "version": "0.0.6",
-  "description": "refactory of the cortex.iot systems. moving to a client oriented system",
-  "main": "core.cortex.js",
+  "version": "0.7.0",
+  "description": "A automation and logging stack",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "quick_deploy": "node -r dotenv/config cortex.core.js dotenv_config_path=config/.env"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/odax-ethan/cortex.iot.git"
-  },
-  "author": "ethan drory @ odax systems, LLC",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/odax-ethan/cortex.iot/issues"
-  },
-  "homepage": "https://github.com/odax-ethan/cortex.iot#readme",
+  "author": "Odax Systems, LLC",
+  "license": "See license.txt",
   "dependencies": {
-    "dateformat": "^3.0.3",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-graphql": "^0.11.0",
-    "figlet": "^1.5.0",
-    "graphql": "^15.4.0",
-    "graphql-type-json": "^0.3.2",
-    "helmet": "^4.2.0",
-    "ip": "^1.1.5",
-    "johnny-five": "^2.0.0",
-    "node-cron": "^2.0.3",
-    "node-fetch": "^2.6.1",
     "pouchdb": "^7.2.2",
-    "socket.io": "^2.3.0"
+    "socket.io": "^3.1.1"
   }
 }

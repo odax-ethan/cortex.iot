@@ -1,31 +1,32 @@
+// network structure and services
+const { serverStructure } = require('./source/network/server')
+// initialize datase functionality 
+const DATABASE = require('./source/database/handler')
+// const { database_action } = require('./source/database/handler')
 
-// load services
-// make sure subservices are present before calling to start system
-// start app
-// async start app and go step by step making services turn on.
+
+//define all databse settings based on .env db definition
+const DB = new DATABASE.DATABASE(process.env.DATABASE)
+
+// serverStructure(); // start network services
 
 
-// start systems.
-// show boot sequences / splash screen
-const { introSplash } = require('./source/boot/boot.js');
+// setTimeout(() => {
 
-//system event handler
-const { systemEmitter } = require('./source/network/event.emitter.js');
+//     database_action('ADD_DEVICE_HISTORY', 'myDeviceID', { timeStamp: new Date(), data: 28329 } )
+//     database_action('GET_ALL_HISTORY').then(function (doc) {
+//         console.log(doc);
+//     });
+// }, 2000);
 
-// get configurations + get quick deploy if fresh install
-// on fresh install and non-fresh starts - make dv availible
-const { System_config, Hardware_config } = require('./source/database/settings.pouchdb.js');
- 
-// create master thread
 
-// database services exist as functions that other sub services call on
-// hardware and the server will call on the db
 
-// creat hardware connections
-// spawn new j5 instance with hardware config
-const { setupHardware } = require('./source/hardware/hardware.module.js');
-setupHardware()
+DB.def();
 
-// create http connections with express + websocket / graphQl 
-const { setupServer } = require('./source/network/server.js');
-setupServer()
+// setTimeout(() => {
+
+    DB.ADD_DEVICE_HISTORY('mydeviceID', { timeStamp: new Date(), data: 28329 } ).then(data=>{console.log(data);}).catch((err)=>{throw err})
+    DB.GET_ALL_HISTORY().then(data=>{console.log(data);}).catch((err)=>{throw err})
+
+
+// }, 2000);

@@ -1,76 +1,69 @@
-const path = require('path'); // node.js path modules
-var fs = require('fs');
-var https = require('https');
-const express = require('express') // http Module with some goodies
-const { systemEmitter } = require('./event.emitter.js'); // socket.io functionality
-var ip = require('ip'); // get the public ip address
-// const helmet = require('helmet'); // basic security
-const {socketListener} = require('./socket'); // socket.io functionality
-
-process.env.NODE_ENV = 'production'
-
-setupServer = () => {
-
-    const app = express() // define express app
-    const port = 8089 // define system port
-    const hostIP = null; // express needs a blank ip to dynamically define itself
-    app.disable('etag').disable('x-powered-by'); // minor security patch
-    // app.use(helmet());  // basic security systems
-
-    //graphql system
-    var { graphqlHTTP } = require('express-graphql'); 
-    var { schema, root } = require(path.join(__dirname, 'graphql.js'));
-
-    //public client view assets
-    app.use('/static', express.static(path.join(__dirname, '../view/public')))
-
-    //mains route
-    app.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, '../view/landing.html'))
-    });
-
-    app.get('/settings', (req, res) => {
-        res.sendFile(path.join(__dirname, '../view/settings.html'))
-    });
+const fs = require( 'fs' );// node.js file system module
+const path = require('path')// node.js path module
+const https = require('https'); // node.js https module
+const socket_io = require('socket.io') // socket.io 
+const express = require('express');// express.js the imidiatetly create an express app.
 
 
-    app.use('/graphql', graphqlHTTP({
-        schema: schema,
-        rootValue: root,
-        graphiql: true,
-    }));
+//create a function to call that starts up all network services
+let serverStructure = () => {
 
-    // 500 - Any server error
-    app.use(function(err, req, res, next) {
-    return res.status(500).send({ error: err });
-    });
+        //create express app
+        var app = express()
 
-    app.use(function(err,req, res, next) {
-        return res.status(404).send({ error: err })
-        //send a predesign not found html page
-    });
+        //get .env vairables
+        const HOST = process.env.HOST // Preset Host
+        const PORT = process.env.PORT // Preset Port
 
-    var credentials = {
-        key: fs.readFileSync(path.join(__dirname, '../../config/ssl/key.pem'), 'utf8'),
-        cert: fs.readFileSync(path.join(__dirname, '../../config/ssl/cert.pem'), 'utf8')
-    };
-    
-    var httpsServer = https.createServer(credentials, app);
+        //create an HTTPS servers using self assign key and cert
+        var server = https.createServer({
+            key: fs.readFileSync('./config/ssl/key.pem'),
+            cert: fs.readFileSync('./config/ssl/cert.pem'),
+            // ca: fs.readFileSync('./test_ca.crt'),
+            requestCert: false,
+            rejectUnauthorized: false //if you have verified cert set to true
+        },app);
 
+        console.log(`Running on https://${HOST}:${PORT}`);
 
+        //start the server at env.PORT
+        server.listen(PORT);
 
+        //create an IO server that listens to the HTTPS server at env.PORT
+        var io = socket_io(server);
 
-    // define cortex.iot app
-    const cortexApp = httpsServer.listen(port, hostIP, () => {
-        console.log('running at https://' + ip.address()  + ':' + port)
-    })
+        //Listen for a connections then 
+        io.sockets.on('connection',function (socket) {
+            console.log('New Client Connected')
 
-    //listen to connections to the HTTPS server
-    socketListener(cortexApp) 
-    
+           
+           socket.on('https-test', (data) => {
+                
+                console.log(data);
+           })
+           
+           
+            // on socket disconnect
+            socket.on('disconnect', function(){
+                console.log('user disconnected');
+                // disconnect service
+                socket.disconnect(true)
+            });
+        });
+
+        // at the root of the express server
+        app.get("/", function(request, response){
+            response.sendFile(path.join(__dirname + '/../views/index.html'));
+            console.log('request at root');
+        })
 
 };
 
-// setupServer()
 
-module.exports = {setupServer} ;
+
+module.exports = { serverStructure }
+
+
+
+
+
