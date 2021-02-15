@@ -1,6 +1,6 @@
 {
   "name": "cortex.iot",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "A automation and logging stack",
   "main": "index.js",
   "scripts": {

@@ -1,11 +1,6 @@
-
-
-
-
 var PouchDB = require('pouchdb'); //pouchdb module
 
 var historyDB = new PouchDB('pouch_db_local'); //record of each device by nID - nickname ID
-
 
 //get system config from local history_DB
 // if this is clean install ie. no ver. already exist from system_config.cortex.js
@@ -36,11 +31,9 @@ const Device_history_add = async (device_id, to_save) => {
     
     //save eventHistory object
     target.eventHistory.push(to_save)
-
-    //place entire doc back in database.
-    historyDB.put(target).catch((err)=>{throw err})
     
-    return doc
+    //place entire doc back in database.
+    return historyDB.put(target).catch((err)=>{throw err})
     
   }).catch(function (err) {
     // handle any errors
@@ -48,7 +41,6 @@ const Device_history_add = async (device_id, to_save) => {
 });
 return result
 }
-
 
 //get all data from history
 const bulk_device_history = async () => {
@@ -58,13 +50,19 @@ const bulk_device_history = async () => {
   }).then(function (result) {
     // handle result
     // console.log(result);
-    return result
+
+    var dataBundle = []
+
+    result.rows.forEach(element => {
+      dataBundle.push({deviceID: element.doc.deviceID, eventHistory: element.doc.eventHistory})
+    });
+
+    return dataBundle
   }).catch(function (err) {
     console.log(err);
   });
   return result
 }
-
 
 //get system config from local history_DB
 // if this is clean install ie. no ver. already exist from system_config.cortex.js
@@ -105,7 +103,6 @@ const Set_Settings = async ( settings_bundle )  => {
 return result
 }
 
-
 //get all data from history
 const Get_Setting_OBJ = async () => {
   const result = await historyDB.get('settings').then(function (doc) {
@@ -116,7 +113,5 @@ const Get_Setting_OBJ = async () => {
   });
   return result
 }
-
-
 
 module.exports = {Device_history_add, bulk_device_history, Set_Settings, Get_Setting_OBJ}

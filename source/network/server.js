@@ -1,9 +1,10 @@
 const fs = require( 'fs' );// node.js file system module
 const path = require('path')// node.js path module
 const https = require('https'); // node.js https module
-const socket_io = require('socket.io') // socket.io 
+// const socket_io = require('socket.io') // socket.io 
 const express = require('express');// express.js the imidiatetly create an express app.
-
+const { WEBSOCKET, webSocketStructure } = require('./socket')
+const { systemEmitter } = require('./systemEmitter')
 
 //create a function to call that starts up all network services
 let serverStructure = () => {
@@ -15,8 +16,10 @@ let serverStructure = () => {
         const HOST = process.env.HOST // Preset Host
         const PORT = process.env.PORT // Preset Port
 
+        //create a switch to swap between HTTPS and HTTP server structure
+
         //create an HTTPS servers using self assign key and cert
-        var server = https.createServer({
+        var SERVER = https.createServer({
             key: fs.readFileSync('./config/ssl/key.pem'),
             cert: fs.readFileSync('./config/ssl/cert.pem'),
             // ca: fs.readFileSync('./test_ca.crt'),
@@ -27,29 +30,10 @@ let serverStructure = () => {
         console.log(`Running on https://${HOST}:${PORT}`);
 
         //start the server at env.PORT
-        server.listen(PORT);
+        SERVER.listen(PORT);
 
-        //create an IO server that listens to the HTTPS server at env.PORT
-        var io = socket_io(server);
-
-        //Listen for a connections then 
-        io.sockets.on('connection',function (socket) {
-            console.log('New Client Connected')
-
-           
-           socket.on('https-test', (data) => {
-                
-                console.log(data);
-           })
-           
-           
-            // on socket disconnect
-            socket.on('disconnect', function(){
-                console.log('user disconnected');
-                // disconnect service
-                socket.disconnect(true)
-            });
-        });
+        //create an socket.io server that listens to the HTTPS or http server at env.PORT
+        webSocketStructure(SERVER)
 
         // at the root of the express server
         app.get("/", function(request, response){

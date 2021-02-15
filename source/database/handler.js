@@ -6,11 +6,14 @@ class DATABASE {
         this.defined_DB = defined_DB;
 
         //predefined bd tooling 
+        // History Tooling
         this.ADD_DEVICE_HISTORY 
         this.GET_ALL_HISTORY
         this.GET_TARGET_HISTORY 
+        // Settings Tooling
         this.GET_SETTINGS 
         this.SET_SETTINGS
+        // Device Bank
         this.GET_DEVICEBANK
         this.SET_DEVICEBANK
 
@@ -25,7 +28,7 @@ class DATABASE {
 
                 break;
             default:
-                    console.log(`A database type has not been defined... This is a fatal error`); 
+                    console.log(`A database type has not been defined or there is some issues connection a custom db interface... These are fatal errors`); 
                 break;
         }
 
@@ -33,22 +36,17 @@ class DATABASE {
 
     }
 
-    // repory what the db has be defined as
+    // report what the db has be defined as
     def() {
-        console.log(this.ADD_DEVICE_HISTORY);
         return console.log(`your db has been defined as ${this.defined_DB}`);
     }
 
     ADD_DEVICE_HISTORY (device_id, save_data){
-        console.log(1);
         return this.ADD_DEVICE_HISTORY(device_id, save_data).catch((err)=>{throw err})
-
     }
 
     GET_ALL_HISTORY(){
-        console.log(2);
         return this.GET_ALL_HISTORY().catch((err)=>{throw err})
-
     }
 
 }
