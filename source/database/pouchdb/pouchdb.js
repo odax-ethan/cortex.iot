@@ -1,11 +1,11 @@
 var PouchDB = require('pouchdb'); //pouchdb module
 
-var historyDB = new PouchDB('pouch_db_local'); //record of each device by nID - nickname ID
+var localDB = new PouchDB('pouch_db_local', {auto_compaction: true} ); //record of each device by nID - nickname ID
 
 //get system config from local history_DB
 // if this is clean install ie. no ver. already exist from system_config.cortex.js
 const Device_history_add = async (device_id, to_save) => {
-  const result = await historyDB.get(device_id).catch(function ( err) {
+  const result = await localDB.get(device_id).catch(function ( err) {
     
     //if the target device is not in the database create doc for it.
     if (err.name === 'not_found') {
@@ -33,7 +33,7 @@ const Device_history_add = async (device_id, to_save) => {
     target.eventHistory.push(to_save)
     
     //place entire doc back in database.
-    return historyDB.put(target).catch((err)=>{throw err})
+    return localDB.put(target).catch((err)=>{throw err})
     
   }).catch(function (err) {
     // handle any errors
@@ -44,7 +44,7 @@ return result
 
 //get all data from history
 const bulk_device_history = async () => {
-  const result = await historyDB.allDocs({
+  const result = await localDB.allDocs({
     include_docs: true,
     attachments: true
   }).then(function (result) {
@@ -67,17 +67,16 @@ const bulk_device_history = async () => {
 //get system config from local history_DB
 // if this is clean install ie. no ver. already exist from system_config.cortex.js
 const Set_Settings = async ( settings_bundle )  => {
-  const result = await historyDB.get('settings').catch(function ( err) {
+  const result = await localDB.get('settings').catch(function ( err) {
     
     //if the target device is not in the database create doc for it.
     if (err.name === 'not_found') {
       documentSchema = {
-        _id: settings,
-        settings_OBJ : {}
+        _id: 'settings',
+        settings_OBJ : settings_bundle
       }
 
-        //to save iteration push
-      return documentSchema
+      return localDB.put(documentSchema).catch((err)=>{throw err})
     } else { // hm, some other error
       throw err;
     }
@@ -86,16 +85,15 @@ const Set_Settings = async ( settings_bundle )  => {
 
   }).then(function (doc) {
 
-    //create a copy of orginal doc
-    let target = doc
+   //create a target 
+   let target = doc
     
-    //save eventHistory object by replacing old settinsg obj
-    target.settinsg_OBJ = settings_bundle
-
-    //place entire doc back in database replacing old entire old doc.
-    historyDB.put(target)
-    
-    return doc
+   //save eventHistory object
+   target.settings_OBJ = settings_bundle
+   
+   //place entire doc back in database.
+   return localDB.put(target).catch((err)=>{throw err})
+  
   }).catch(function (err) {
     // handle any errors
     throw err;
@@ -105,9 +103,9 @@ return result
 
 //get all data from history
 const Get_Setting_OBJ = async () => {
-  const result = await historyDB.get('settings').then(function (doc) {
+  const result = await localDB.get('settings').then(function (doc) {
     // return settings object 
-    return doc.settings_OBJ;
+    return doc;
   }).catch(function (err) {
     console.log(err);
   });

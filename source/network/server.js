@@ -1,22 +1,27 @@
 const fs = require( 'fs' );// node.js file system module
 const path = require('path')// node.js path module
 const https = require('https'); // node.js https module
-// const socket_io = require('socket.io') // socket.io 
+const socket_io = require('socket.io') // socket.io 
 const express = require('express');// express.js the imidiatetly create an express app.
 const { WEBSOCKET, webSocketStructure } = require('./socket')
 const { systemEmitter } = require('./systemEmitter')
 
+
+const os = require('os');
+
+
+
 //create a function to call that starts up all network services
-let serverStructure = () => {
+let serverStructure = (DATABASE) => {
 
         //create express app
-        var app = express()
+        var expressApp = express()
 
         //get .env vairables
         const HOST = process.env.HOST // Preset Host
         const PORT = process.env.PORT // Preset Port
 
-        //create a switch to swap between HTTPS and HTTP server structure
+        //create a switch to swap between HTTPS and HTTP SERVER structure
 
         //create an HTTPS servers using self assign key and cert
         var SERVER = https.createServer({
@@ -25,21 +30,45 @@ let serverStructure = () => {
             // ca: fs.readFileSync('./test_ca.crt'),
             requestCert: false,
             rejectUnauthorized: false //if you have verified cert set to true
-        },app);
+        },expressApp);
 
-        console.log(`Running on https://${HOST}:${PORT}`);
+        var networkInterfaces = os.networkInterfaces();
+        var address = networkInterfaces['Ethernet'][1].address
 
-        //start the server at env.PORT
+        //start the SERVER at env.PORT
         SERVER.listen(PORT);
+        console.log(`Running on https://${address}:${PORT}`);
 
-        //create an socket.io server that listens to the HTTPS or http server at env.PORT
-        webSocketStructure(SERVER)
+        //create an socket.io SERVER that listens to the HTTPS or http SERVER at env.PORT
+        webSocketStructure(SERVER, DATABASE)
 
-        // at the root of the express server
-        app.get("/", function(request, response){
-            response.sendFile(path.join(__dirname + '/../views/index.html'));
-            console.log('request at root');
-        })
+
+
+        //export express app
+        // module.exports = { expressApp }
+        // const cortexRoutes = require('./routes')
+        // expressApp.use(cortexRoutes)
+
+        expressApp.disable('etag').disable('x-powered-by'); // minor security patch
+
+        //public client view assets
+        expressApp.use('/static', express.static(path.join(__dirname, '../views/public')))
+
+
+        expressApp.get('/', (req, res) => {
+            res.sendFile(path.join(__dirname + '../../../source/views/index.html'));
+        });
+
+        // 500 - Any server error
+        expressApp.use(function(err, req, res, next) {
+            return res.status(500).send({ error: err });
+        });
+    
+        expressApp.use(function(err,req, res, next) {
+            return res.status(404).send({ error: err })
+            //send a predesign not found html page
+        });
+        
 
 };
 

@@ -1,8 +1,8 @@
 const socket_io = require('socket.io') // socket.io
 const { systemEmitter } = require('./systemEmitter') 
+// const { DB } = require('../../cortex.core')
 
-
-webSocketStructure = (server) => {
+webSocketStructure = (server, DATABASE) => {
    
     const WEBSOCKET = socket_io(server)
     module.exports = { WEBSOCKET }; // EXPORTING IO HERE!
@@ -22,6 +22,52 @@ webSocketStructure = (server) => {
         socket.on('https-test', (data) => {
             console.log(data);
         })
+
+
+        // socket actions for DB get and set actions
+
+        // GETS
+
+        socket.on('req GET_ALL_HISTORY', (data) => {
+
+            DATABASE.GET_ALL_HISTORY()
+            .then(history=>{
+                console.log(history);
+                return socket.emit('res GET_ALL_HISTORY', history)
+            })
+            .catch((err)=>{throw err})
+            
+        })
+
+        socket.on('req GET_TARGET_HISTORY', (data) => {
+            console.log(data);
+
+            return socket.emit('res GET_TARGET_HISTORY', data)
+        })
+
+        socket.on('req GET_SETTINGS', (data) => {
+            console.log(data);
+            return socket.emit('res GET_SETTINGS', data)
+        })
+
+        socket.on('req GET_DEVICEBANK', (data) => {
+            console.log(data);
+            return socket.emit('res GET_DEVICEBANK', data)
+        })
+
+        // SETS
+
+        socket.on('req SET_SETTINGS', (data) => {
+            console.log(data);
+            return socket.emit('res SET_SETTINGS', data)
+        })
+
+        socket.on('req SET_DEVICEBANK', (data) => {
+            console.log(data);
+            return socket.emit('res SET_DEVICEBANK', data)
+        })
+
+
 
         // on socket disconnect
         socket.on('disconnect', function(){
