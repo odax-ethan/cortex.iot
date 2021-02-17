@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cortex.iot dashboard</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"></script>
+    <!-- socket.io CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"></script>
+    <!-- create a window var for your sockets -->
+    <script src="./static/assets/socket_init.js"></script>
 
 </head>
 <body>
@@ -13,17 +16,14 @@
     <h1>Cortex.iot dashboard</h1>
 
 
-    <script>
-
-            window.socket = io();
-            
-            //log event on client when connected to server
-            socket.on('connect', () => {
-              console.log('connected');
-            });
-
-    </script>
 
 
 </body>
+
+<!-- include all scripts -->
+
+
+<!-- socket db connectors -->
+<script src="./static/assets/socket_db_calls.js"></script>
+
 </html>

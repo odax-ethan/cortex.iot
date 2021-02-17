@@ -1,9 +1,10 @@
 const socket_io = require('socket.io') // socket.io
-const { systemEmitter } = require('./systemEmitter') 
+const { systemEmitter } = require('../util/emitter/systemEmitter') 
 // const { DB } = require('../../cortex.core')
 
 webSocketStructure = (server, DATABASE) => {
    
+
     const WEBSOCKET = socket_io(server)
     module.exports = { WEBSOCKET }; // EXPORTING IO HERE!
     // You now have access to it any where.
@@ -30,7 +31,7 @@ webSocketStructure = (server, DATABASE) => {
 
         socket.on('req GET_ALL_HISTORY', (data) => {
 
-            DATABASE.GET_ALL_HISTORY()
+        return  DATABASE.GET_ALL_HISTORY()
             .then(history=>{
                 console.log(history);
                 return socket.emit('res GET_ALL_HISTORY', history)
@@ -39,33 +40,40 @@ webSocketStructure = (server, DATABASE) => {
             
         })
 
-        socket.on('req GET_TARGET_HISTORY', (data) => {
-            console.log(data);
+        // socket.on('req GET_TARGET_HISTORY', (data) => {
+        //     console.log(data);
 
-            return socket.emit('res GET_TARGET_HISTORY', data)
-        })
+        //     return socket.emit('res GET_TARGET_HISTORY', data)
+        // })
 
         socket.on('req GET_SETTINGS', (data) => {
-            console.log(data);
-            return socket.emit('res GET_SETTINGS', data)
+            
+        return DATABASE.GET_SETTINGS()
+        .then(settings=>{
+            return socket.emit('res GET_SETTINGS', settings)
+        })
+        .catch((err)=>{throw err})
+
+
+            
         })
 
-        socket.on('req GET_DEVICEBANK', (data) => {
-            console.log(data);
-            return socket.emit('res GET_DEVICEBANK', data)
-        })
+        // socket.on('req GET_DEVICEBANK', (data) => {
+        //     console.log(data);
+        //     return socket.emit('res GET_DEVICEBANK', data)
+        // })
 
-        // SETS
+        // // SETS
 
-        socket.on('req SET_SETTINGS', (data) => {
-            console.log(data);
-            return socket.emit('res SET_SETTINGS', data)
-        })
+        // socket.on('req SET_SETTINGS', (data) => {
+        //     console.log(data);
+        //     return socket.emit('res SET_SETTINGS', data)
+        // })
 
-        socket.on('req SET_DEVICEBANK', (data) => {
-            console.log(data);
-            return socket.emit('res SET_DEVICEBANK', data)
-        })
+        // socket.on('req SET_DEVICEBANK', (data) => {
+        //     console.log(data);
+        //     return socket.emit('res SET_DEVICEBANK', data)
+        // })
 
 
 

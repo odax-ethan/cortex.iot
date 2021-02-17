@@ -4,7 +4,7 @@ const https = require('https'); // node.js https module
 const socket_io = require('socket.io') // socket.io 
 const express = require('express');// express.js the imidiatetly create an express app.
 const { WEBSOCKET, webSocketStructure } = require('./socket')
-const { systemEmitter } = require('./systemEmitter')
+const { systemEmitter } = require('../util/emitter/systemEmitter')
 
 
 const os = require('os');
@@ -18,7 +18,7 @@ let serverStructure = (DATABASE) => {
         var expressApp = express()
 
         //get .env vairables
-        const HOST = process.env.HOST // Preset Host
+        const HOST = null // Preset Host
         const PORT = process.env.PORT // Preset Port
 
         //create a switch to swap between HTTPS and HTTP SERVER structure
@@ -28,21 +28,9 @@ let serverStructure = (DATABASE) => {
             key: fs.readFileSync('./config/ssl/key.pem'),
             cert: fs.readFileSync('./config/ssl/cert.pem'),
             // ca: fs.readFileSync('./test_ca.crt'),
-            requestCert: false,
+            // requestCert: false,
             rejectUnauthorized: false //if you have verified cert set to true
         },expressApp);
-
-        var networkInterfaces = os.networkInterfaces();
-        var address = networkInterfaces['Ethernet'][1].address
-
-        //start the SERVER at env.PORT
-        SERVER.listen(PORT);
-        console.log(`Running on https://${address}:${PORT}`);
-
-        //create an socket.io SERVER that listens to the HTTPS or http SERVER at env.PORT
-        webSocketStructure(SERVER, DATABASE)
-
-
 
         //export express app
         // module.exports = { expressApp }
@@ -68,7 +56,18 @@ let serverStructure = (DATABASE) => {
             return res.status(404).send({ error: err })
             //send a predesign not found html page
         });
+
+        var networkInterfaces = os.networkInterfaces();
+        var address = networkInterfaces['Ethernet 2'][1].address
+
+        //create an socket.io SERVER that listens to the HTTPS or http SERVER at env.PORT
+        webSocketStructure(SERVER, DATABASE)
         
+        //start the SERVER at env.PORT
+        SERVER.listen(PORT, HOST);
+        console.log(`Running on https://${address}:${PORT}`);
+
+
 
 };
 

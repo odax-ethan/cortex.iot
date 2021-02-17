@@ -30,8 +30,8 @@ class DATABASE {
                 this.GET_SETTINGS  = DATABASE_POUCH.Get_Setting_OBJ
                 this.SET_SETTINGS = DATABASE_POUCH.Set_Settings
                 // Device Bank
-                this.GET_DEVICEBANK
-                this.SET_DEVICEBANK
+                this.GET_DEVICEBANK = DATABASE_POUCH.Get_Device_Bank_Array
+                this.SET_DEVICEBANK = DATABASE_POUCH.Set_Device_Bank
 
                 break;
             default:
@@ -56,20 +56,20 @@ class DATABASE {
         return this.GET_ALL_HISTORY().catch((err)=>{throw err})
     }
 
-    GET_TARGET_HISTORY(){
-        return console.log('GET_TARGET_HISTORY');
-    }
+    // GET_TARGET_HISTORY(){
+    //     return console.log('GET_TARGET_HISTORY');
+    // }
 
     GET_SETTINGS(){
         return this.GET_SETTINGS().catch((err)=>{throw err})
     }
 
     GET_DEVICEBANK(){
-        return console.log('GET_DEVICEBANK');
+        return this.GET_DEVICEBANK().catch((err)=>{throw err})
     }
 
-    SET_DEVICEBANK(){
-        return console.log('SET_DEVICEBANK');
+    SET_DEVICEBANK(deviceBank){
+        return this.SET_SETTINGS(deviceBank).catch((err)=>{throw err})
     }
 
     SET_SETTINGS( settingOBJ ){

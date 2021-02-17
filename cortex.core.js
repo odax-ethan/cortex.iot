@@ -1,5 +1,5 @@
 // bring in and activate 
-const { systemEmitter } = require('./source/network/systemEmitter') 
+const { systemEmitter } = require('./source/util/emitter/systemEmitter') 
 // network structure and services
 const { serverStructure } = require('./source/network/server')
 // initialize datase functionality 
@@ -29,6 +29,17 @@ DB.def(); // log your DB definition
 // how to get all device data
 // DB.GET_SETTINGS()
 // .then(settings=>{console.log(settings);})
+// .catch((err)=>{throw err})
+
+
+//how you log data to a deviceID
+// DB.SET_DEVICEBANK( [{board: 'mytestboard', devices:[{deviceID: 'myTestDevice'}]},{board: 'mytestboard1', devices:[{deviceID: 'myTestDevice1'}]}] )
+// .then(()=>{console.log(`deviceBank has been Saved`);})
+// .catch((err)=>{throw err})
+
+// how to get all device data
+// DB.GET_DEVICEBANK()
+// .then(deviceBank=>{console.log(deviceBank);})
 // .catch((err)=>{throw err})
 
 
