@@ -8,7 +8,7 @@ const systemEmitter = new EventEmitter(); //create event for all status
 // error event hander
 // systemEmitter.on('error', data)  
 
-// client stream rendering handler
+// client stream rendering handler all
 // systemEmitter.on('stream', data)
 
 module.exports = {systemEmitter }

@@ -5,8 +5,6 @@ const socket_io = require('socket.io') // socket.io
 const express = require('express');// express.js the imidiatetly create an express app.
 const { WEBSOCKET, webSocketStructure } = require('./socket')
 const { systemEmitter } = require('../util/emitter/systemEmitter')
-
-
 const os = require('os');
 
 
