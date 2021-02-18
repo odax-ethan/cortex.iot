@@ -1,6 +1,6 @@
 const socket_io = require('socket.io') // socket.io
 const { systemEmitter } = require('../util/emitter/systemEmitter') 
-// const { DB } = require('../../cortex.core')
+// const { DATABASE } = require('../../cortex.core')
 
 webSocketStructure = (server, DATABASE) => {
    
@@ -25,11 +25,11 @@ webSocketStructure = (server, DATABASE) => {
         })
 
 
-        // socket actions for DB get and set actions
+        // socket actions for DATABASE get and set actions
 
         // GETS
 
-        socket.on('req GET_ALL_HISTORY', (data) => {
+        socket.on('req GET_ALL_HISTORY', () => {
 
         return  DATABASE.GET_ALL_HISTORY()
             .then(history=>{
@@ -42,38 +42,48 @@ webSocketStructure = (server, DATABASE) => {
 
         // socket.on('req GET_TARGET_HISTORY', (data) => {
         //     console.log(data);
-
         //     return socket.emit('res GET_TARGET_HISTORY', data)
         // })
 
-        socket.on('req GET_SETTINGS', (data) => {
-            
-        return DATABASE.GET_SETTINGS()
-        .then(settings=>{
-            return socket.emit('res GET_SETTINGS', settings)
-        })
-        .catch((err)=>{throw err})
-
-
-            
+        socket.on('req GET_SETTINGS', () => {
+            return DATABASE.GET_SETTINGS()
+                .then(settings=>{
+                    return socket.emit('res GET_SETTINGS', settings)
+                })
+                .catch((err)=>{throw err})
         })
 
-        // socket.on('req GET_DEVICEBANK', (data) => {
-        //     console.log(data);
-        //     return socket.emit('res GET_DEVICEBANK', data)
-        // })
+        socket.on('req GET_DEVICEBANK', () => {
+            return DATABASE.GET_DEVICEBANK()
+                .then(deviceBank=>{
+                    return socket.emit('res GET_DEVICEBANK', deviceBank)
+                })
+                .catch((err)=>{throw err})
+        })
 
         // // SETS
 
-        // socket.on('req SET_SETTINGS', (data) => {
-        //     console.log(data);
-        //     return socket.emit('res SET_SETTINGS', data)
-        // })
+        socket.on('req SET_SETTINGS', (data) => {
+        
+           return DATABASE.SET_SETTINGS( data )
+            .then(()=>{
+                console.log(`Settings have been Saved`);
+                return socket.emit('res SET_SETTINGS', `Settings have been Saved`)
+            })
+            .catch((err)=>{throw err})
 
-        // socket.on('req SET_DEVICEBANK', (data) => {
-        //     console.log(data);
-        //     return socket.emit('res SET_DEVICEBANK', data)
-        // })
+        })
+
+        socket.on('req SET_DEVICEBANK', (data) => {
+        
+            return DATABASE.SET_DEVICEBANK( data )
+             .then(()=>{
+                 console.log(`Settings have been Saved`);
+                 return socket.emit('res SET_DEVICEBANK', `deviceBank have been Saved`)
+             })
+             .catch((err)=>{throw err})
+ 
+         })
 
 
 

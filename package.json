@@ -6,14 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "quick_deploy": "node --trace-warnings -r dotenv/config cortex.core.js dotenv_config_path=config/.env",
-    "generate": "node source/util/setup/generate.js "
+    "generate": "node source/util/setup/generate.js",
+    "docs": "node node_modules/cortex.iot.docs/doc.js"
   },
   "author": "Odax Systems, LLC",
   "license": "SEE LICENCE IN license.txt",
   "dependencies": {
+    "cortex.iot.docs": "^0.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "ip": "^1.1.5",
     "pouchdb": "^7.2.2",
     "socket.io": "^3.1.1"
   },

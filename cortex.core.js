@@ -1,13 +1,25 @@
-// bring in and activate 
-const { systemEmitter } = require('./source/util/emitter/systemEmitter') 
-// network structure and services
-const { serverStructure } = require('./source/network/server')
 // initialize datase functionality 
 const DATABASE = require('./source/database/handler')
-
 //define all databse settings based on .env db definition
 const DB = new DATABASE.DATABASE(process.env.DATABASE)
 module.exports = { DB } // export DB class to access through out cortex
+// before moving on create a instance of DB
+
+
+// bring in and activate with db connections and logger
+const { systemEmitter } = require('./source/util/emitter/systemEmitter') 
+// network structure and services
+const { serverStructure } = require('./source/network/server')
+
+
+// how to trigger  base event or warning
+// systemEmitter.emit('event','core','OK', 'system has booted and loaded core modules')
+
+// how to trigger  hardware event or warning
+// systemEmitter.emit('event', 'cool devices', 'hardware','OK', { timeStamp: new Date(), data: 28329 })
+
+
+
 
 DB.def(); // log your DB definition
 
@@ -21,7 +33,7 @@ DB.def(); // log your DB definition
 // .then(history=>{console.log(history);})
 // .catch((err)=>{throw err})
 
-//how you log data to a deviceID
+// how you log data to a deviceID
 // DB.SET_SETTINGS( { mysettings: new Date(), systemSettings1 : 123889 } )
 // .then(()=>{console.log(`Settings have been Saved`);})
 // .catch((err)=>{throw err})
