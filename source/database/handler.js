@@ -16,6 +16,12 @@ class DATABASE {
         // Device Bank
         this.GET_DEVICEBANK
         this.SET_DEVICEBANK
+        // EVENTS
+        this.GET_EVENTS
+        this.ADD_EVENT
+
+        this.NUKE
+        
 
 
         //define the db tooling based on definedb
@@ -25,7 +31,7 @@ class DATABASE {
                 //if pouchdb has been selected define bd tooling here
                 this.ADD_DEVICE_HISTORY = DATABASE_POUCH.Device_history_add
                 this.GET_ALL_HISTORY = DATABASE_POUCH.bulk_device_history
-                this.GET_TARGET_HISTORY 
+                this.GET_TARGET_HISTORY = DATABASE_POUCH.GET_TARGET_HISTORY
                 // Settings Tooling
                 this.GET_SETTINGS  = DATABASE_POUCH.Get_Setting_OBJ
                 this.SET_SETTINGS = DATABASE_POUCH.Set_Settings
@@ -33,13 +39,16 @@ class DATABASE {
                 this.GET_DEVICEBANK = DATABASE_POUCH.Get_Device_Bank_Array
                 this.SET_DEVICEBANK = DATABASE_POUCH.Set_Device_Bank
 
+                this.GET_EVENTS = DATABASE_POUCH.GET_EVENTS
+                this.ADD_EVENT = DATABASE_POUCH.ADD_EVENT
+
+                this.NUKE = DATABASE_POUCH.NUKE
+
                 break;
             default:
                     console.log(`A database type has not been defined or there is some issues connection a custom db interface... These are fatal errors`); 
                 break;
         }
-
-
 
     }
 
@@ -56,9 +65,9 @@ class DATABASE {
         return this.GET_ALL_HISTORY().catch((err)=>{throw err})
     }
 
-    // GET_TARGET_HISTORY(){
-    //     return console.log('GET_TARGET_HISTORY');
-    // }
+    GET_TARGET_HISTORY(targetID){
+          return this.GET_TARGET_HISTORY(targetID).catch((err)=>{throw err})
+    }
 
     GET_SETTINGS(){
         return this.GET_SETTINGS().catch((err)=>{throw err})
@@ -74,6 +83,18 @@ class DATABASE {
 
     SET_SETTINGS( settingOBJ ){
         return this.SET_SETTINGS(settingOBJ).catch((err)=>{throw err})
+    }
+
+    ADD_EVENT (eventBundle){
+        return this.ADD_EVENT(eventBundle).catch((err)=>{throw err})
+    }
+
+    GET_EVENTS (){
+        return this.GET_EVENTS(evenBundle).catch((err)=>{throw err})
+    }
+
+    NUKE(){
+        return this.NUKE().catch((err)=>{throw err})
     }
 
 }

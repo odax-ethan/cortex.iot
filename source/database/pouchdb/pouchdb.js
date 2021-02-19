@@ -54,7 +54,12 @@ const bulk_device_history = async () => {
     var dataBundle = []
 
     result.rows.forEach(element => {
-      dataBundle.push({deviceID: element.doc.deviceID, eventHistory: element.doc.eventHistory})
+      // console.log(element);
+      if (element.id == 'settings' || element.id == 'events' || element.id == 'devicebank' ){
+        // do nothing
+      } else (
+        dataBundle.push({deviceID: element.doc.deviceID, eventHistory: element.doc.eventHistory})
+      )
     });
 
     return dataBundle
@@ -135,7 +140,7 @@ const Set_Device_Bank = async ( deviceBank_array )  => {
 
    //create a target 
    let target = doc
-   console.log(doc);
+  //  console.log(doc);
     
    //save eventHistory object
    target.deviceBank = deviceBank_array
@@ -161,4 +166,73 @@ const Get_Device_Bank_Array = async () => {
   return result
 }
 
-module.exports = {Device_history_add, bulk_device_history, Set_Settings, Get_Setting_OBJ, Get_Device_Bank_Array, Set_Device_Bank}
+// get target device
+const GET_TARGET_HISTORY = async (targetID) => {
+  const result = await localDB.get(targetID).then(function (doc) {
+    // return settings object 
+    return doc;
+  }).catch(function (err) {
+    console.log(err);
+  });
+  return result
+}
+
+// get event history
+const GET_EVENTS = async () => {
+  const result = await localDB.get('events').then(function (doc) {
+    // return settings object 
+    return doc.eventHistory;
+  }).catch(function (err) {
+    console.log(err);
+  });
+  return result
+}
+
+// set event history
+const ADD_EVENT = async ( event_bundle )  => {
+  const result = await localDB.get('events').catch(function ( err) {
+    
+    //if the target device is not in the database create doc for it.
+    if (err.name === 'not_found') {
+     
+      documentSchema = {
+        _id: 'events',
+        eventHistory: []
+      }
+
+      return localDB.put(documentSchema).catch((err)=>{throw err})
+    } else { // hm, some other error
+      throw err;
+    }
+
+    //if device does exist go to next step
+
+  }).then(function (doc) {
+
+   //create a target 
+    let target = doc
+    //save eventHistory object
+    target.eventHistory.push(event_bundle)
+    
+    //place entire doc back in database.
+    return localDB.put(target).catch((err)=>{throw err})
+  
+  }).catch(function (err) {
+    // handle any errors
+    throw err;
+});
+return result
+} 
+
+const NUKE = async () => {
+  const result = localDB.destroy().then(function (response) {
+    // success
+    console.log('datbase NUKED');
+  }).catch(function (err) {
+    console.log(err);
+  });
+
+  return 'done'
+}
+
+module.exports = {Device_history_add, bulk_device_history, Set_Settings, Get_Setting_OBJ, Get_Device_Bank_Array, Set_Device_Bank, ADD_EVENT, GET_TARGET_HISTORY, GET_EVENTS, NUKE}

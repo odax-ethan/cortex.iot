@@ -30,11 +30,17 @@ systemEmitter.on('event', (sourceID, type, state, data) =>{
             break;
         case 'hardware': //handle events  that come from hardware events
             
+            // emit event into stream
+            systemEmitter.emit('stream', { deviceID: sourceID, data:data } ) 
+
             // all hardware events are recorded to there history db location
             //how you log data to a deviceID
             DB.ADD_DEVICE_HISTORY(sourceID, data )
-            .then(data=>{console.log(`Data was successfully logged for ${data.id}`);})
+            .then(data=>{
+                //   console.log(`Data was successfully logged for ${data.id}`)
+                ;})
             .catch((err)=>{throw err})
+
 
              break;
         case 'trigger': //handle events  that come from software triggers events

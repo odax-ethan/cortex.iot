@@ -31,19 +31,24 @@ webSocketStructure = (server, DATABASE) => {
 
         socket.on('req GET_ALL_HISTORY', () => {
 
-        return  DATABASE.GET_ALL_HISTORY()
-            .then(history=>{
-                console.log(history);
-                return socket.emit('res GET_ALL_HISTORY', history)
-            })
-            .catch((err)=>{throw err})
+            return  DATABASE.GET_ALL_HISTORY()
+                .then(history=>{
+                    // console.log(history);
+                    return socket.emit('res GET_ALL_HISTORY', history)
+                })
+                .catch((err)=>{throw err})
             
         })
 
-        // socket.on('req GET_TARGET_HISTORY', (data) => {
-        //     console.log(data);
-        //     return socket.emit('res GET_TARGET_HISTORY', data)
-        // })
+        socket.on('req GET_TARGET_HISTORY', (target) => {
+            return  DATABASE.GET_TARGET_HISTORY(target)
+            .then(target_history=>{
+                // console.log(target_history);
+                return socket.emit('res GET_TARGET_HISTORY', target_history)
+            })
+            .catch((err)=>{throw err})
+    
+        })
 
         socket.on('req GET_SETTINGS', () => {
             return DATABASE.GET_SETTINGS()
@@ -59,6 +64,16 @@ webSocketStructure = (server, DATABASE) => {
                     return socket.emit('res GET_DEVICEBANK', deviceBank)
                 })
                 .catch((err)=>{throw err})
+        })
+
+        socket.on('req GET_EVENTS', ()=> {
+
+            return  DATABASE.GET_EVENTS()
+            .then(events=>{
+                return socket.emit('res GET_EVENTS', events)
+            })
+            .catch((err)=>{throw err})
+        
         })
 
         // // SETS
@@ -85,6 +100,16 @@ webSocketStructure = (server, DATABASE) => {
  
          })
 
+         socket.on('req ADD_EVENT', data => {
+            
+            return DATABASE.ADD_EVENT( data )
+            .then(()=>{
+                console.log(`An event has been Saved`);
+                return socket.emit('res ADD_EVENT', `EVENT has been Saved`)
+            })
+            .catch((err)=>{throw err})
+
+         })
 
 
         // on socket disconnect

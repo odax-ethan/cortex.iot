@@ -16,17 +16,16 @@ const { serverStructure } = require('./source/network/server')
 // systemEmitter.emit('event','core','OK', 'system has booted and loaded core modules')
 
 // how to trigger  hardware event or warning
-// systemEmitter.emit('event', 'cool devices', 'hardware','OK', { timeStamp: new Date(), data: 28329 })
-
-
-
+setInterval(() => {
+    systemEmitter.emit('event', 'cool devices', 'hardware','OK', { timeStamp: new Date(), data: 28329 })
+}, 2000);
 
 DB.def(); // log your DB definition
 
 //how you log data to a deviceID
-// DB.ADD_DEVICE_HISTORY('cool devices', { timeStamp: new Date(), data: 28329 } )
-// .then(data=>{console.log(`Data was successfully logged for ${data.id}`);})
-// .catch((err)=>{throw err})
+DB.ADD_DEVICE_HISTORY('cool devices', { timeStamp: new Date(), data: 28329 } )
+.then(data=>{console.log(`Data was successfully logged for ${data.id}`);})
+.catch((err)=>{throw err})
 
 // how to get all device data
 // DB.GET_ALL_HISTORY()
@@ -52,6 +51,26 @@ DB.def(); // log your DB definition
 // how to get all device data
 // DB.GET_DEVICEBANK()
 // .then(deviceBank=>{console.log(deviceBank);})
+// .catch((err)=>{throw err})
+
+
+//how you log data to a deviceID
+// DB.ADD_EVENT( {event:'something', details: 'more'} )
+// .then(()=>{console.log(`An event has been Saved`);})
+// .catch((err)=>{throw err})
+
+// how to get all device data
+// DB.GET_EVENTS()
+// .then(events=>{console.log(events);})
+// .catch((err)=>{throw err})
+
+// how to get all device data
+// DB.GET_TARGET_HISTORY('cool devices')
+// .then(target_history=>{console.log(target_history);})
+// .catch((err)=>{throw err})
+
+//destroy entire db no undo
+// DB.NUKE().then((result)=>{console.log(result);})
 // .catch((err)=>{throw err})
 
 
