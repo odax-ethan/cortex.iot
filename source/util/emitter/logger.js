@@ -14,8 +14,8 @@ function ensureDirectoryExistence(filePath) {
 const initDate = Date.now();
 const d = initDate;
 console.log(d);
-let outputTarget = `./log/${initDate}/stdout.log `
-let errorOutputTarget = `./log/${initDate}/stderr.log`
+let outputTarget = `./log/stdout.log `
+let errorOutputTarget = `./log/stderr.log`
 ensureDirectoryExistence(outputTarget)
 ensureDirectoryExistence(errorOutputTarget)
 

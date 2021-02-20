@@ -46,6 +46,19 @@ systemEmitter.on('event', (sourceID, type, state, data) =>{
         case 'trigger': //handle events  that come from software triggers events
 
             // when something is triggered save event to event log
+            // may not be needed as device definitions will generate listners for events
+            // and trigger sources will create emits on their side
+            
+            // emit event into stream
+            systemEmitter.emit('stream', { deviceID: sourceID, data:data } ) 
+
+            // all hardware events are recorded to there history db location
+            //how you log data to a deviceID
+            DB.ADD_DEVICE_HISTORY(sourceID, data )
+            .then(data=>{
+                //   console.log(`Data was successfully logged for ${data.id}`)
+                ;})
+            .catch((err)=>{throw err})
 
         break;
         default:

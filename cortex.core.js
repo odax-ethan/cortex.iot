@@ -16,16 +16,16 @@ const { serverStructure } = require('./source/network/server')
 // systemEmitter.emit('event','core','OK', 'system has booted and loaded core modules')
 
 // how to trigger  hardware event or warning
-setInterval(() => {
-    systemEmitter.emit('event', 'cool devices', 'hardware','OK', { timeStamp: new Date(), data: 28329 })
-}, 2000);
+// setInterval(() => {
+//     systemEmitter.emit('event', 'cool devices', 'hardware','OK', { timeStamp: new Date(), data: 28329 })
+// }, 2000);
 
 DB.def(); // log your DB definition
 
 //how you log data to a deviceID
-DB.ADD_DEVICE_HISTORY('cool devices', { timeStamp: new Date(), data: 28329 } )
-.then(data=>{console.log(`Data was successfully logged for ${data.id}`);})
-.catch((err)=>{throw err})
+// DB.ADD_DEVICE_HISTORY('cool devices', { timeStamp: new Date(), data: 28329 } )
+// .then(data=>{console.log(`Data was successfully logged for ${data.id}`);})
+// .catch((err)=>{throw err})
 
 // how to get all device data
 // DB.GET_ALL_HISTORY()

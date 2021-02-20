@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "quick_deploy": "node --trace-warnings -r dotenv/config cortex.core.js dotenv_config_path=config/.env",
     "generate": "node source/util/setup/generate.js",
-    "docs": "node node_modules/cortex.iot.docs/doc.js"
+    "docs": "node node_modules/cortex.iot.docs/doc.js",
+    "nuke": "node "
   },
   "author": "Odax Systems, LLC",
   "license": "SEE LICENCE IN license.txt",
