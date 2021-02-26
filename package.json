@@ -16,8 +16,10 @@
     "cortex.iot.docs": "^0.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "johnny-five": "^2.0.0",
     "pouchdb": "^7.2.2",
-    "socket.io": "^3.1.1"
+    "socket.io": "^3.1.1",
+    "raspi-io": "^11.0.0"
   },
   "devDependencies": {},
   "repository": {

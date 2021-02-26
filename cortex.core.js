@@ -3,14 +3,17 @@ const DATABASE = require('./source/database/handler')
 //define all databse settings based on .env db definition
 const DB = new DATABASE.DATABASE(process.env.DATABASE)
 module.exports = { DB } // export DB class to access through out cortex
-// before moving on create a instance of DB
+// before moving on create a instance of DB 
+
+
 
 
 // bring in and activate with db connections and logger
 const { systemEmitter } = require('./source/util/emitter/systemEmitter') 
 // network structure and services
 const { serverStructure } = require('./source/network/server')
-
+//include Cortex.iot device bank shaper
+const {DEVICEBANK} = require('./source/hardware/device_bank.js')
 
 // how to trigger  base event or warning
 // systemEmitter.emit('event','core','OK', 'system has booted and loaded core modules')
@@ -42,9 +45,31 @@ DB.def(); // log your DB definition
 // .then(settings=>{console.log(settings);})
 // .catch((err)=>{throw err})
 
+// var test_shape = [
+//     {
+//         "uid": "test-1",
+//         "nid": "testy-1",
+//         "port": "COM3",
+//         "product_id": "pi_2",
+//         "color": "#F80",
+//         "comment": "comment",
+//         "devices": [
+//             {
+//                 "uid": "4123213",
+//                 "nid": "123213",
+//                 "color": "#0AA",
+//                 "comment": "3213",
+//                 "board": "test-1",
+//                 "class": "relay",
+//                 "type": "NO",
+//                 "pin": "13"
+//             }
+//         ]
+//     }
+// ]
 
 //how you log data to a deviceID
-// DB.SET_DEVICEBANK( [{board: 'mytestboard', devices:[{deviceID: 'myTestDevice'}]},{board: 'mytestboard1', devices:[{deviceID: 'myTestDevice1'}]}] )
+// DB.SET_DEVICEBANK( test_shape )
 // .then(()=>{console.log(`deviceBank has been Saved`);})
 // .catch((err)=>{throw err})
 
@@ -73,6 +98,17 @@ DB.def(); // log your DB definition
 // DB.NUKE().then((result)=>{console.log(result);})
 // .catch((err)=>{throw err})
 
+
+// access deviceBank
+let deviceBank = new DEVICEBANK(true)
+// deviceBank.us_quick_deploy_shape()
+deviceBank.us_database_shape()
+
+
+setTimeout(() => {
+    console.log(deviceBank.shape);
+    console.log(deviceBank.get_boards_devices());
+}, 2000);
 
 // start network services based on .env variables
 serverStructure(DB);

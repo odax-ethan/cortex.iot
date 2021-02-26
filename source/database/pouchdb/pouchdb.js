@@ -129,6 +129,8 @@ const Set_Device_Bank = async ( deviceBank_array )  => {
         deviceBank : deviceBank_array
       }
 
+      // console.log(documentSchema);
+
       return localDB.put(documentSchema).catch((err)=>{throw err})
     } else { // hm, some other error
       throw err;

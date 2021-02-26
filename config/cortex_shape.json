@@ -1,0 +1,22 @@
+[
+    {
+        "uid": "test-1",
+        "nid": "testy-1",
+        "port": "COM3",
+        "product_id": "pi_2",
+        "color": "#F80",
+        "comment": "comment",
+        "devices": [
+            {
+                "uid": "4123213",
+                "nid": "123213",
+                "color": "#0AA",
+                "comment": "3213",
+                "board": "test-1",
+                "class": "relay",
+                "type": "NO",
+                "pin": "13"
+            }
+        ]
+    }
+]
