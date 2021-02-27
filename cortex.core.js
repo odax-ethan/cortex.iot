@@ -14,6 +14,10 @@ const { systemEmitter } = require('./source/util/emitter/systemEmitter')
 const { serverStructure } = require('./source/network/server')
 //include Cortex.iot device bank shaper
 const {DEVICEBANK} = require('./source/hardware/device_bank.js')
+// include hardware builder
+const {HARDWARE} = require('./source/hardware/builder')
+
+
 
 // how to trigger  base event or warning
 // systemEmitter.emit('event','core','OK', 'system has booted and loaded core modules')
@@ -101,14 +105,18 @@ DB.def(); // log your DB definition
 
 // access deviceBank
 let deviceBank = new DEVICEBANK(true)
-// deviceBank.us_quick_deploy_shape()
-deviceBank.us_database_shape()
 
+let hardware_instance = new HARDWARE(deviceBank, true)
 
 setTimeout(() => {
-    console.log(deviceBank.shape);
-    console.log(deviceBank.get_boards_devices());
-}, 2000);
+    // hardware_instance.report()
+    hardware_instance.build_boards()
+
+}, 1000);
+
+
+
+
 
 // start network services based on .env variables
 serverStructure(DB);

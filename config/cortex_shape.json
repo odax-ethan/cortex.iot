@@ -1,21 +1,30 @@
 [
     {
-        "uid": "test-1",
-        "nid": "testy-1",
+        "uid": "test987980",
+        "nid": "test",
         "port": "COM3",
-        "product_id": "pi_2",
-        "color": "#F80",
-        "comment": "comment",
+        "color": "#05A",
+        "comment": "3214213",
         "devices": [
             {
-                "uid": "4123213",
-                "nid": "123213",
-                "color": "#0AA",
-                "comment": "3213",
-                "board": "test-1",
+                "uid": "myRelay_3456789",
+                "nid": "myRelay",
+                "color": "#0F8",
+                "comment": "3qe3",
+                "board": "test987980",
                 "class": "relay",
                 "type": "NO",
-                "pin": "13"
+                "pin": 13
+            },
+            {
+                "uid": "mySwicth",
+                "nid": "mySwitch",
+                "color": "#5AF",
+                "comment": "123124123",
+                "board": "test987980",
+                "class": "switch",
+                "type": "NO",
+                "pin": 9
             }
         ]
     }
