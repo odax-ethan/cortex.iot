@@ -1,102 +1,8 @@
 var five = require("johnny-five"); // Generic J5
 var {DEVICEBANK} = require('./device_bank')
+const { systemEmitter } = require('../util/emitter/systemEmitter') 
 
-
-// deviceBank = new DEVICEBANK()
-// deviceBank.us_deploy_shape()
-// console.log(deviceBank.shape);
-
-
-// //define the shape of the instance
-// var boards_shape = [
-//     {id:'myBoard', port: "COM3", repl: false}
-// ]
-
-// //update and validate instance 
-// boards_shape.forEach(board => {
-//     if (board.port === 'PI') {
-//         return board.port = new Raspi()
-//     }
-// })
-
-// //report final boards_shape
-// console.log(boards_shape);
-
-
-// //create an instance of boards
-// const boards = new five.Boards(boards_shape);
-
-// //turn on a johnny five instance
-// boards.on("ready", () => {
-
-//   //for each initiallized board
-//   boards.each(board => {
-//     //   console.log(board);
-//       boards.info(`${board.id}`, "I got somethin' to say!", { foo: 1 });
-      
-//       const led = new five.Led(13);
-//       led.on();
-  
-
-//     }) // end of forEach board
-
-//   //turn off boards instance
-//   boards.on("exit", () => {
-//     led.off();
-//   });
-// });
-
-
-
-
-// class of hardware
-build_devices = (target_board, boards_shape) => {
-
-  // console.log(board_id);
-  // console.log(boards_shape); 
-
-  // var target_device_array
-
-  // boards_shape.forEach(board => {
-
-  //   if (target_board === board.uid) {
-  //     console.log('found tagret');
-  //     target_device_array = board.devices
-  //     // console.log(target_device_array);
-  //   }
-
-  // });
-
-  // target_device_array.forEach(device => {
-
-  //     // console.log(device.uid);
-  //     // console.log(device.class);
-  //     // console.log(device.pin);
-  //     // console.log(device.type);
-  //     var varnam =  device.uid
-  //     this[varnam] = new five.Relay({id:device.uid, pin: device.pin, type: device.type})
-
-  //     // this[varnam] = new five.Relay({id: device.uid, pin: device.pin, board: target_board})
-  //     // console.log(this[varnam]);
-  //     this[varnam].open();
-  //     this[varnam].close();
-  //     this[varnam].open();
-  //     this[varnam].close();
-  //     this[varnam].open();
-  //     this[varnam].close();
-
-
-
-  // });
-
-  
-
-
-}
-
-
-
-
+// hard class
 class HARDWARE {
   constructor (DEVICEBANK_class, quick_deploy) {
 
@@ -147,9 +53,9 @@ class HARDWARE {
           this.boards.info(`${board.id}`, "I got somethin' to say!", { foo: 1 });
           // build_devices(board.id, this.shape )
 
+          // call on board switch with in the deviceBank for each instance of board
           this.DEVICEBANK_class.device_switch(board.id)
         
-
       }) // end of forEach board
 
       //turn off boards instance
@@ -164,7 +70,6 @@ class HARDWARE {
   end() {
     return this.boards.emit("exit")
   }
-
 }
 
 module.exports = { HARDWARE }

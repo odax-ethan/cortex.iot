@@ -1,16 +1,19 @@
 // take full board bank and create needed sections to init johnny five
-
 const fs = require("fs");
 const path = require("path")
 const { DB } = require('../../cortex.core')
 var five = require("johnny-five"); // Generic J5
+const { systemEmitter } = require('../util/emitter/systemEmitter')
 
+// relay custom class
+const { RELAY } = require('./components/Relay')
+//switch custom class
+const { SWITCH } = require('./components/Switch')
 
 class DEVICEBANK {
     constructor(  ) { 
         this.shape = null
         this.all_devices = null
-
      }
 
     shape () {
@@ -54,10 +57,6 @@ class DEVICEBANK {
         return output
     }
 
-    get_target_board (target_board_uid) {
-
-    }
-
     get_boards_devices () {
         var output = []
         var shape = this.shape
@@ -66,10 +65,6 @@ class DEVICEBANK {
             output.push(target_board_devices)
         });
         return output;
-    }
-
-    get_target_device (target_device_uid) {
-
     }
 
     get_j5_boards_array () {
@@ -90,9 +85,9 @@ class DEVICEBANK {
         this.shape.forEach(board => {
 
             if (target_board === board.uid) {
-            console.log('found tagret');
-            target_device_array = board.devices
-            // console.log(target_device_array);
+                console.log('found tagret');
+                target_device_array = board.devices
+                // console.log(target_device_array);
             }
 
         });
@@ -104,25 +99,16 @@ class DEVICEBANK {
             //check which device class should be used to build the device
             switch (device.class) {
                 case 'relay':
-                    var varname =  device.uid
-                  
-                    console.log(device.type);
-                    this[varname] = new five.Relay({id:device.uid, pin: device.pin, type: device.type})
-                    // this[varname] = new five.Relay({id:device.uid, pin: device.pin, type: device.type, board: target_board})
-                    this[varname].close();
+                    new RELAY(device, target_board).build()
                     break;
                 case 'switch':
-                    var varname =  device.uid
-                    this[varname] = new five.Switch({id:device.uid, pin: device.pin})
-                   
-                    this[varname].on("open", function() {
-                        console.log('open');
-                      });
-                    
-                    this[varname].on("close", function() {
-                        console.log('closed');
-                    });
-
+                    new SWITCH(device, target_board).build()
+                break;
+                case 'thermometer':
+                    new THERMOMETER(device, target_board).build()
+                    break;
+                case 'hygrometer':
+                    new HYGROMETER(device, target_board).build()
                 break;
                 default:
                     break;
@@ -134,7 +120,5 @@ class DEVICEBANK {
 
 }
 
-  
-
- module.exports = { DEVICEBANK }
+module.exports = { DEVICEBANK }
 
