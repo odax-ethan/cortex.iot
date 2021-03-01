@@ -10,6 +10,11 @@ const { RELAY } = require('./components/Relay')
 //switch custom class
 const { SWITCH } = require('./components/Switch')
 
+const { HYGROMETER } = require('./components/Thermometer')
+//switch custom class
+const { THERMOMETER } = require('./components/Hygrometer')
+
+
 class DEVICEBANK {
     constructor(  ) { 
         this.shape = null

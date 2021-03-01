@@ -14,7 +14,17 @@
                 "board": "test987980",
                 "class": "relay",
                 "type": "NO",
-                "pin": 13
+                "pin": 13,
+                "cron": [
+                    {
+                       "uid":"unique_CRON_ID_string_no_spaces", 
+                       "nid":"cron ID string with spaces",
+                       "target":"myRelay_3456789",
+                       "type": "on/off",
+                       "shape": [" 15 * * * * * " , "45 * * * * *"],
+                       "color": "#7def71"
+                   }
+                ]
             },
             {
                 "uid": "mySwicth",
