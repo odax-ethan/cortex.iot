@@ -29,6 +29,8 @@ const Device_history_add = async (device_id, to_save) => {
     //create a target 
     let target = doc
     
+    console.log(to_save);
+
     //save eventHistory object
     target.eventHistory.push(to_save)
     

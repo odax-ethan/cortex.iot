@@ -10,29 +10,73 @@
     <!-- create a window var for your sockets -->
     <script src="./static/assets/socket_init.js"></script>
 
+
+    <style>
+
+        .grid-container {
+        display: grid;
+        grid-template-columns: minmax(20px, 60px) 4fr 1fr minmax(20px, 60px);
+        grid-template-rows: 72px 1fr;
+        gap: 10px 30px;
+        grid-template-areas:
+            ". nav_bar nav_bar ."
+            ". content sidebar .";
+        }
+
+        .nav_bar { grid-area: nav_bar; }
+
+        .content { grid-area: content; }
+
+        .sidebar { grid-area: sidebar; }
+
+    </style>
+
 </head>
 <body>
     
-    <h1>Cortex.iot dashboard</h1>
 
-    <h1>settings</h1>
-    <div id="settings"></div>
 
-    <h1>deviceBank</h1>    
-    <div id="deviceBank"></div>
 
-    <h1>history</h1>
-    <div id="history"></div>
+    <div class="grid-container">
+        <div class="nav_bar">
+            <h1>Cortex.iot dashboard</h1>
+        </div>
+        <div class="content">
 
-    <h1>streamBundle</h1>
-    <div id="streamBundle"></div>
+            
+                <!-- <h1>settings</h1>
+                <div id="settings"></div> -->
 
-    <h1>events</h1>
-    <div id="events"></div>
+                <h1>deviceBank</h1>    
+                <div id="deviceBank"></div>
 
-    <h1>Target History</h1>
-    <div id="target_history"></div>
+                <h1>history</h1>
+                <div id="history"></div>
 
+                <h1>streamBundle</h1>
+                <div id="streamBundle"></div>
+
+            <!--                 
+                <h1>events</h1>
+                <div id="events"></div> 
+            -->
+
+            <!-- 
+                <h1>Target History</h1>
+                <div id="target_history"></div>  
+            -->
+           
+
+        </div>
+        <div class="sidebar">
+            <a href="#" onclick="download_all_history()">DOWNLOAD HISTORY</a>
+            
+            <article>
+                <p>To delete history - db must be turned off then manually nuked</p>
+                <p>Settings are hardcoded in the .env file in ./config</p>
+            </article>
+        </div>
+      </div>
 
 
 </body>
@@ -42,5 +86,6 @@
 
 <!-- socket db connectors -->
 <script src="./static/assets/socket_db_calls.js"></script>
+<script src="./static/assets/download_all_history.js"></script>
 
 </html>

@@ -34,7 +34,12 @@
                 "board": "test987980",
                 "class": "switch",
                 "type": "NO",
-                "pin": 9
+                "pin": 9,
+                "triggers": [
+                    {
+                        "target" : "myRelay_3456789"                       
+                    }
+                ]
             }
         ]
     }

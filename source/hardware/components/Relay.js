@@ -1,5 +1,6 @@
 var five = require("johnny-five");
 const { systemEmitter } = require('../../util/emitter/systemEmitter')
+const { TIMESTAMP } = require('../../util/timestamp')
 var cronNode = require('node-cron');
 
 class RELAY {
@@ -17,7 +18,8 @@ class RELAY {
 
         // listen for events in system
         systemEmitter.on(`relay-trigger-${this.uid}-on`, () => {
-                                    
+            
+            systemEmitter.emit('event', this.uid, 'trigger', 'OK', 'on', TIMESTAMP.local)
             this.device_container.close()
 
         });// end of system emitter
@@ -25,6 +27,7 @@ class RELAY {
         // listen for events in system
         systemEmitter.on(`relay-trigger-${this.uid}-off`, () => {
     
+            systemEmitter.emit('event', this.uid, 'trigger', 'OK', 'off', TIMESTAMP.local)
             this.device_container.open()
 
         })// end of system emitter
@@ -51,6 +54,7 @@ class RELAY {
                         this[cronID_on] = cronNode.schedule(cron.shape[0], () => {
                             console.log('running cron on');                    
                             // at start of event close relay (i.e. turn it on)
+                            systemEmitter.emit('event', this.uid, 'trigger', 'OK', 'on', TIMESTAMP.local)
                             return this.device_container.close()
                         }); // end of cron on
 
@@ -62,6 +66,7 @@ class RELAY {
                         this[cronID_off] = cronNode.schedule(cron.shape[1], () => {
                             console.log('running cron off');                    
                             // at start of event close relay (i.e. turn it off)
+                            systemEmitter.emit('event', this.uid, 'trigger', 'OK', 'off', TIMESTAMP.local)
                             return  this.device_container.open()
                         });  // end of cron off
 

@@ -6,8 +6,6 @@ module.exports = { DB } // export DB class to access through out cortex
 // before moving on create a instance of DB 
 
 
-
-
 // bring in and activate with db connections and logger
 const { systemEmitter } = require('./source/util/emitter/systemEmitter') 
 // network structure and services
@@ -17,6 +15,8 @@ const {DEVICEBANK} = require('./source/hardware/device_bank.js')
 // include hardware builder
 const {HARDWARE} = require('./source/hardware/builder')
 
+//create a timestamp function that will call to your timezone
+const {TIMESTAMP} = require('./source/util/timestamp.js')
 
 
 // how to trigger  base event or warning
@@ -102,10 +102,8 @@ DB.def(); // log your DB definition
 // DB.NUKE().then((result)=>{console.log(result);})
 // .catch((err)=>{throw err})
 
-
-// access deviceBank
+// // access deviceBank
 let deviceBank = new DEVICEBANK(true)
-
 let hardware_instance = new HARDWARE(deviceBank, true)
 
 setTimeout(() => {

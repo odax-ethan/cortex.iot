@@ -8,12 +8,13 @@
     "quick_deploy": "node --trace-warnings -r dotenv/config cortex.core.js dotenv_config_path=config/.env",
     "generate": "node source/util/setup/generate.js",
     "docs": "node node_modules/cortex.iot.docs/doc.js",
-    "nuke": "node "
+    "nuke": "node nuke.js "
   },
   "author": "Odax Systems, LLC",
   "license": "SEE LICENCE IN license.txt",
   "dependencies": {
     "cortex.iot.docs": "^0.0.0",
+    "dateformat": "^4.5.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "johnny-five": "^2.0.0",

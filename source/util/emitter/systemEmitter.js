@@ -1,11 +1,12 @@
 const EventEmitter = require('events'); // node.js event module
 const systemEmitter = new EventEmitter(); //create event for all status
 const {logger} = require('./logger.js')
-const{DB} = require('../../../cortex.core')
+const{DB} = require('../../../cortex.core');
+const { time } = require('console');
 
 //gate way handler
 // all events come from the
-systemEmitter.on('event', (sourceID, type, state, data) =>{
+systemEmitter.on('event', (sourceID, type, state, data, timestamp) =>{
     
     switch (state) {
         case 'OK':
@@ -31,7 +32,7 @@ systemEmitter.on('event', (sourceID, type, state, data) =>{
         case 'hardware': //handle events  that come from hardware events
             
             // emit event into stream
-            systemEmitter.emit('stream', { deviceID: sourceID, data:data } ) 
+            systemEmitter.emit('stream', { deviceID: sourceID, data:data,  timestamp: timestamp} ) 
 
             // all hardware events are recorded to there history db location
             //how you log data to a deviceID
@@ -50,11 +51,11 @@ systemEmitter.on('event', (sourceID, type, state, data) =>{
             // and trigger sources will create emits on their side
             
             // emit event into stream
-            systemEmitter.emit('stream', { deviceID: sourceID, data:data } ) 
+            systemEmitter.emit('stream', {deviceID: sourceID, data: data, timestamp: timestamp} ) 
 
             // all hardware events are recorded to there history db location
             //how you log data to a deviceID
-            DB.ADD_DEVICE_HISTORY(sourceID, data )
+            DB.ADD_DEVICE_HISTORY(sourceID, [timestamp, data] )
             .then(data=>{
                 //   console.log(`Data was successfully logged for ${data.id}`)
                 ;})
