@@ -22,11 +22,12 @@
      <tr>
         <td>Current Dev. Version:</td>
          <td>pre-alpha</td>
-        <td>0.7.0+</td>
-        <td><a href="http://bit.ly/cortex-git-0-7-0">Github</a></td>
-        <td>npm i cortex.iot@0.7.0</td>
+        <td>0.7.2+</td>
+        <td><a href="https://github.com/odax-ethan/cortex.iot/tree/0.7.2">Github</a></td>
+        <td>npm i cortex.iot</td>
     </tr>
 </table>
+
 
 
 
@@ -66,9 +67,22 @@ $ npm run quick_deploy
 
 
 
-## How to setup Quick Deployment
+## Access Offline Documentation & Quick Deployment Tooling
 
+Cortex.iot comes with an offline docs so you will always have the most up to date version. 
 
+Cortex.iot also comes with a Quick Deployment Tool that will allow you to build the json device bank shape to quick deploy any cortex.iot environment. 
 
+```bash
+# From the root of your cortex.iot environment
+$ npm run docs
 
+# navigate to your browser:
+http://localhost:900/
+```
 
+http://localhost:900/ is cortex.iot.docs is the entire documentation. You will also find a link to [Quick Deployement Tool](http://localhost:900/quick) => http://localhost:900/quick
+
+#### Quick Deployment Tooling
+
+Quick Deployment Tool will allow users to predefined cortex.iot environments in an offline environment.

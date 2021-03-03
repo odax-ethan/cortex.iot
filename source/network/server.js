@@ -5,9 +5,8 @@ const socket_io = require('socket.io') // socket.io
 const express = require('express');// express.js the imidiatetly create an express app.
 const { WEBSOCKET, webSocketStructure } = require('./socket')
 const { systemEmitter } = require('../util/emitter/systemEmitter')
-const os = require('os');
-
-
+// const os = require('os');
+var ip = require('ip'); // get the public ip address
 
 //create a function to call that starts up all network services
 let serverStructure = (DATABASE) => {
@@ -55,15 +54,16 @@ let serverStructure = (DATABASE) => {
             //send a predesign not found html page
         });
 
-        var networkInterfaces = os.networkInterfaces();
-        var address = networkInterfaces['Ethernet 2'][1].address
+        // var networkInterfaces = os.networkInterfaces();
+        // console.log(networkInterfaces);
+        // var address = networkInterfaces['Ethernet 2'][1].address
 
         //create an socket.io SERVER that listens to the HTTPS or http SERVER at env.PORT
         webSocketStructure(SERVER, DATABASE)
         
-        //start the SERVER at env.PORT
-        SERVER.listen(PORT, HOST);
-        console.log(`Running on https://${address}:${PORT}`);
+        const cortexApp = SERVER.listen(PORT, HOST, () => {
+            console.log('running at http://' + ip.address()  + ':' + PORT)
+        })
 
 
 
