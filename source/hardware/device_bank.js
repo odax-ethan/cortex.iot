@@ -5,6 +5,9 @@ const { DB } = require('../../cortex.core')
 var five = require("johnny-five"); // Generic J5
 const { systemEmitter } = require('../util/emitter/systemEmitter')
 
+// NEEDED FOR PI TO ACCESS GPIO
+const Raspi = require('raspi-io').RaspiIO;
+
 // relay custom class
 const { RELAY } = require('./components/Relay')
 //switch custom class
@@ -13,7 +16,6 @@ const { SWITCH } = require('./components/Switch')
 const { HYGROMETER } = require('./components/Thermometer')
 //switch custom class
 const { THERMOMETER } = require('./components/Hygrometer')
-
 
 class DEVICEBANK {
     constructor(  ) { 
@@ -76,7 +78,18 @@ class DEVICEBANK {
         var output = []
         var shape = this.shape
         shape.forEach( (board, index) => {
-            var target_board_devices = {id: board.uid, port: board.port}
+
+            var pi_shape = {
+                io: new Raspi()
+            }
+
+            var normal_port = {
+                port: board.port
+            }
+
+            var target_board_devices = (board.port === "pi_io") ? {id: board.uid, ...pi_shape} : { id:board.uid, ...normal_port};
+            // var target_board_devices = {id: board.uid, port: board.port}
+
             output.push(target_board_devices)
         });
         return output;
