@@ -81,14 +81,14 @@ class RELAY {
                             console.log('cron started');
 
                             // at start of event close relay (i.e. turn it on)
-                            currentRelay.close()
+                            this.device_container.close()
                             //notify the event stream event has occured
                             systemEmitter.emit('event', this.uid, 'trigger', 'OK', 'on', TIMESTAMP.local)
 
                             // turn off relay (i.e. open it)
                             setTimeout(() => {
                                 console.log('cron timed out');
-                                currentRelay.open()
+                                this.device_container.open()
                                 systemEmitter.emit('event', this.uid, 'trigger', 'OK', 'off', TIMESTAMP.local)
                             }, cron.length);
 
