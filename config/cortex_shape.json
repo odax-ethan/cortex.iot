@@ -1,43 +1,50 @@
 [
     {
-        "uid": "test987980",
-        "nid": "test",
-        "port": "COM3",
-        "color": "#05A",
-        "comment": "3214213",
+        "uid": "Tent_001",
+        "nid": "Grow_Tent",
+        "port": "pi_io",
+        "color": "#55F",
+        "comment": "This is a Pi host",
+        "index": null,
         "devices": [
             {
-                "uid": "myRelay_3456789",
-                "nid": "myRelay",
+                "uid": "tent_001_light",
+                "nid": "Light",
                 "color": "#0F8",
-                "comment": "3qe3",
-                "board": "test987980",
+                "comment": "This is a grow light.",
+                "board": "Tent_001",
                 "class": "relay",
                 "type": "NO",
-                "pin": 13,
+                "pin": " P1-31",
                 "cron": [
                     {
-                       "uid":"unique_CRON_ID_string_no_spaces", 
-                       "nid":"cron ID string with spaces",
-                       "target":"myRelay_3456789",
+                        "id":"light_cycle", 
+                       "nid":"light cycle",
+                       "target": "tent_001_light",
                        "type": "on/off",
-                       "shape": [" 15 * * * * * " , "45 * * * * *"],
+                       "shape": [" 15 * * * * * " , " 45 * * * * * "],
                        "color": "#7def71"
                    }
                 ]
             },
             {
-                "uid": "mySwicth",
-                "nid": "mySwitch",
-                "color": "#5AF",
-                "comment": "123124123",
-                "board": "test987980",
-                "class": "switch",
+                "uid": "tent_001_fan_combo",
+                "nid": "Fan/Humidifier",
+                "color": "#A5F",
+                "comment": "Fan and Humidifier outlet combo",
+                "board": "Tent_001",
+                "class": "relay",
                 "type": "NO",
-                "pin": 9,
-                "triggers": [
+                "pin": " P1-37",
+                "cron": [
                     {
-                        "target" : "myRelay_3456789"                       
+                        "id":"air_cycle", 
+                        "nid":"air cycle",
+                        "target": "tent_001_fan_combo",
+                        "type": "burst",
+                        "shape": " 15 * * * * * ",
+                        "length": 5000,
+                        "color": "#7def71"
                     }
                 ]
             }
