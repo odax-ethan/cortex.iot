@@ -15,7 +15,7 @@
                 "board": "Tent_001",
                 "class": "relay",
                 "type": "NO",
-                "pin": " P1-31",
+                "pin": "P1-31",
                 "cron": [
                     {
                         "id":"light_cycle", 
@@ -35,7 +35,7 @@
                 "board": "Tent_001",
                 "class": "relay",
                 "type": "NO",
-                "pin": " P1-37",
+                "pin": "P1-37",
                 "cron": [
                     {
                         "id":"air_cycle", 
