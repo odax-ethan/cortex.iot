@@ -22,7 +22,7 @@
                        "nid":"light cycle",
                        "target": "tent_001_light",
                        "type": "on/off",
-                       "shape": [" 15 * * * * * " , " 45 * * * * * "],
+                       "shape": [" * * 6 * * * " , " * * 23 * * * "],
                        "color": "#7def71"
                    }
                 ]
@@ -42,8 +42,8 @@
                         "nid":"air cycle",
                         "target": "tent_001_fan_combo",
                         "type": "burst",
-                        "shape": " 15 * * * * * ",
-                        "length": 5000,
+                        "shape": " * 8 * * * * ",
+                        "length": 75000,
                         "color": "#7def71"
                     }
                 ]
