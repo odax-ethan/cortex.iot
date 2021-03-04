@@ -71,7 +71,32 @@ class RELAY {
                         });  // end of cron off
 
                         break; // end of on/off tooling
-                
+                    case "burst":
+
+                        console.log(cron.shape);
+                                                
+                        var cronID = `cron-${cron.id}` // create dynamic variable for cron
+                        this[cronID] = cronNode.schedule(cron.shape, () => {
+
+                            console.log('cron started');
+
+                            // at start of event close relay (i.e. turn it on)
+                            currentRelay.close()
+                            //notify the event stream event has occured
+                            systemEmitter.emit('event', this.uid, 'trigger', 'OK', 'on', TIMESTAMP.local)
+
+                            // turn off relay (i.e. open it)
+                            setTimeout(() => {
+                                console.log('cron timed out');
+                                currentRelay.open()
+                                systemEmitter.emit('event', this.uid, 'trigger', 'OK', 'off', TIMESTAMP.local)
+                            }, cron.length);
+
+    
+                        
+                       }); // end of cron
+
+                    break;
                     default:
                         console.log("failed to load a cron");
                         break;

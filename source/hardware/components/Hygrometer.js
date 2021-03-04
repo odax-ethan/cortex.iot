@@ -13,7 +13,7 @@ class HYRGOMETER {
         this.device_container = new five.Hygrometer({id:this.uid, pin: this.device.pin, controller: this.device.controller, freq:2000})
         
         this.device_container.on("data" , function() {
-            console.log(this.relativeHumidity + " %");
+            systemEmitter.emit('event', this.uid, 'trigger', 'OK', this.relativeHumidity, TIMESTAMP.local)
         });
     }
 }
