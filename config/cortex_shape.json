@@ -42,7 +42,7 @@
                         "nid":"air cycle",
                         "target": "tent_001_fan_combo",
                         "type": "burst",
-                        "shape": " * 8 * * * * ",
+                        "shape": " * */8 * * * * ",
                         "length": 75000,
                         "color": "#7def71"
                     }
