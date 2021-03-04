@@ -22,7 +22,7 @@ class HARDWARE {
     // plugin shape
     //test if to include raspberry pi tooling
     try {
-      var rasp_gpio = require('/raspi-io');
+      var rasp_gpio = require('raspi-io');
       // do stuff
     } catch (ex) {
       console.log('raspberry pi tool is not installed and will not be used');
