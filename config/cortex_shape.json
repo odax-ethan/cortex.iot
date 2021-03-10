@@ -2,7 +2,7 @@
     {
         "uid": "Tent_001",
         "nid": "Grow_Tent",
-        "port": "pi_io",
+        "port": "COM3",
         "color": "#55F",
         "comment": "This is a Pi host",
         "index": null,
@@ -15,7 +15,7 @@
                 "board": "Tent_001",
                 "class": "relay",
                 "type": "NO",
-                "pin": "P1-31",
+                "pin": "9",
                 "cron": [
                     {
                         "id":"light_cycle", 
@@ -35,15 +35,15 @@
                 "board": "Tent_001",
                 "class": "relay",
                 "type": "NO",
-                "pin": "P1-37",
+                "pin": "13",
                 "cron": [
                     {
                         "id":"air_cycle", 
                         "nid":"air cycle",
                         "target": "tent_001_fan_combo",
                         "type": "burst",
-                        "shape": " 0 */8 * * * * ",
-                        "length": 75000,
+                        "shape": " */20 * * * * * ",
+                        "length": 15000,
                         "color": "#7def71"
                     }
                 ]

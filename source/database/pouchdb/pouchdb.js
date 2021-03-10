@@ -125,7 +125,7 @@ const Set_Device_Bank = async ( deviceBank_array )  => {
   const result = await localDB.get('deviceBank').catch(function ( err) {
     
     //if the target device is not in the database create doc for it.
-    if (err.name === 'not_found') {
+    if (err.name === 'not_found' || process.env.QUICK_DEPLOY === true) {
       documentSchema = {
         _id: 'deviceBank',
         deviceBank : deviceBank_array

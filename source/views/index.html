@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cortex.iot dashboard</title>
 
+    <!-- IONIC ICONS -->
+    <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
+
     <!-- socket.io CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"></script>
     <!-- create a window var for your sockets -->
     <script src="./static/assets/socket_init.js"></script>
+
 
 
     <style>
@@ -31,6 +35,9 @@
 
     </style>
 
+    <!-- style sheet -->
+<link rel="stylesheet" href="./static/style.css">
+
 </head>
 <body>
     
@@ -39,7 +46,7 @@
 
     <div class="grid-container">
         <div class="nav_bar">
-            <h1>Cortex.iot dashboard</h1>
+            <h1>Cortex.iot Dashboard</h1>
         </div>
         <div class="content">
 
@@ -47,14 +54,20 @@
                 <!-- <h1>settings</h1>
                 <div id="settings"></div> -->
 
-                <h1>deviceBank</h1>    
+                <h1>Device Bank</h1>    
                 <div id="deviceBank"></div>
 
-                <h1>history</h1>
-                <div id="history"></div>
 
-                <h1>streamBundle</h1>
-                <div id="streamBundle"></div>
+                <!-- device viewer -->
+                
+                <div id="device_viewer">
+
+                </div>
+
+                <!-- <h1>History</h1>
+                <div id="history"></div> -->
+
+               
 
             <!--                 
                 <h1>events</h1>
@@ -69,12 +82,15 @@
 
         </div>
         <div class="sidebar">
-            <a href="#" onclick="download_all_history()">DOWNLOAD HISTORY</a>
+            <a href="#" onclick="download_all_history()" class='button'><ion-icon name="download-outline"></ion-icon> HISTORY</a>
             
             <article>
                 <p>To delete history - db must be turned off then manually nuked</p>
                 <p>Settings are hardcoded in the .env file in ./config</p>
             </article>
+
+            <h1>streamBundle</h1>
+            <div id="streamBundle"></div>
         </div>
       </div>
 
@@ -87,5 +103,7 @@
 <!-- socket db connectors -->
 <script src="./static/assets/socket_db_calls.js"></script>
 <script src="./static/assets/download_all_history.js"></script>
+<script src="./static/assets/renderer.js"></script>
+
 
 </html>

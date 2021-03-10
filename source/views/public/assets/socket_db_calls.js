@@ -1,13 +1,13 @@
     //log event on client when connected to server
-    socket.emit('req GET_ALL_HISTORY');
-    socket.on('res GET_ALL_HISTORY', (history) => {
-        console.log('Got all device history');
-        window.history = history
+    // socket.emit('req GET_ALL_HISTORY');
+    // socket.on('res GET_ALL_HISTORY', (history) => {
+    //     console.log('Got all device history');
+    //     window.history = history
 
-        document.querySelector(`#history`).innerHTML = JSON.stringify(history);
+    //     // document.querySelector(`#history`).innerHTML = JSON.stringify(history);
 
-        console.log(history);
-    });
+    //     console.log(history);
+    // });
 
     // socket.emit('req GET_SETTINGS');
     // socket.on('res GET_SETTINGS', (settings) => {
@@ -19,23 +19,31 @@
     //     console.log(settings);
     // });
 
-    socket.emit('req GET_DEVICEBANK');
-    socket.on('res GET_DEVICEBANK', (deviceBank) => {
-        console.log('Got deviceBank');
-        window.deviceBank = deviceBank
+    // socket.emit('req GET_DEVICEBANK');
+    // socket.on('res GET_DEVICEBANK', (deviceBank) => {
+    //     console.log('Got deviceBank');
+    //     window.deviceBank = deviceBank
 
-        document.querySelector(`#deviceBank`).innerHTML = JSON.stringify(deviceBank);
+    //     document.querySelector(`#deviceBank`).innerHTML = JSON.stringify(deviceBank);
 
-        console.log(deviceBank);
-    });
+    //     console.log(deviceBank);
+    // });
 
     socket.on('stream', (streamBundle) => {
         console.log('Got streamBundle');
         window.streamBundle = streamBundle
 
+
+
+        // extract data and place in data block
+
+        // data_stream_block_<deviceUID>
+
+        var target_device = `data_stream_block_${streamBundle.deviceID}`
+        document.querySelector(`#${target_device}`).innerHTML = streamBundle.data
         document.querySelector(`#streamBundle`).innerHTML = JSON.stringify(streamBundle);
 
-        console.log(streamBundle);
+        // console.log(streamBundle);
     });
 
 
