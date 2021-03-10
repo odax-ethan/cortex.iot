@@ -77,7 +77,7 @@ const Set_Settings = async ( settings_bundle )  => {
   const result = await localDB.get('settings').catch(function ( err) {
     
     //if the target device is not in the database create doc for it.
-    if (err.name === 'not_found') {
+    if (err.name === 'not_found'|| process.env.QUICK_DEPLOY === true ) {
       documentSchema = {
         _id: 'settings',
         settings_OBJ : settings_bundle

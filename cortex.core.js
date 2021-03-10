@@ -28,6 +28,34 @@ const {TIMESTAMP} = require('./source/util/timestamp.js')
 // }, 2000);
 
 DB.def(); // log your DB definition
+// define general settings 
+
+
+var settings_shape = {
+
+    // # System Nick Name
+    SYSTEM_NAME : process.env.SYSTEM_NAME,
+
+    // # DATABASE DETAILS
+    DATABASE : process.env.DATABASE,
+    // # Optional setting to connect to db url
+    DATABASE_URL : process.env.DATABASE_URL,
+
+    // # Johnny-Five Master Sensor Sample Rate
+    HARDWARE_SAMPLE_RATE : process.env.HARDWARE_SAMPLE_RATE,
+
+    // # Sensor Sample Temp. Value
+    // # [ C , F, K ]
+    SAMPLE_TEMP_SCALE : process.env.SAMPLE_TEMP_SCALE,
+
+}
+
+
+DB.SET_SETTINGS(settings_shape)
+.then(()=>{console.log(`Settings have been Saved`);})
+.catch((err)=>{throw err})
+
+
 
 //how you log data to a deviceID
 // DB.ADD_DEVICE_HISTORY('cool devices', { timeStamp: new Date(), data: 28329 } )

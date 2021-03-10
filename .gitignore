@@ -4,4 +4,5 @@ pouch_db_local
 source/database/pouch_db_local
 config/ssl/cert.pem
 config/ssl/key.pem
+config/ssl/csr.pem
 log

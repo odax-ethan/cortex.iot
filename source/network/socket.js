@@ -53,6 +53,7 @@ webSocketStructure = (server, DATABASE) => {
         socket.on('req GET_SETTINGS', () => {
             return DATABASE.GET_SETTINGS()
                 .then(settings=>{
+                    console.log(settings);
                     return socket.emit('res GET_SETTINGS', settings)
                 })
                 .catch((err)=>{throw err})

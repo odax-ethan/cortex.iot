@@ -9,15 +9,15 @@
     //     console.log(history);
     // });
 
-    // socket.emit('req GET_SETTINGS');
-    // socket.on('res GET_SETTINGS', (settings) => {
-    //     console.log('Got Cortex.iot setting');
-    //     window.settings = settings
+    socket.emit('req GET_SETTINGS');
+    socket.on('res GET_SETTINGS', (settings) => {
+        console.log('Got Cortex.iot setting');
+        window.settings = settings
         
-    //     document.querySelector(`#settings`).innerHTML = JSON.stringify(settings);
+        // document.querySelector(`#settings`).innerHTML = JSON.stringify(settings);
 
-    //     console.log(settings);
-    // });
+        console.log(settings);
+    });
 
     // socket.emit('req GET_DEVICEBANK');
     // socket.on('res GET_DEVICEBANK', (deviceBank) => {
@@ -41,7 +41,7 @@
 
         var target_device = `data_stream_block_${streamBundle.deviceID}`
         document.querySelector(`#${target_device}`).innerHTML = streamBundle.data
-        document.querySelector(`#streamBundle`).innerHTML = JSON.stringify(streamBundle);
+        // document.querySelector(`#streamBundle`).innerHTML = JSON.stringify(streamBundle);
 
         // console.log(streamBundle);
     });

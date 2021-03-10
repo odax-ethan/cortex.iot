@@ -11,9 +11,8 @@ class THERMOMETER {
     }
 
     build () {
-        this.device_container = new five.Thermometer({id:this.uid, pin: this.device.pin, controller: this.device.controller, freq: 2000})
         
-        let temp_scale = this.SAMPLE_TEMP_SCALE 
+        this.device_container = new five.Thermometer({id:this.uid, pin: this.device.pin, controller: this.device.controller, freq: 2000})
 
         // this.device_container.on("data" , function() {
         //     console.log("celsius: %d", this.C);
@@ -32,9 +31,12 @@ class THERMOMETER {
         //     return systemEmitter.emit('event', eventOBJ);
         // })
 
+
+        let SAMPLE_TEMP_SCALE = this.SAMPLE_TEMP_SCALE
+
         this.device_container.on("data", (data) => {
             
-            systemEmitter.emit('event', this.uid, 'trigger', 'OK', this[temp_scale] , TIMESTAMP.local)
+            systemEmitter.emit('event', this.uid, 'trigger', 'OK', data[SAMPLE_TEMP_SCALE] , TIMESTAMP.local)
 
         })
     }

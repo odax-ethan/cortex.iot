@@ -31,14 +31,43 @@ function render_environment(params) {
             //for each board check if it has a device and build it out
             board.devices.forEach(device => {
                 var new_device = document.createElement('div')
-                console.log(device);
                 new_device.setAttribute('id',`device_${board.uid}`)
+
+                var data_style
+                var data_inner_ele_text =''
+                switch (device.class) {
+                    case 'relay' || 'button':
+
+                    data_style = `switch`
+
+                        break;
+                case 'hygrometer':
+                   
+                    data_style = `percent`
+                    data_inner_ele_text = '%'
+
+                break;
+
+                case 'thermometer':
+                   
+                    data_style = `percent`
+                    SAMPLE_TEMP_SCALE = settings.SAMPLE_TEMP_SCALE
+                    data_inner_ele_text = ' *' + SAMPLE_TEMP_SCALE
+
+                break;
+                
+                    default:
+                        break;
+                }
+
+                // 
+
 
                 //device the device ui shape
                 new_device.innerHTML = `
                 <a onclick='device_details()'>
                 <div class="device_grid-container">
-                <div class="device_data_block" id="data_stream_block_${device.uid}">NULL</div>
+                <div class="device_data_block ${data_style}"><span id="data_stream_block_${device.uid}">null</span><span>${data_inner_ele_text}</span></div>
                 <div class="device_details">device_${device.uid}</div>
                 <div class="device_actions">
                 <ion-icon name="beaker-outline"></ion-icon>
@@ -52,7 +81,6 @@ function render_environment(params) {
                 new_device.setAttribute('class', 'cortex_device')
                 new_device.style.color = device.color;
                 new_board.appendChild(new_device)
-                // console.log(device);
             });
             
             //onces everything is built append it to devicebank container
@@ -73,17 +101,16 @@ function render_environment(params) {
         // document.querySelector(`#history`).innerHTML = JSON.stringify(history);
         // console.log(history);
 
-        console.log('action');
 
 
         //place the last data recorded to connected devices
         history.forEach(data => {
-            console.log(data);
-           
+            // console.log(data);
+        //    
             if (data.deviceID) {
-              
+                
+                // console.log(data);
                 var target_device = `data_stream_block_${data.deviceID}`
-                console.log(data.eventHistory);
                 var least_reading = data.eventHistory[data.eventHistory.length - 1]
                 document.querySelector(`#${target_device}`).innerHTML = least_reading[1]
             }
