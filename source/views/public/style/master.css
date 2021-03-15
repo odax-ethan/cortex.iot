@@ -8,6 +8,12 @@
 }
 
 
+
+/* typography styling */
+h1 {
+    text-transform: capitalize;
+}
+
 /* input styling */
 input {
     padding: .3rem;

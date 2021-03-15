@@ -1,0 +1,9 @@
+section.data_stream_container{
+    height: 35%;
+}
+
+.data_stream_feed{
+    overflow:auto;
+    height: 100px;
+}
+
