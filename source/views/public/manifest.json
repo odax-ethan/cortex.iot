@@ -1,0 +1,7 @@
+{
+  "name": "Cortex.iot Client",
+  "short_name": "Cortex.client",
+  "start_url": "/core.html",
+  "display": "standalone",
+  "orientation": "portrait",
+}

@@ -1,52 +1,29 @@
 [
     {
-        "uid": "Tent_001",
-        "nid": "Grow_Tent",
-        "port": "pi_io",
-        "color": "#55F",
-        "comment": "This is a Pi host",
-        "index": null,
+        "uid": "4567890",
+        "nid": "test",
+        "port": "COM4",
+        "color": "#5AF",
+        "comment": "",
         "devices": [
             {
-                "uid": "tent_001_light",
-                "nid": "Light",
-                "color": "#0F8",
-                "comment": "This is a grow light.",
-                "board": "Tent_001",
-                "class": "relay",
-                "type": "NO",
-                "pin": "P1-31",
-                "cron": [
-                    {
-                        "id":"light_cycle", 
-                       "nid":"light cycle",
-                       "target": "tent_001_light",
-                       "type": "on/off",
-                       "shape": [" 0 0 6 * * * " , " 0 59 23 * * * "],
-                       "color": "#7def71"
-                   }
-                ]
+                "uid": "165436456",
+                "nid": "test_hygro",
+                "color": "#0FF",
+                "comment": "",
+                "board": "4567890",
+                "class": "hyrgometer",
+                "controller": "SHT31D"
             },
             {
-                "uid": "tent_001_fan_combo",
-                "nid": "Fan/Humidifier",
-                "color": "#A5F",
-                "comment": "Fan and Humidifier outlet combo",
-                "board": "Tent_001",
-                "class": "relay",
-                "type": "NO",
-                "pin": "P1-37",
-                "cron": [
-                    {
-                        "id":"air_cycle", 
-                        "nid":"air cycle",
-                        "target": "tent_001_fan_combo",
-                        "type": "burst",
-                        "shape": " 0 */8 * * * * ",
-                        "length": 150000,
-                        "color": "#7def71"
-                    }
-                ]
+                "uid": "123213",
+                "nid": "test_temp",
+                "color": "#F5A",
+                "comment": "",
+                "board": "4567890",
+                "class": "thermometer",
+                "controller": "DS18B20",
+                "pin": "6"
             }
         ]
     }

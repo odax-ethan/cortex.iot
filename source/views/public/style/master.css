@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap');
+
+:root {
+    --black: #1D1D1D;
+    font-family: 'Titillium Web', sans-serif;
+    color: var(--black);
+    padding: 1% 5% 2% 5%;
+}
+
+
+/* input styling */
+input {
+    padding: .3rem;
+    border-width: 0px 0px 2px 0px;
+}
+
+input:focus{
+   outline: none; 
+   outline-color: rgb(114, 184, 253);
+}
+
+
+/* button styles */
+button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: .6rem 1.3rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.button_group.right {
+    display:flex; 
+    justify-content:flex-end; 
+    width:100%; 
+    padding:0;
+    color: dodgerblue;
+}
+
+button.red {
+    background-color: #e0541d;
+    color: #1D1D1D;
+    
+}
+
+
+/* fieldset styling */
+
+a:visited {
+ color: var(--black);
+}
+
+a {
+    color: var(--black);
+   }
+
+fieldset a {
+    text-decoration: none;
+}
+
+fieldset legend {
+    font-weight: 600;
+}
+
+/* :is(fieldset a) :hover :link  {
+
+} */
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+/* @media only screen and (min-width: 600px) {...} */
+
+/* Medium devices (landscape tablets, 768px and up) */
+/* @media only screen and (min-width: 768px) {...} */
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    body {
+        padding: 0% 20% 2% 25%;
+    }
+   
+}

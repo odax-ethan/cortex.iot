@@ -5,6 +5,7 @@ const socket_io = require('socket.io') // socket.io
 const express = require('express');// express.js the imidiatetly create an express app.
 const { WEBSOCKET, webSocketStructure } = require('./socket')
 const { systemEmitter } = require('../util/emitter/systemEmitter')
+var favicon = require('serve-favicon')
 // const os = require('os');
 var ip = require('ip'); // get the public ip address
 
@@ -37,11 +38,13 @@ let serverStructure = (DATABASE) => {
         expressApp.disable('etag').disable('x-powered-by'); // minor security patch
 
         //public client view assets
-        expressApp.use('/static', express.static(path.join(__dirname, '../views/public')))
+        expressApp.use('/public', express.static(path.join(__dirname, '../views/public')))
+        expressApp.use(favicon(path.join(__dirname, '../views/public/images/favicon.ico')));
 
+        // expressApp.use(favicon(path.join(__dirname + '../views/public/images/favicon.ico')));
 
         expressApp.get('/', (req, res) => {
-            res.sendFile(path.join(__dirname + '../../../source/views/index.html'));
+            res.sendFile(path.join(__dirname + '../../../source/views/core.html'));
         });
 
         // 500 - Any server error
@@ -62,7 +65,7 @@ let serverStructure = (DATABASE) => {
         webSocketStructure(SERVER, DATABASE)
         
         const cortexApp = SERVER.listen(PORT, HOST, () => {
-            console.log('running at http://' + ip.address()  + ':' + PORT)
+            console.log('running at https://' + ip.address()  + ':' + PORT)
         })
 
 
