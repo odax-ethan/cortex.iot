@@ -78,10 +78,10 @@ Cortex.iot also comes with a Quick Deployment Tool that will allow you to build 
 $ npm run docs
 
 # navigate to your browser:
-http://localhost:900/
+https://localhost:9001/
 ```
 
-http://localhost:900/ is cortex.iot.docs is the entire documentation. You will also find a link to [Quick Deployement Tool](http://localhost:900/quick) => http://localhost:900/quick
+http://localhost:9000/ is cortex.iot.docs is the entire documentation. You will also find a link to [Quick Deployement Tool](http://localhost:9000/quick) => http://localhost:9000/quick
 
 #### Quick Deployment Tooling
 
