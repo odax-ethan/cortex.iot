@@ -39,6 +39,7 @@ button {
     margin: 4px 2px;
     cursor: pointer;
     font-weight: 600;
+    cursor: pointer;
 }
 
 .button_group.right {
@@ -64,6 +65,7 @@ a:visited {
 
 a {
     color: var(--black);
+    cursor: pointer;
    }
 
 fieldset a {

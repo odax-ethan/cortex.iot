@@ -1,0 +1,12 @@
+header {
+    display: grid;
+    grid-template-columns: 52px 1fr 1fr;
+    grid-template-rows: 72px;
+    gap: 0px 0px;
+    grid-template-areas:
+        ". . .";
+}
+
+.nav_right_links{
+    text-align: right;
+}

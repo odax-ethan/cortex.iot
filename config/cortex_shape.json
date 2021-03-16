@@ -12,7 +12,7 @@
                 "color": "#0FF",
                 "comment": "",
                 "board": "4567890",
-                "class": "hyrgometer",
+                "class": "hygrometer",
                 "controller": "SHT31D"
             },
             {

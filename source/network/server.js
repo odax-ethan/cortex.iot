@@ -6,6 +6,7 @@ const express = require('express');// express.js the imidiatetly create an expre
 const { WEBSOCKET, webSocketStructure } = require('./socket')
 const { systemEmitter } = require('../util/emitter/systemEmitter')
 var favicon = require('serve-favicon')
+
 // const os = require('os');
 var ip = require('ip'); // get the public ip address
 
@@ -30,10 +31,10 @@ let serverStructure = (DATABASE) => {
             rejectUnauthorized: false //if you have verified cert set to true
         },expressApp);
 
-        //export express app
-        // module.exports = { expressApp }
-        // const cortexRoutes = require('./routes')
-        // expressApp.use(cortexRoutes)
+        expressApp.use(express.json()) // for parsing application/json
+        expressApp.use(express.urlencoded({
+        extended: true
+        })) // for parsing application/x-www-form-urlencoded
 
         expressApp.disable('etag').disable('x-powered-by'); // minor security patch
 
@@ -57,9 +58,21 @@ let serverStructure = (DATABASE) => {
             //send a predesign not found html page
         });
 
-        // var networkInterfaces = os.networkInterfaces();
-        // console.log(networkInterfaces);
-        // var address = networkInterfaces['Ethernet 2'][1].address
+
+        expressApp.get('/get/deviceBank', (req, res) => {
+            var cortex_shape = require('../../config/cortex_shape.json');
+            res.setHeader('Content-Type', 'application/json');
+            res.json(cortex_shape);
+          
+        });
+
+
+        //get current settings
+        //get current deviceBank
+        //save new settings obj
+        //save new deviceBank
+        //get all device history
+
 
         //create an socket.io SERVER that listens to the HTTPS or http SERVER at env.PORT
         webSocketStructure(SERVER, DATABASE)

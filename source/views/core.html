@@ -28,6 +28,8 @@
     <meta name="msapplication-TileColor" content="#3372DF">
     <meta name="msapplication-navbutton-color" content="#303F9F">
 
+    <!-- icons for ui / Will make custom icons in the future -->
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 
     <title>Cortex.iot Client Dashboard</title>
 
@@ -38,6 +40,11 @@
     <link rel="stylesheet" href="./public/style/landing.css">
     <!-- Data Stream styles -->
     <link rel="stylesheet" href="./public/style/stream.css">
+    <!-- Boards and Devices Dashboard styles -->
+    <link rel="stylesheet" href="./public/style/boards.css">
+    <!-- Boards and Devices Dashboard styles -->
+    <link rel="stylesheet" href="./public/style/nav_bar.css">
+
 
 </head>
 <body>
@@ -45,6 +52,12 @@
     
 
 </body>
+<!-- scripts -->
+<!-- socket.iot lib -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"></script>
+<!-- init sockets -->
+<script src="./public/js/socket_init.js"></script>
 <script src="./public/js/app.js"></script>
 <script src="./public/js/service-worker.js"></script>
+
 </html>
