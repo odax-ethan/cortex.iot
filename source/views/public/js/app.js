@@ -2,13 +2,12 @@ const App = function _App() {
     return App.state.view_handler()
 };
 
-
-
 App.state = {
       _to_render: 'landing',
       _to_render_stream: false,
       settings: null,
       deviceBank: null,
+      stream_listener: null,
       get_device_bank: () =>{
         var requestOptions = {
           method: 'GET',
@@ -71,10 +70,17 @@ App.state = {
               let target = document.querySelector('.data_stream_feed')
               target.prepend(_new)
               
+              var output = streamBundle.data
+
+              var test = parseInt(streamBundle.data)
+              if (test) {
+                output =  test.toPrecision(4)
+                console.log(test);
+              }
 
               //find the correct device and place data in data_stream_block
               var targetID = `data_stream_ui_block_${streamBundle.deviceID}`
-              document.querySelector(`#${targetID}`).innerHTML = streamBundle.data
+              document.querySelector(`#${targetID}`).innerHTML = output
             }
 
         
@@ -96,6 +102,19 @@ App.state = {
             <div class='boards_content'>
             ${App.state.render_board_devices()}
             ${App.state.render_stream()}
+
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+              <!-- Modal content -->
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Some text in the Modal..</p>
+              </div>
+
+            </div>
+
+
             </div>
         `
       },
@@ -167,7 +186,7 @@ App.state = {
               <div><span>${board.uid}</span></div>
               <div>
                 <ion-icon style="color:${board.color}" name="hardware-chip-outline"> </ion-icon>
-                <ion-icon name="options-outline"></ion-icon>
+                <a><ion-icon name="options-outline" onclick='App.state.render_modal()'></ion-icon></a>
               </div>
             </div>
           `
@@ -204,7 +223,7 @@ App.state = {
                   <div>
                     ${device_class_icon}
                     <ion-icon name="receipt-outline"></ion-icon>
-                    <ion-icon name="options-outline"></ion-icon>
+                    <a><ion-icon name="options-outline" onclick='App.state.render_modal()'></ion-icon></a>
                   </div>
               </div>
             `
@@ -341,6 +360,28 @@ App.state = {
         <hr>
         </header>
         `
+      },
+      render_modal: () =>{
+
+        // Get the modal
+        var modal = document.getElementById("myModal");
+        modal.style.display = "block"
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+
       },
       change_view: (e) => {
         App.state._to_render = e;
