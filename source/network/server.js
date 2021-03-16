@@ -66,6 +66,15 @@ let serverStructure = (DATABASE) => {
           
         });
 
+        expressApp.get('/get/settings', (req, res) => {
+
+            res.setHeader('Content-Type', 'application/json');
+            DATABASE.GET_SETTINGS()
+            .then(settings=>{res.json(settings);})
+            .catch((err)=>{throw err})
+          
+        });
+
 
         //get current settings
         //get current deviceBank

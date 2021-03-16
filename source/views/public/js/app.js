@@ -18,10 +18,26 @@ App.state = {
         fetch("/get/deviceBank", requestOptions)
           .then(response => response.text())
           .then((result) => {
-            console.log(result)
+            // console.log(result)
             App.state.deviceBank = JSON.parse(result)
           })
           .catch(error => console.log('error', error));
+      },
+      get_system_settings: () =>{
+
+        var requestOptions = {
+          method: 'GET',
+          redirect: 'follow'
+        };
+        
+        fetch("/get/settings", requestOptions)
+          .then(response => response.text())
+          .then((result) => {
+            // console.log(result)
+            App.state.settings = JSON.parse(result)
+          })
+          .catch(error => console.log('error', error));
+
       },
       render_stream: () =>{
         //this places the ui for render_stream() to place ui in
@@ -46,20 +62,22 @@ App.state = {
           socket.on('stream', (streamBundle) => {
             // console.log(streamBundle);
 
-            // place ui elements in data stream container
-            data = `<div class='data_stream_feed_element'></div>`
-            let _new = document.createElement('div')
-            _new.setAttribute('class','data_stream_feed_element') 
-            _new.innerHTML = `${streamBundle.timestamp}[${streamBundle.deviceID}]: ${streamBundle.data}`
-            let target = document.querySelector('.data_stream_feed')
-            target.prepend(_new)
-            
+            if (App.state._to_render === 'dashboard') {
+               // place ui elements in data stream container
+              data = `<div class='data_stream_feed_element'></div>`
+              let _new = document.createElement('div')
+              _new.setAttribute('class','data_stream_feed_element') 
+              _new.innerHTML = `${streamBundle.timestamp}[${streamBundle.deviceID}]: ${streamBundle.data}`
+              let target = document.querySelector('.data_stream_feed')
+              target.prepend(_new)
+              
 
-            //find the correct device and place data in data_stream_block
-            var targetID = `data_stream_ui_block_${streamBundle.deviceID}`
-            document.querySelector(`#${targetID}`).innerHTML = streamBundle.data
+              //find the correct device and place data in data_stream_block
+              var targetID = `data_stream_ui_block_${streamBundle.deviceID}`
+              document.querySelector(`#${targetID}`).innerHTML = streamBundle.data
+            }
 
-
+        
         });
   
       },
@@ -212,8 +230,98 @@ App.state = {
 
       }, 
       render_settings: ()=>{
+
+        var scale_options =''
+        switch (App.state.settings.SAMPLE_TEMP_SCALE) {
+          case 'C':
+            scale_options =`
+            
+            <option>- Pick a Scale -</option>
+            <option selected >C (celcius)</option>
+            <option>F (fahrenheit)</option>
+            <option>K (kelvin)</option>
+            
+            `
+            break;
+          case 'F':
+            scale_options =`
+            
+            <option>- Pick a Scale -</option>
+            <option >C (celcius)</option>
+            <option selected>F (fahrenheit)</option>
+            <option>K (kelvin)</option>
+            
+            `
+            break;
+          case 'K':
+            scale_options =`
+            
+            <option>- Pick a Scale -</option>
+            <option >C (celcius)</option>
+            <option >F (fahrenheit)</option>
+            <option selected>K (kelvin)</option>
+            
+            `
+            break;  
+          default:
+            break;
+        }
+
+
         return `
-            ${App.state.render_nav_bar()}           
+            ${App.state.render_nav_bar()}
+            
+            <section id="general_setting">
+              <fieldset>
+                <legend><a href="#general_setting">#</a> General Settings</legend>
+                <div>
+                    <label for="example-input-text">System Name:</label>
+                    <input type="text" id="example-input-text" value='${App.state.settings.SYSTEM_NAME}'>
+                </div>
+
+              </fieldset>
+
+            </section>
+
+            <section id="software_settings">
+                <fieldset>
+                    <legend><a href="#software_settings">#</a> Software Settings</legend>
+
+                    <div>
+                        <label for="example-input-text">Database:</label>
+                        <input type="text" id="example-input-text" value='${App.state.settings.DATABASE}'>
+                    </div>
+
+                    <div>
+                        <label for="example-input-text">Database URL:</label>
+                        <input type="text" id="example-input-text" value='${App.state.settings.DATABASE_URL}'>
+                    </div>
+
+                </fieldset>
+
+            </section>
+
+            <section id="hardware_settings">
+                <fieldset>
+                    <legend><a href="#hardware_settings">#</a> Hardware Settings</legend>
+
+                    <div>
+                        <label for="example-input-text">Hardware Sample Rate: Every</label>
+                        <input type="number" id="example-input-text" value='${App.state.settings.HARDWARE_SAMPLE_RATE}'>
+                        milliseconds
+                    </div>
+
+                    <div>
+                        <label for="example-select1">Sample Tempurature Scale:</label>
+                        <select id="example-select1">
+                            ${scale_options}
+                        </select>
+                    </div>
+
+                </fieldset>
+            </section>
+
+
         `
       },
       render_nav_bar: () =>{
@@ -261,5 +369,6 @@ App.state = {
     document.querySelector(`body`).innerHTML = App();
   };
 
-  App.state.get_device_bank(); 
+  App.state.get_system_settings();
+  App.state.get_device_bank();
   updateTree();
