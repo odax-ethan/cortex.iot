@@ -5,9 +5,12 @@ const App = function _App() {
 App.state = {
       _to_render: 'landing',
       _to_render_stream: false,
+      _target_uid: null,
+      _target_shape: null,
       settings: null,
       deviceBank: null,
       stream_listener: null,
+      device_history: null,
       get_device_bank: () =>{
         var requestOptions = {
           method: 'GET',
@@ -37,6 +40,20 @@ App.state = {
           })
           .catch(error => console.log('error', error));
 
+      },
+      get_device_history: () => {
+        var requestOptions = {
+          method: 'GET',
+          redirect: 'follow'
+        };
+        
+        fetch("/get/history", requestOptions)
+          .then(response => response.text())
+          .then(result => {
+            // console.log(result)
+            App.state.device_history = JSON.parse(result)
+          })
+          .catch(error => console.log('error', error));
       },
       render_stream: () =>{
         //this places the ui for render_stream() to place ui in
@@ -74,8 +91,8 @@ App.state = {
 
               var test = parseInt(streamBundle.data)
               if (test) {
-                output =  test.toPrecision(4)
-                console.log(test);
+                output =  output
+                // console.log(test);
               }
 
               //find the correct device and place data in data_stream_block
@@ -119,63 +136,7 @@ App.state = {
         `
       },
       render_board_devices: () => {
-        var ui =  `
-        
-        <div class='board_container'>
-          <div class='board_details'>
-            <div><span>BOARD NAME</span></div>
-            <div>
-              <ion-icon name="hardware-chip-outline"> </ion-icon>
-              <ion-icon name="options-outline"></ion-icon>
-            </div>
-          </div>
-    
-          <div class="device_container humidity">
-            <div><span>00</span>%</div>
-            <div>HYGROMETER</div>
-            <div>
-              <ion-icon name="water-outline"></ion-icon>
-              <ion-icon name="receipt-outline"></ion-icon>
-              <ion-icon name="options-outline"></ion-icon>
-            </div>
-          </div>
-    
-          <div class="device_container tempurature">
-            <div><span>0.0</span>*C</div>
-            <div>THERMOMETER</div>
-            <div>
-              <ion-icon name="thermometer-outline"></ion-icon>
-              <ion-icon name="receipt-outline"></ion-icon>
-              <ion-icon name="options-outline"></ion-icon>
-            </div>
-          </div>
-    
-          <div class="device_container relay">
-            <div><span>OFF</span></div>
-            <div>RELAY</div>
-            <div>
-              <ion-icon name="flash-outline"></ion-icon>
-              <ion-icon name="receipt-outline"></ion-icon>
-              <ion-icon name="options-outline"></ion-icon>
-            </div>
-          </div>
-    
-          <div class="device_container state">
-            <div><span>ON</span></div>
-            <div>SWITCH</div>
-            <div>
-              <ion-icon name="toggle-outline"></ion-icon>
-              <ion-icon name="receipt-outline"></ion-icon>
-              <ion-icon name="options-outline"></ion-icon>
-            </div>
-          </div>
-    
-    
-    
-        </div>
-       
   
-        `
         var output =''
 
         App.state.deviceBank.forEach(board => {
@@ -185,8 +146,7 @@ App.state = {
             <div class="board_details">
               <div><span>${board.uid}</span></div>
               <div>
-                <ion-icon style="color:${board.color}" name="hardware-chip-outline"> </ion-icon>
-                <a><ion-icon name="options-outline" onclick='App.state.render_modal()'></ion-icon></a>
+                <ion-icon style="color:${board.color}" onclick='App.state.change_view("hardware_viewer","${board.uid}")' name="hardware-chip-outline"> </ion-icon>
               </div>
             </div>
           `
@@ -203,12 +163,12 @@ App.state = {
               case 'hygrometer':
                   console.log('hyrgo');
                   data_stream_block = ` <div class='data_stream_block ${device.class}'><span id="data_stream_ui_block_${device.uid}">00</span>%</div>`
-                  device_class_icon = `<ion-icon style="color:${device.color}" name="water-outline"></ion-icon> `
+                  device_class_icon = `<ion-icon style="color:${device.color}"  onclick='App.state.change_view("hardware_viewer","${device.uid}")' name="water-outline"></ion-icon> `
                 break;
               case 'thermometer':
                 console.log('temp');
                 data_stream_block = ` <div class='data_stream_block ${device.class}'><span id="data_stream_ui_block_${device.uid}">0.0</span>*C</div>`
-                device_class_icon = ` <ion-icon style="color:${device.color}" name="thermometer-outline"></ion-icon> `
+                device_class_icon = ` <ion-icon style="color:${device.color}" onclick='App.state.change_view("hardware_viewer","${device.uid}")' name="thermometer-outline"></ion-icon> `
               break;
               default:
                 break;
@@ -222,8 +182,6 @@ App.state = {
                   <div>${device.nid}</div>
                   <div>
                     ${device_class_icon}
-                    <ion-icon name="receipt-outline"></ion-icon>
-                    <a><ion-icon name="options-outline" onclick='App.state.render_modal()'></ion-icon></a>
                   </div>
               </div>
             `
@@ -247,7 +205,23 @@ App.state = {
         
 
 
-      }, 
+      },
+      render_target_hardware_viewer: () =>{
+
+
+
+        return `
+        ${App.state.render_nav_bar()}
+        <p>rendering ${App.state._target_uid} viewer panel</p>
+        <a onclick="App.state.change_view('hardware_raw_data_viewer','${App.state._target_uid}')"> RAW DATA </a>
+        `
+      },
+      render_target_hardware_raw_data_viewer:()=>{
+        return `
+        ${App.state.render_nav_bar()}
+        rendering ${App.state._target_uid} RAw panel
+        `
+      },
       render_settings: ()=>{
 
         var scale_options =''
@@ -343,6 +317,338 @@ App.state = {
 
         `
       },
+      render_settings_device_bank: ()=>{
+
+
+        var output =`${App.state.render_nav_bar()}`
+
+        App.state.deviceBank.forEach(board => {
+          var board_container
+          var board_details = `
+            <div class="board_details">
+              <div> <ion-icon style="color:${board.color}" name="hardware-chip-outline"> </ion-icon> <span>${board.uid}</span></div>
+              <div>
+                <ion-icon name="close-circle-outline" onclick='App.state.delete_hardware_from_deviceBank()'></ion-icon>
+                <ion-icon name="settings-outline" onclick='App.state.change_view("settings_target_hardware","${board.uid}")'></ion-icon>
+              </div>
+            </div>
+          `
+
+          var devices = ''
+         
+
+          board.devices.forEach(device => {
+
+            var data_stream_block = " "
+            var device_class_icon = " "
+
+            switch (device.class) {
+              case 'hygrometer':
+                  console.log('hyrgo');
+                  data_stream_block =''
+                  device_class_icon =  `<ion-icon style="color:${device.color}" name="water-outline"></ion-icon>  `
+                break;
+              case 'thermometer':
+                console.log('temp');
+                data_stream_block =''
+                device_class_icon = `<ion-icon style="color:${device.color}" name="thermometer-outline"></ion-icon>  `
+              break;
+              default:
+                break;
+            }
+
+
+            var device_html = `
+              <div class="device_container">
+                  <div>${device_class_icon}</div>
+                  <div>${device.nid}</div>
+                  <div>
+                    <ion-icon name="close-circle-outline" onclick='App.state.delete_hardware_from_deviceBank()'></ion-icon>
+                    <ion-icon name="settings-outline" onclick='App.state.change_view("settings_target_hardware","${device.uid}")'></ion-icon>
+                  </div>
+              </div>
+            `
+
+            devices += device_html
+
+          });
+
+          var board_container = `
+          <div class='board_container'>
+            ${board_details}
+            ${devices}
+          </div>
+          `
+
+          output += board_container
+          
+        });
+
+        return output
+
+
+
+      },
+      delete_hardware_from_deviceBank: ()=>{
+        alert('wow watch what your doing')
+      },
+      render_target_hardware_settings:() =>{
+
+        //get and set current target shape.
+        App.state.find_hardware_by_uid(App.state._target_uid);
+        //grab and place in viewer
+
+        var settings_html = ``
+        var target_shape = App.state._target_shape;
+
+        switch (target_shape.class) {
+          case 'thermometer':
+            console.log('rendering a thermometer');
+            settings_html = `
+            <section id="thermometer_settings">
+                <fieldset>
+                    <legend><a href="#thermometer_settings">#</a> Thermometer Settings</legend>
+
+                    <div>
+                        <label for="example-input-text">Thermometer Name:</label>
+                        <input type="text" id="example-input-text" value="${target_shape.nid}">
+                    </div>
+                    <div>
+                        <label for="example-input-text">Thermometer ID:</label>
+                        <input type="text" id="example-input-text" value="${target_shape.uid}">
+                    </div>
+                    <div>
+                        <label for="example-input-text">Thermometer Color:</label>
+                        <input type="color" id="example-input-text" value="${target_shape.color}">
+                    </div>
+
+                    <div>
+                        <label for="example-select1">Target Board:</label>
+                        <select id="example-select1">
+                            <option>- Pick a Board -</option>
+                            <option>My Test Board 1</option>
+                            <option>My Test Board 2</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="example-select1">Controller:</label>
+                        <select id="example-select1">
+                            <option>- Pick a Controller -</option>
+                            <option value="BME280">BME280</option>
+                            <option value="LM35">LM35</option>
+                            <option value="TMP36">TMP36</option>
+                            <option value="TMP102">TMP102</option>
+                            <option value="DS18B20">DS18B20 </option>
+                            <option value="MPU6050">MPU6050</option>
+                            <option value="BMP180">BMP180</option>
+                            <option value="BMP280">BMP280</option>
+                            <option value="BME280">BME280</option>
+                            <option value="MPL115A2">MPL115A2</option>
+                            <option value="MPL3115A2">MPL3115A2</option>
+                            <option value="HTU21D">HTU21D</option>
+                            <option value="HIH6130">HIH6130</option>
+                            <option value="MCP9808">MCP9808</option>
+                            <option value="SI7020">SI7020</option>
+                            <option value="SI7021">SI7021</option>
+                            <option value="MS5611">MS5611</option>
+                            <option value="DHT11">DHT11</option>
+                            <option value="DHT21">DHT21</option>
+                            <option value="DHT22">DHT22</option>
+                            <option value="SHT31D">SHT31D</option>
+                            <option value="LSM303C">LSM303C</option>
+                        </select>
+                    </div>
+                </fieldset>
+            </section>
+            `
+            break;
+          case 'hygrometer':
+              console.log('rendering a hygrometer');
+              settings_html = `
+              <section id="hygrometer_settings">
+                  <fieldset>
+                      <legend><a href="#hygrometer_setting">#</a> Hygrometer Settings</legend>
+
+                      <div>
+                          <label for="example-input-text">Hygrometer Name:</label>
+                          <input type="text" id="example-input-text" value="${target_shape.nid}">
+                      </div>
+                      <div>
+                          <label for="example-input-text">Hygrometer ID:</label>
+                          <input type="text" id="example-input-text" value="${target_shape.uid}">
+                      </div>
+                      <div>
+                          <label for="example-input-text">Hygrometer Color:</label>
+                          <input type="color" id="example-input-text"  value="${target_shape.color}">
+                      </div>
+
+                      <div>
+                          <label for="example-select1">Target Board:</label>
+                          <select id="example-select1">
+                              <option>- Pick a Board -</option>
+                              <option>My Test Board 1</option>
+                              <option>My Test Board 2</option>
+                          </select>
+                      </div>
+
+                      <div>
+                          <label for="example-select1">Controller:</label>
+                          <select id="example-select1">
+                              <option>- Pick a Controller -</option>
+                              <option value="BME280">BME280</option>
+                              <option value="HTU21D">HTU21D</option>
+                              <option value="HIH6130">HIH6130</option>
+                              <option value="TH02 ">TH02</option>
+                              <option value="SI7020">SI7020</option>
+                              <option value="SI7021">SI7021</option>
+                              <option value="SHT31D">SHT31D</option>
+                          </select>
+                      </div>
+                  </fieldset>
+              </section>
+              `
+            break;
+            case 'relay':
+              console.log('rendering a relay');
+              settings_html = `
+              <section id="relay_settings">
+
+
+                    <fieldset>
+                        <legend><a href="#relay_settings">#</a> Relay Settings</legend>
+        
+                        <div>
+                            <label for="example-input-text">Relay Name:</label>
+                            <input type="text" id="example-input-text">
+                        </div>
+                        <div>
+                            <label for="example-input-text">Relay ID:</label>
+                            <input type="text" id="example-input-text">
+                        </div>
+                        <div>
+                            <label for="example-input-text">Relay Color:</label>
+                            <input type="color" id="example-input-text">
+                        </div>
+        
+                        <div>
+                            <label for="example-select1">Target Board:</label>
+                            <select id="example-select1">
+                                <option>- Pick a Board -</option>
+                                <option>My Test Board 1</option>
+                                <option>My Test Board 2</option>
+                            </select>
+                        </div>
+        
+                        <div>
+                            <label for="example-select1">Relay Type:</label>
+                            <select id="example-select1">
+                                <option>- Pick Type -</option>
+                                <option>NO (Normally Open)</option>
+                                <option>NC (Normally Closed)</option>
+                            </select>
+                        </div>
+        
+                        <div>
+                            <label for="example-input-text">Relay Pin:</label>
+                            <input type="color" id="example-input-text">
+                        </div>
+        
+                    </fieldset>
+        
+                </section>
+              `
+            break;
+            case 'switch':
+              console.log('rendering a switch');
+              settings_html = `
+              
+              <section id="switch_settings">
+
+
+                      <fieldset>
+                          <legend><a href="#switch_settings">#</a> Switch Settings</legend>
+          
+                          <div>
+                              <label for="example-input-text">Switch Name:</label>
+                              <input type="text" id="example-input-text">
+                          </div>
+                          <div>
+                              <label for="example-input-text">Switch ID:</label>
+                              <input type="text" id="example-input-text">
+                          </div>
+                          <div>
+                              <label for="example-input-text">Switch Color:</label>
+                              <input type="color" id="example-input-text">
+                          </div>
+          
+                          <div>
+                              <label for="example-select1">Target Board:</label>
+                              <select id="example-select1">
+                                  <option>- Pick a Board -</option>
+                                  <option>My Test Board 1</option>
+                                  <option>My Test Board 2</option>
+                              </select>
+                          </div>
+          
+                          <div>
+                              <label for="example-input-text">Switch Pin:</label>
+                              <input type="text" id="example-input-text">
+                          </div>
+          
+                      </fieldset>
+          
+                  </section>
+              
+              `
+            break;
+          default:
+            console.log('probably a board');
+            settings_html = `
+            
+            <section id="board_settings">
+
+
+                <fieldset>
+                    <legend><a href="#board_settings">#</a> Board Settings</legend>
+
+                    <div>
+                        <label for="example-input-text">Board Name</label>
+                        <input type="text" id="example-input-text" value="${target_shape.nid}">
+                    </div>
+
+                    <div>
+                        <label for="example-input-text">Board Unique ID</label>
+                        <input type="text" id="example-input-text" value="${target_shape.uid}">
+                    </div>
+
+                    <div>
+                        <label for="example-input-text">Board Color:</label>
+                        <input type="color" id="example-input-text" value="${target_shape.color}">
+                    </div>
+
+                    <div>
+                        <label for="example-input-text">Board Port</label>
+                        <input type="text" id="example-input-text" value="${target_shape.port}">
+                    </div>
+
+                </fieldset>
+
+            </section>
+
+            
+            `
+            break;
+        }
+
+
+
+        return `
+        ${App.state.render_nav_bar()}  
+        ${settings_html}
+        `
+
+      },
       render_nav_bar: () =>{
         return `
         <header role="banner">
@@ -354,7 +660,8 @@ App.state = {
           <div class='nav_right_links'> 
             <small>            
               <a onclick="App.state.change_view('dashboard')">Dashboard</a> |
-              <a onclick="App.state.change_view('settings')">Settings</a>
+              <a onclick="App.state.change_view('settings')">Settings</a>  |
+              <a onclick="App.state.change_view('device_bank')">Hardware</a>
             </small> 
           </div>
         <hr>
@@ -383,8 +690,26 @@ App.state = {
         }
 
       },
-      change_view: (e) => {
+      find_hardware_by_uid: (target_uid) =>{
+         App.state.deviceBank.forEach(board => {
+            if (target_uid === board.uid) {
+              return App.state._target_shape = board
+            }
+            board.devices.forEach(device => {
+              if (target_uid === device.uid) {
+                console.log(device);
+                return App.state._target_shape = device
+              }
+            });
+          });
+      },
+      find_hardware_history: (target_uid)=>{
+
+      },
+      change_view: (e, target_uid) => {
         App.state._to_render = e;
+        App.state._target_uid = target_uid
+        console.log('rendering: ' + App.state._to_render);
         return   updateTree();
       },
       report: () => {
@@ -402,6 +727,19 @@ App.state = {
         if (App.state._to_render === 'settings') {
         return App.state.render_settings()
         }
+        if (App.state._to_render === 'hardware_viewer') {
+          return App.state.render_target_hardware_viewer()
+        }
+        if (App.state._to_render === 'hardware_raw_data_viewer') {
+          return App.state.render_target_hardware_raw_data_viewer()
+        }
+        if (App.state._to_render === 'device_bank') {
+          return App.state.render_settings_device_bank()
+        }
+        if (App.state._to_render === 'settings_target_hardware') {
+          return App.state.render_target_hardware_settings()
+        }
+
       }
 
 }
@@ -412,4 +750,6 @@ App.state = {
 
   App.state.get_system_settings();
   App.state.get_device_bank();
+  App.state.get_device_history();
+
   updateTree();

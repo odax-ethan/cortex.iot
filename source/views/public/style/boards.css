@@ -15,12 +15,15 @@
 }
 
 .board_details{
-        /* internal grid layout */
-        display: grid;
-        grid-template-columns: 2.5fr 0.5fr;
-        gap: 0px 0px;
-        grid-template-areas:
-            ". .";
+  height: 2.3rem;
+  padding-top: .5rem ;
+  
+  /* internal grid layout */
+  display: grid;
+  grid-template-columns: 2.5fr 0.5fr;
+  gap: 0px 0px;
+  grid-template-areas:
+      ". .";
 
 }
 
@@ -43,13 +46,16 @@
     /* internal grid layout */
     display: grid;
     grid-template-columns: 0.5fr 2.5fr 1fr;
-    grid-template-rows: 1fr;
+    grid-template-rows: 2.4rem;
     gap: 0px .2rem;
     grid-template-areas:
         ". . .";
 
 }
 
+.device_container div {
+  padding-top: .4rem ;
+}
 
 .device_container div:last-child {
     text-align: right;

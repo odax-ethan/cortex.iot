@@ -76,6 +76,17 @@ let serverStructure = (DATABASE) => {
         });
 
 
+        expressApp.get('/get/history', (req, res) => {
+
+            res.setHeader('Content-Type', 'application/json');
+            // how to get all device data
+            DATABASE.GET_ALL_HISTORY()
+            .then(history=>{res.json(history);})
+            .catch((err)=>{throw err})
+          
+        });
+
+
         //get current settings
         //get current deviceBank
         //save new settings obj
