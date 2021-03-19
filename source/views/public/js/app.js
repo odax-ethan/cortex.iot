@@ -7,6 +7,7 @@ App.state = {
       _to_render_stream: false,
       _target_uid: null,
       _target_shape: null,
+      _target_history:null,
       settings: null,
       deviceBank: null,
       stream_listener: null,
@@ -50,7 +51,7 @@ App.state = {
         fetch("/get/history", requestOptions)
           .then(response => response.text())
           .then(result => {
-            // console.log(result)
+            console.log('got device history')
             App.state.device_history = JSON.parse(result)
           })
           .catch(error => console.log('error', error));
@@ -208,18 +209,96 @@ App.state = {
       },
       render_target_hardware_viewer: () =>{
 
+        //get and set current target shape.
+        App.state.find_hardware_by_uid(App.state._target_uid);
+         // build html of history in table
+         App.state.find_hardware_history(App.state._target_uid)
+        //grab and place in viewer
+
+        var viewer_html = ``
+        var target_shape = App.state._target_shape;
+
+        var data_bundle_array = []
+        //remove data from date
+
+        App.state._target_history.forEach(data_bundle => {
+          data_bundle_array.push(data_bundle[1])
+        });
+
+        // calculate avrge
+        var data_bundle_array_length = data_bundle_array.length
+        var data_bundle_array_sum = data_bundle_array.reduce((a, b) => a + b)
+        var data_bundle_array_sum_avrg = data_bundle_array_sum/data_bundle_array_length
+
+
+        var line_chart = App.state.build_device_history_chart(App.state._target_history) 
+
+
+        switch (App.state._target_shape.class) {
+          case 'thermometer':
+            viewer_html =`
+              <p>Average Reading: ${data_bundle_array_sum_avrg}</p>
+            `
+            break;
+            case 'hygrometer':
+              viewer_html =`
+              <p>Average Reading: ${data_bundle_array_sum_avrg}</p>
+            `
+        }
 
 
         return `
         ${App.state.render_nav_bar()}
-        <p>rendering ${App.state._target_uid} viewer panel</p>
-        <a onclick="App.state.change_view('hardware_raw_data_viewer','${App.state._target_uid}')"> RAW DATA </a>
+        <a onclick="App.state.change_view('hardware_raw_data_viewer','${App.state._target_uid}')"> View Device Raw Data </a>
+        <section id="hardware_settings">
+            <fieldset>
+                <legend><a href="#hardware_settings">#</a> Device Details: ${target_shape.nid} </legend>
+
+                <div>
+                  ${viewer_html}
+                </div>
+                ${line_chart}
+
+            </fieldset>
+        </section>
+
+        
         `
       },
       render_target_hardware_raw_data_viewer:()=>{
+
+        // build html of history in table
+        App.state.find_hardware_history(App.state._target_uid)
+        var raw_data_html_rows = ''
+        App.state._target_history.forEach(data_bundle => {
+          var html = `         
+          <tr>
+            <td>${data_bundle[0]}</td>
+            <td>${data_bundle[1]}</td>
+          </tr> 
+          `
+          raw_data_html_rows += html
+        });
+
+
+
         return `
         ${App.state.render_nav_bar()}
-        rendering ${App.state._target_uid} RAw panel
+        ${App.state._target_uid} Raw Data
+        <table>
+            
+            <tbody>
+
+              <tr>
+                <th>Time Stamp</th>
+                <th>Device Reading</th>
+              </tr>
+             
+              ${raw_data_html_rows}
+            
+              </tbody>
+          </table>
+
         `
       },
       render_settings: ()=>{
@@ -705,6 +784,123 @@ App.state = {
       },
       find_hardware_history: (target_uid)=>{
 
+        return new Promise(resolve => {
+          App.state.device_history.forEach(device => {
+            if (device.deviceID === target_uid) {
+              App.state._target_history = device.eventHistory
+              resolve(App.state._target_history)
+            }
+          });
+        });
+
+        
+
+        console.log(App.state._target_history);
+
+      },
+      build_device_history_chart: (data_bundle) =>{
+            // an array of objects used to defile the plylines
+      let polyline_data_bundle = [ ]
+      let max_bundle_length = 0 // used to define the max width need for the chart
+
+      let check_bundle_length = (data) => {
+
+        if (data >  max_bundle_length) {
+            max_bundle_length = data
+        }
+
+      }
+
+
+      let poly_line_bundle = {
+          id: App.state._target_uid,
+          data: '',
+          color:'rgb(68, 41 ,41)',
+        }
+
+    console.log(poly_line_bundle);
+
+    // let device_data = device_bundle.data
+    let data_bundle_string = ''
+    //   let bundle_length = device_data.length
+    data_bundle.forEach((data, i) => {
+            let val = i + 1
+            data_bundle_string = data_bundle_string + `${val},${data[1]} `
+      });
+      // console.log(data_bundle);
+      poly_line_bundle.data = data_bundle_string //data_bundle to current poly_bundle
+      polyline_data_bundle.push(poly_line_bundle)
+
+
+    //for each item in the table array
+    // data_bundle.forEach((device_bundle, i) => {
+
+    //     // console.log(device_bundle.id);
+
+    //     let device_poly_bundle = {
+    //       id: device_bundle.id,
+    //       data: [],
+    //       color: getRandomRgb(),
+    //     }
+
+       
+    //     //check if this is the longest data charset
+    //     check_bundle_length(bundle_length)
+
+    //     //push finished device_poly_bundle to master array
+    //     polyline_data_bundle.push(device_poly_bundle)
+    // });
+
+      console.log("polylines: " + polyline_data_bundle);
+      //POLYLINES BUNDLE BUILT AND READY TO USE
+
+
+      //GRAB TARGET DOM TO RENDER INTO
+      var instance_name = App.state.generateUID(8) //create a random id
+    //   var target = document.querySelector(targetDOM) // get target div
+      var target_height = '100%'
+      var target_width = '100%'
+
+
+
+      //traget target svg instance
+    //   var target_svg_instance = document.querySelector(`#${instance_name}`)
+
+      var svg_html_polylines =''
+      
+      // for forEach array item place a polyline from data set
+      polyline_data_bundle.forEach((set, i) => {
+        var color = set.color
+        var lineStyle = `fill:none;stroke:black;stroke-width:3"`
+        var line_points = set.data
+        var polyLine_shape =`
+            <polyline id="${set.id}_graph_polyline" points="${line_points}" style="${lineStyle}"  />
+          `
+          svg_html_polylines += polyLine_shape
+      });
+
+
+
+
+
+        // //ADD TO DOM A SVG CONTAINER FOR CHART
+        return `
+            <svg
+                height="${target_height}"
+                width="${target_width}"
+                id="${instance_name}"
+                version="1.1"
+                baseProfile="full"
+                xmlns="http://www.w3.org/2000/svg"
+                >
+                ${svg_html_polylines}
+            </svg>
+        `
+
+
+
+      },generateUID:(length)=>{
+          return window.btoa("a" + Array.from(window.crypto.getRandomValues(new Uint8Array(length * 2))).map((b) => String.fromCharCode(b)).join("")).replace(/[+/]/g, "").substring(0, length);
       },
       change_view: (e, target_uid) => {
         App.state._to_render = e;
@@ -753,3 +949,8 @@ App.state = {
   App.state.get_device_history();
 
   updateTree();
+
+
+
+
+  
