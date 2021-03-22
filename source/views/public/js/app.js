@@ -202,10 +202,32 @@ App.state = {
           
         });
 
+
+        //set time out to get last readings from each
+        setTimeout(() => {
+          console.log('starting');
+          App.state.get_device_bank_last_readings()
+        }, 300);
+
+
         return output
         
 
 
+      },
+      get_device_bank_last_readings: () =>{
+        return App.state.device_history.forEach(data => {
+              console.log(data);
+          //    
+              if (data.deviceID) {
+                  
+                  console.log(data);
+                  var target_device = `data_stream_ui_block_${data.deviceID}`
+                  var last_reading = data.eventHistory[data.eventHistory.length - 1]
+                  document.querySelector(`#${target_device}`).innerHTML = last_reading[1]
+              }
+
+          });
       },
       render_target_hardware_viewer: () =>{
 
@@ -301,6 +323,11 @@ App.state = {
             `
         }
 
+        //render after the fact with a timetout
+        // var data = App.state._target_history
+        setTimeout(() => {
+          App.state.build_current_target_history_chart()
+        }, 300)
 
         return `
         ${App.state.render_nav_bar()}
@@ -312,7 +339,7 @@ App.state = {
                 <div>
                   ${viewer_html}
                 </div>
-                <div id="target_device_history_chart">hi</div>
+                <div id="target_device_history_chart" style="height:350px;"></div>
             </fieldset>
         </section>
         `
@@ -962,16 +989,67 @@ App.state = {
                 new_data.push(object)
             });
 
-          MG.data_graphic({
-                title: "Downloads",
-                description: "This graphic shows a time-series of downloads.",
-                data:new_data,
-                full_width: true,
-                height: 250,
-                target: document.querySelector('#target_device_history_chart'),
-                x_accessor: 'date',
-                y_accessor: 'value',
-            })
+        am4core.useTheme(am4themes_animated);
+        am4core.options.minPolylineStep = 5;
+
+        var chart = am4core.create("target_device_history_chart", am4charts.XYChart);
+        
+        // var data = [];
+        // var visits = 10;
+        // for (var i = 1; i < 366; i++) {
+        //   visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+        //   data.push({ date: new Date(2018, 0, i), value: visits });
+        // }
+        
+        chart.data = new_data;
+        
+        // var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+        // dateAxis.renderer.grid.template.location = 0;
+        
+        // var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        // valueAxis.tooltip.disabled = false;
+        // // valueAxis.renderer.minWidth = 35;
+        
+        // var series = chart.series.push(new am4charts.LineSeries());
+        // series.dataFields.dateX = "date";
+        // series.dataFields.valueY = "value";
+        // series.tooltipText = "{valueY}";
+        // series.tooltip.pointerOrientation = "vertical";
+        // series.tooltip.background.fillOpacity = 0.5;
+        
+        // chart.cursor = new am4charts.XYCursor();
+        // chart.cursor.snapToSeries = series;
+        // chart.cursor.xAxis = dateAxis;
+        
+        // var scrollbarX = new am4charts.XYChartScrollbar();
+        // scrollbarX.series.push(series);
+        // chart.scrollbarX = scrollbarX;
+
+            // Create axes
+        var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+        dateAxis.renderer.minGridDistance = 60;
+
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+        // Create series
+        var series = chart.series.push(new am4charts.LineSeries());
+        series.dataFields.valueY = "value";
+        series.dataFields.dateX = "date";
+        series.tooltipText = "{value}"
+
+        series.tooltip.pointerOrientation = "vertical";
+
+        chart.cursor = new am4charts.XYCursor();
+        chart.cursor.snapToSeries = series;
+        chart.cursor.xAxis = dateAxis;
+
+        //chart.scrollbarY = new am4core.Scrollbar();
+        chart.scrollbarX = new am4core.Scrollbar();
+
+        new_data = null
+        target_shape = null
+      
+            
       },
       generateUID:(length)=>{
           return window.btoa("a" + Array.from(window.crypto.getRandomValues(new Uint8Array(length * 2))).map((b) => String.fromCharCode(b)).join("")).replace(/[+/]/g, "").substring(0, length);
@@ -1016,6 +1094,10 @@ App.state = {
 
   const updateTree = () => {
     document.querySelector(`body`).innerHTML = App();
+    setTimeout(() => {
+      App.state._target_shape = null
+      App.state._target_history = null
+    }, 10000);
   };
 
   App.state.get_system_settings();

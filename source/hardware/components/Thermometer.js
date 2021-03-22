@@ -12,7 +12,7 @@ class THERMOMETER {
 
     build () {
         
-        this.device_container = new five.Thermometer({id:this.uid, pin: this.device.pin, controller: this.device.controller, freq: 2000})
+        this.device_container = new five.Thermometer({id:this.uid, pin: this.device.pin, controller: this.device.controller, freq: process.env.HARDWARE_SAMPLE_RATE})
 
         // this.device_container.on("data" , function() {
         //     console.log("celsius: %d", this.C);

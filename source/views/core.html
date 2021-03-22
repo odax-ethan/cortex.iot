@@ -45,13 +45,14 @@
     <!-- Boards and Devices Dashboard styles -->
     <link rel="stylesheet" href="./public/style/nav_bar.css">
     <!--Modal styles -->
-    <link rel="stylesheet" href="./public/style/modal.css">
+    <link difer rel="stylesheet" href="./public/style/modal.css">
 
 
     <!-- scripts for charts -->
-    <script src="./public/libs/d3.min.js"></script>
-    <link rel="stylesheet" href="./public/libs/metricsgraphics.css">
-    <script src="./public/libs/metricsgraphics.js"></script>
+    <!-- AM charts -->
+    <script  defer src="./public/libs/core.js"></script>
+    <script defer  src="./public/libs/charts.js"></script>
+    <script defer  src="./public/libs/animated.js"></script>
 
 
 </head>
@@ -62,7 +63,7 @@
 </body>
 <!-- scripts -->
 <script src="./public/js/util.js"></script>
-<script src="./public/js/simple_chart.js"></script>
+<!-- <script src="./public/js/simple_chart.js"></script> -->
 <!-- simple chart -->
 <script src="./public/js/service-worker.js"></script>
 <!-- socket.iot lib -->
@@ -70,6 +71,6 @@
 <!-- init sockets -->
 <script src="./public/js/socket_init.js"></script>
 <script src="./public/js/app.js"></script>
-<script src="./public/js/service-worker.js"></script>
+<!-- <script src="./public/js/service-worker.js"></script> -->
 
 </html>
