@@ -265,6 +265,58 @@ App.state = {
         
         `
       },
+      render_target_hardware_viewer1: () =>{
+
+        //get and set current target shape.
+        App.state.find_hardware_by_uid(App.state._target_uid);
+         // build html of history in table
+         App.state.find_hardware_history(App.state._target_uid)
+        //grab and place in viewer
+
+        var viewer_html = ``
+        var target_shape = App.state._target_shape;
+
+        var data_bundle_array = []
+        //remove data from date
+
+        App.state._target_history.forEach(data_bundle => {
+          data_bundle_array.push(data_bundle[1])
+        });
+
+        // calculate avrge
+        var data_bundle_array_length = data_bundle_array.length
+        var data_bundle_array_sum = data_bundle_array.reduce((a, b) => a + b)
+        var data_bundle_array_sum_avrg = data_bundle_array_sum/data_bundle_array_length
+
+
+        switch (App.state._target_shape.class) {
+          case 'thermometer':
+            viewer_html =`
+              <p>Average Reading: ${data_bundle_array_sum_avrg}</p>
+            `
+            break;
+            case 'hygrometer':
+              viewer_html =`
+              <p>Average Reading: ${data_bundle_array_sum_avrg}</p>
+            `
+        }
+
+
+        return `
+        ${App.state.render_nav_bar()}
+        <a onclick="App.state.change_view('hardware_raw_data_viewer','${App.state._target_uid}')"> View Device Raw Data </a>
+        <section id="hardware_settings">
+            <fieldset>
+                <legend><a href="#hardware_settings">#</a> Device Details: ${target_shape.nid} </legend>
+
+                <div>
+                  ${viewer_html}
+                </div>
+                <div id="target_device_history_chart">hi</div>
+            </fieldset>
+        </section>
+        `
+      },
       render_target_hardware_raw_data_viewer:()=>{
 
         // build html of history in table
@@ -899,7 +951,29 @@ App.state = {
 
 
 
-      },generateUID:(length)=>{
+      },
+      build_current_target_history_chart: () =>{
+
+          var target_shape = App.state._target_history;
+          var new_data = []
+
+          target_shape.forEach(bundle => {
+                var object =  {'date': new Date(bundle[0]), 'value': bundle[1]}
+                new_data.push(object)
+            });
+
+          MG.data_graphic({
+                title: "Downloads",
+                description: "This graphic shows a time-series of downloads.",
+                data:new_data,
+                full_width: true,
+                height: 250,
+                target: document.querySelector('#target_device_history_chart'),
+                x_accessor: 'date',
+                y_accessor: 'value',
+            })
+      },
+      generateUID:(length)=>{
           return window.btoa("a" + Array.from(window.crypto.getRandomValues(new Uint8Array(length * 2))).map((b) => String.fromCharCode(b)).join("")).replace(/[+/]/g, "").substring(0, length);
       },
       change_view: (e, target_uid) => {
@@ -923,8 +997,8 @@ App.state = {
         if (App.state._to_render === 'settings') {
         return App.state.render_settings()
         }
-        if (App.state._to_render === 'hardware_viewer') {
-          return App.state.render_target_hardware_viewer()
+        if (App.state._to_render === 'hardware_viewer') {   
+          return  App.state.render_target_hardware_viewer1()
         }
         if (App.state._to_render === 'hardware_raw_data_viewer') {
           return App.state.render_target_hardware_raw_data_viewer()
