@@ -108,9 +108,8 @@ App.state = {
       render_landing: () =>{
           return `
             <div class='landing'>
-                <img style='width:35%'src="./public/images/cortex.iot-brand-logo-mark-black.png" alt="">
-                <h1>Cortex.iot</h1>
-                <a onclick="App.state.change_view('dashboard')">Enter<a>
+                <img style='width:35%'src="./public/images/cortex.iot.brand-full-mark.png" alt=""><br>
+                <button class='button' onclick="App.state.change_view('dashboard')">Enter</button> <br>
             </div>
           `
       },
@@ -170,6 +169,16 @@ App.state = {
                 console.log('temp');
                 data_stream_block = ` <div class='data_stream_block ${device.class}'><span id="data_stream_ui_block_${device.uid}">0.0</span>*C</div>`
                 device_class_icon = ` <ion-icon style="color:${device.color}" onclick='App.state.change_view("hardware_viewer","${device.uid}")' name="thermometer-outline"></ion-icon> `
+              break;
+              case 'relay':
+                console.log('relay');
+                data_stream_block = ` <div class='data_stream_block ${device.class}'><span id="data_stream_ui_block_${device.uid}">state</div>`
+                device_class_icon = ` <ion-icon style="color:${device.color}" onclick='App.state.change_view("hardware_viewer","${device.uid}")' name="power-outline"></ion-icon> `
+              break;
+              case 'switch':
+                console.log('switch');
+                data_stream_block = ` <div class='data_stream_block ${device.class}'><span id="data_stream_ui_block_${device.uid}">state</div>`
+                device_class_icon = ` <ion-icon style="color:${device.color}" onclick='App.state.change_view("hardware_viewer","${device.uid}")' name="toggle-outline"></ion-icon> `
               break;
               default:
                 break;
@@ -421,13 +430,14 @@ App.state = {
 
         return `
             ${App.state.render_nav_bar()}
-            
+            <a onclick="App.state.change_view('settings')">System Settings</a>  |
+            <a onclick="App.state.change_view('device_bank')">Hardware Settings</a>
             <section id="general_setting">
               <fieldset>
                 <legend><a href="#general_setting">#</a> General Settings</legend>
                 <div>
-                    <label for="example-input-text">System Name:</label>
-                    <input type="text" id="example-input-text" value='${App.state.settings.SYSTEM_NAME}'>
+                    <label for="system_settings_SYSTEM_NAME">System Name:</label>
+                    <input type="text" id="system_settings_SYSTEM_NAME" value='${App.state.settings.SYSTEM_NAME}'>
                 </div>
 
               </fieldset>
@@ -439,13 +449,13 @@ App.state = {
                     <legend><a href="#software_settings">#</a> Software Settings</legend>
 
                     <div>
-                        <label for="example-input-text">Database:</label>
-                        <input type="text" id="example-input-text" value='${App.state.settings.DATABASE}'>
+                        <label for="system_settings_DATABASE">Database:</label>
+                        <input type="text" id="system_settings_DATABASE" value='${App.state.settings.DATABASE}'>
                     </div>
 
                     <div>
-                        <label for="example-input-text">Database URL:</label>
-                        <input type="text" id="example-input-text" value='${App.state.settings.DATABASE_URL}'>
+                        <label for="system_settings_DATABASE_URL">Database URL:</label>
+                        <input type="text" id="system_settings_DATABASE_URL" value='${App.state.settings.DATABASE_URL}'>
                     </div>
 
                 </fieldset>
@@ -457,14 +467,14 @@ App.state = {
                     <legend><a href="#hardware_settings">#</a> Hardware Settings</legend>
 
                     <div>
-                        <label for="example-input-text">Hardware Sample Rate: Every</label>
-                        <input type="number" id="example-input-text" value='${App.state.settings.HARDWARE_SAMPLE_RATE}'>
+                        <label for="system_settings_HARDWARE_SAMPLE_RATE">Hardware Sample Rate: Every</label>
+                        <input type="number" id="system_settings_HARDWARE_SAMPLE_RATE" value='${App.state.settings.HARDWARE_SAMPLE_RATE}'>
                         milliseconds
                     </div>
 
                     <div>
-                        <label for="example-select1">Sample Tempurature Scale:</label>
-                        <select id="example-select1">
+                        <label for="system_settings_SAMPLE_TEMP_SCALE">Sample Tempurature Scale:</label>
+                        <select id="system_settings_SAMPLE_TEMP_SCALE">
                             ${scale_options}
                         </select>
                     </div>
@@ -473,12 +483,22 @@ App.state = {
             </section>
 
 
+            <div class="button_group right">
+                <button class='danger'>Cancel</button>
+                <button class='info'>Update</button>
+            </div>
+
+
         `
       },
       render_settings_device_bank: ()=>{
 
 
-        var output =`${App.state.render_nav_bar()}`
+        var output =`
+              ${App.state.render_nav_bar()}
+              <a onclick="App.state.change_view('settings')">System Settings</a>  |
+              <a onclick="App.state.change_view('device_bank')">Hardware Settings</a>
+            `
 
         App.state.deviceBank.forEach(board => {
           var board_container
@@ -619,6 +639,10 @@ App.state = {
                     </div>
                 </fieldset>
             </section>
+            <div class="button_group right">
+                <button class='danger'>Cancel</button>
+                <button class='info'>Update</button>
+            </div>
             `
             break;
           case 'hygrometer':
@@ -665,6 +689,10 @@ App.state = {
                       </div>
                   </fieldset>
               </section>
+              <div class="button_group right">
+                  <button class='danger'>Cancel</button>
+                  <button class='info'>Update</button>
+              </div>
               `
             break;
             case 'relay':
@@ -715,7 +743,11 @@ App.state = {
                     </fieldset>
         
                 </section>
-              `
+                <div class="button_group right">
+                    <button class='danger'>Cancel</button>
+                    <button class='info'>Update</button>
+                </div>
+                `
             break;
             case 'switch':
               console.log('rendering a switch');
@@ -757,6 +789,10 @@ App.state = {
                       </fieldset>
           
                   </section>
+                  <div class="button_group right">
+                      <button class='danger'>Cancel</button>
+                      <button class='info'>Update</button>
+                  </div>
               
               `
             break;
@@ -793,7 +829,10 @@ App.state = {
                 </fieldset>
 
             </section>
-
+            <div class="button_group right">
+                <button class='danger'>Cancel</button>
+                <button class='info'>Update</button>
+            </div>
             
             `
             break;
@@ -818,8 +857,7 @@ App.state = {
           <div class='nav_right_links'> 
             <small>            
               <a onclick="App.state.change_view('dashboard')">Dashboard</a> |
-              <a onclick="App.state.change_view('settings')">Settings</a>  |
-              <a onclick="App.state.change_view('device_bank')">Hardware</a>
+              <a onclick="App.state.change_view('settings')">Settings</a>
             </small> 
           </div>
         <hr>
@@ -1051,6 +1089,38 @@ App.state = {
       
             
       },
+      save_general_settings: ()=>{
+
+      
+        var settings_bundle = {
+
+          SYSTEM_NAME: document.querySelector(`#system_settings_SYSTEM_NAME`).value,
+          DATABASE: document.querySelector(`#system_settings_DATABASE`).value,
+          DATABASE_URL: document.querySelector(`#system_settings_DATABASE_URL`).value,
+          HARDWARE_SAMPLE_RATE: document.querySelector(`#system_settings_HARDWARE_SAMPLE_RATE`).value,
+          SAMPLE_TEMP_SCALE: document.querySelector(`#system_settings_SAMPLE_TEMP_SCALE`).value
+
+        }
+
+
+        console.log(settings_bundle);
+
+
+        fetch('/update/settings/general', {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(settings_bundle)
+        }).then(res => console.log(res));
+
+
+      },
+      save_hardware_settings_hygrometer: ()=>{},
+      save_hardware_settings_thermometer: ()=>{},
+      save_hardware_settings_switch: ()=>{},
+      save_hardware_settings_relay: ()=>{},
       generateUID:(length)=>{
           return window.btoa("a" + Array.from(window.crypto.getRandomValues(new Uint8Array(length * 2))).map((b) => String.fromCharCode(b)).join("")).replace(/[+/]/g, "").substring(0, length);
       },

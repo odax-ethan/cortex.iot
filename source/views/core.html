@@ -2,21 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./public/images/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Cortex.iot Client">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
     <!-- Disable tap highlight on IE -->
     <meta name="msapplication-tap-highlight" content="no">
 
     <!-- Web Application Manifest -->
-    <link rel="manifest" href="./manifest.json">
+    <link rel="manifest" href="./public/manifest.json">
+    <meta name="msapplication-starturl" content="/">
+    
+    <!-- icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="./public/images/android-chrome-192x192.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="./public/images/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./public/images/android-chrome-512x512.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="./public/images/android-chrome-512x512.png">
+    <link rel="icon" type="image/png" href="./public/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" type="image/png" href="./public/images/apple-touch-icon.png">
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Cortex.iot client">
-    <meta name="theme-color" content="#303F9F">
+    <meta name="theme-color" content="#ffffff">
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -26,7 +36,7 @@
 
     <!-- Tile icon for Win8 -->
     <meta name="msapplication-TileColor" content="#3372DF">
-    <meta name="msapplication-navbutton-color" content="#303F9F">
+    <meta name="msapplication-navbutton-color" content="#ffffff">
 
     <!-- icons for ui / Will make custom icons in the future -->
     <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
@@ -48,11 +58,7 @@
     <link difer rel="stylesheet" href="./public/style/modal.css">
 
 
-    <!-- scripts for charts -->
-    <!-- AM charts -->
-    <script  defer src="./public/libs/core.js"></script>
-    <script defer  src="./public/libs/charts.js"></script>
-    <script defer  src="./public/libs/animated.js"></script>
+
 
 
 </head>
@@ -61,16 +67,26 @@
     
 
 </body>
-<!-- scripts -->
-<script src="./public/js/util.js"></script>
-<!-- <script src="./public/js/simple_chart.js"></script> -->
-<!-- simple chart -->
-<script src="./public/js/service-worker.js"></script>
-<!-- socket.iot lib -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"></script>
-<!-- init sockets -->
-<script src="./public/js/socket_init.js"></script>
-<script src="./public/js/app.js"></script>
-<!-- <script src="./public/js/service-worker.js"></script> -->
+
+
+    <!-- scripts -->
+    <script src="./public/js/util.js"></script>
+
+    <!-- socket.iot lib -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"></script>
+    
+    <!-- init sockets -->
+    <script src="./public/js/socket_init.js"></script>
+    <script src="./public/js/app.js"></script>
+
+    <!-- simple chart -->
+    <script src="./public/js/service-worker.js"></script>
+    <script src="./public/js/install.js"></script>
+
+    <!-- scripts for charts -->
+    <!-- AM charts -->
+    <script  defer src="./public/libs/core.js"></script>
+    <script defer  src="./public/libs/charts.js"></script>
+    <script defer  src="./public/libs/animated.js"></script>
 
 </html>

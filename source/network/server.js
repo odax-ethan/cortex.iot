@@ -86,12 +86,45 @@ let serverStructure = (DATABASE) => {
           
         });
 
+        expressApp.get('/get/history', (req, res) => {
 
-        //get current settings
-        //get current deviceBank
-        //save new settings obj
+            res.setHeader('Content-Type', 'application/json');
+            // how to get all device data
+            DATABASE.GET_ALL_HISTORY()
+            .then(history=>{res.json(history);})
+            .catch((err)=>{throw err})
+          
+        });
+
+        expressApp.post('/update/settings/general', (req, res) => {
+            console.log('Got body:', req.body);
+
+            DATABASE.SET_SETTINGS( req.body )
+            .then(()=>{
+                console.log(`Settings have been Saved`);
+                res.sendStatus(200);
+            })
+            .catch((err)=>{throw err})
+
+        });
+
+
+        expressApp.post('/update/settings/device_bank', (req, res) => {
+            console.log('Got body:', req.body);
+
+            //how you log data to a deviceID
+            DB.SET_DEVICEBANK( req.body )
+            .then(()=>{
+                console.log(`deviceBank has been Saved`);
+                res.sendStatus(200);
+            })
+            .catch((err)=>{throw err})
+
+        });
+
+
         //save new deviceBank
-        //get all device history
+
 
 
         //create an socket.io SERVER that listens to the HTTPS or http SERVER at env.PORT

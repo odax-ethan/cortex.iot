@@ -1,7 +1,7 @@
 header {
     display: grid;
     grid-template-columns: 52px 1fr 1fr;
-    grid-template-rows: 72px;
+    grid-template-rows: 33px;
     gap: 0px 0px;
     grid-template-areas:
         ". . .";
@@ -9,4 +9,13 @@ header {
 
 .nav_right_links{
     text-align: right;
+}
+
+
+
+@media only screen and (min-width: 992px) {
+    header {
+        grid-template-rows: 25px;
+    }
+   
 }

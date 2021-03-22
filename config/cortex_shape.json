@@ -1,6 +1,6 @@
 [
     {
-        "uid": "4567890",
+        "uid": "Tent_001",
         "nid": "test",
         "port": "COM4",
         "color": "#5AF",
@@ -11,7 +11,7 @@
                 "nid": "test_hygro",
                 "color": "#0FF",
                 "comment": "",
-                "board": "4567890",
+                "board": "Tent_001",
                 "class": "hygrometer",
                 "controller": "SHT31D"
             },
@@ -20,10 +20,60 @@
                 "nid": "test_temp",
                 "color": "#F5A",
                 "comment": "",
-                "board": "4567890",
+                "board": "Tent_001",
                 "class": "thermometer",
                 "controller": "DS18B20",
                 "pin": "6"
+            }, 
+            {
+                "uid": "tent_001_light",
+                "nid": "Light",
+                "color": "#0F8",
+                "comment": "This is a grow light.",
+                "board": "Tent_001",
+                "class": "relay",
+                "type": "NO",
+                "pin": "13",
+                "cron": [
+                    {
+                        "id":"light_cycle", 
+                       "nid":"light cycle",
+                       "target": "tent_001_light",
+                       "type": "on/off",
+                       "shape": [" 0 0 6 * * * " , " 0 59 23 * * * "],
+                       "color": "#7def71"
+                   }
+                ]
+            },
+            {
+                "uid": "tent_001_fan_combo",
+                "nid": "Fan/Humidifier",
+                "color": "#A5F",
+                "comment": "Fan and Humidifier outlet combo",
+                "board": "Tent_001",
+                "class": "relay",
+                "type": "NO",
+                "pin": "10",
+                "cron": [
+                    {
+                        "id":"air_cycle", 
+                        "nid":"air cycle",
+                        "target": "tent_001_fan_combo",
+                        "type": "burst",
+                        "shape": " 0 */8 * * * * ",
+                        "length": 150000,
+                        "color": "#7def71"
+                    }
+                ]
+            },
+            {
+                "uid": "switch",
+                "nid": "switch test",
+                "color": "#A5F",
+                "comment": "Fan and Humidifier outlet combo",
+                "board": "Tent_001",
+                "class": "switch",
+                "pin": "11"
             }
         ]
     }

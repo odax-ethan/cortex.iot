@@ -27,11 +27,13 @@ input:focus{
 
 
 /* button styles */
+/* button styles */
 button {
-    background-color: #4CAF50;
+    background-color:#ffffff ;
     border: none;
-    color: white;
+    color:var(--black);
     padding: .6rem 1.3rem;
+    border: 1.5px solid var(--black);
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -39,7 +41,7 @@ button {
     margin: 4px 2px;
     cursor: pointer;
     font-weight: 600;
-    cursor: pointer;
+    outline: none;
 }
 
 .button_group.right {
@@ -50,11 +52,60 @@ button {
     color: dodgerblue;
 }
 
-button.red {
-    background-color: #e0541d;
-    color: #1D1D1D;
-    
+
+/* Green */
+button.success {
+    border-color: #4CAF50;
+    color: green;
+  }
+  
+button.success:hover {
+background-color: #4CAF50;
+color: white;
 }
+  
+  /* Blue */
+  button.info {
+    border-color: #2196F3;
+    color: dodgerblue;
+  }
+  
+  button.info:hover {
+    background: #2196F3;
+    color: white;
+  }
+  
+  /* Orange */
+  button.warning {
+    border-color: #ff9800;
+    color: orange;
+  }
+  
+  button.warning:hover {
+    background: #ff9800;
+    color: white;
+  }
+  
+  /* Red */
+  button.danger {
+    border-color: #f44336;
+    color: red;
+  }
+  
+  button.danger:hover {
+    background: #f44336;
+    color: white;
+  }
+  
+  /* Gray */
+  button.default {
+    border-color: #e7e7e7;
+    color: black;
+  }
+  
+  button.default:hover {
+    background: #e7e7e7;
+  }
 
 
 /* fieldset styling */
@@ -67,6 +118,11 @@ a {
     color: var(--black);
     cursor: pointer;
    }
+
+
+fieldset{
+    border:var(--black) 1px solid;
+}
 
 fieldset a {
     text-decoration: none;
