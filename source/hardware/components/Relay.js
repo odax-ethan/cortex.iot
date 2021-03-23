@@ -13,7 +13,7 @@ class RELAY {
     }
 
     build () {
-        this.device_container = new five.Relay({id:this.uid, pin: this.device.pin ,  type: this.device.type})
+        this.device_container = new five.Relay({id:this.uid, pin: this.device.pin,  type: this.device.type, board: this.device.board})
         this.device_container.close();
 
         // listen for events in system

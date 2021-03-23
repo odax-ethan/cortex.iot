@@ -13,7 +13,7 @@ class SWITCH {
     }
 
     build () {
-        this.device_container = new five.Switch({id:this.uid, pin: this.device.pin, type: this.device.type})
+        this.device_container = new five.Switch({id:this.uid, pin: this.device.pin, type: this.device.type, board: this.device.board})
         let uid = this.uid
 
         // share state change in  the client

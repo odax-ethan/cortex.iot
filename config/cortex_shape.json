@@ -1,44 +1,65 @@
 [
+
     {
-        "uid": "Tent_001",
-        "nid": "test",
-        "port": "COM4",
-        "color": "#5AF",
+        "uid": "tent_board",
+        "nid": "Tent Sensor Board",
+        "port": "/dev/ttyACM0",
+        "color": "#cd770e",
         "comment": "",
         "devices": [
             {
-                "uid": "165436456",
-                "nid": "test_hygro",
-                "color": "#0FF",
+                "uid": "tent_hygro_000",
+                "nid": "Tent Hygrometer",
+                "color": "#4EC5F1",
                 "comment": "",
-                "board": "Tent_001",
+                "board": "tent_board",
                 "class": "hygrometer",
                 "controller": "SHT31D"
             },
             {
-                "uid": "123213",
-                "nid": "test_temp",
-                "color": "#F5A",
+                "uid": "tent_temp_000",
+                "nid": "Tent Thermometer",
+                "color": "#0df2c9",
                 "comment": "",
-                "board": "Tent_001",
+                "board": "tent_board",
                 "class": "thermometer",
                 "controller": "DS18B20",
                 "pin": "6"
             }, 
             {
-                "uid": "tent_001_light",
+                "uid": "water_trigger",
+                "nid": "Humidifier Water Trigger",
+                "color": "#20272F",
+                "comment": "Fan and Humidifier outlet combo",
+                "board": "tent_board",
+                "class": "switch",
+                "pin": "11",
+                "type": "NO"
+            }
+        ]
+    },
+    {
+        "uid": "pi_controller_tent",
+        "nid": "Grow_Tent",
+        "port": "pi_io",
+        "color": "#0ad149",
+        "comment": "This is a Pi host",
+        "index": null,
+        "devices": [
+            {
+                "uid": "pi_controller_tent_light",
                 "nid": "Light",
-                "color": "#0F8",
+                "color": "#871c1c",
                 "comment": "This is a grow light.",
-                "board": "Tent_001",
+                "board": "pi_controller_tent",
                 "class": "relay",
                 "type": "NO",
-                "pin": "13",
+                "pin": "P1-31",
                 "cron": [
                     {
                         "id":"light_cycle", 
                        "nid":"light cycle",
-                       "target": "tent_001_light",
+                       "target": "pi_controller_tent_light",
                        "type": "on/off",
                        "shape": [" 0 0 6 * * * " , " 0 59 23 * * * "],
                        "color": "#7def71"
@@ -46,35 +67,25 @@
                 ]
             },
             {
-                "uid": "tent_001_fan_combo",
+                "uid": "pi_controller_tent_fan_combo",
                 "nid": "Fan/Humidifier",
                 "color": "#A5F",
                 "comment": "Fan and Humidifier outlet combo",
-                "board": "Tent_001",
+                "board": "pi_controller_tent",
                 "class": "relay",
                 "type": "NO",
-                "pin": "10",
+                "pin": "P1-37",
                 "cron": [
                     {
                         "id":"air_cycle", 
                         "nid":"air cycle",
-                        "target": "tent_001_fan_combo",
+                        "target": "pi_controller_tent_fan_combo",
                         "type": "burst",
                         "shape": " 0 */8 * * * * ",
-                        "length": 165000,
+                        "length": 150000,
                         "color": "#7def71"
                     }
                 ]
-            },
-            {
-                "uid": "switch",
-                "nid": "switch test",
-                "color": "#A5F",
-                "comment": "Fan and Humidifier outlet combo",
-                "board": "Tent_001",
-                "class": "switch",
-                "pin": "11",
-                "type": "NO"
             }
         ]
     }

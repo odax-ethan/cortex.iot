@@ -50,7 +50,7 @@ class HARDWARE {
       //for each initiallized board
       this.boards.each(board => {
         //   console.log(board);
-          this.boards.info(`${board.id}`, "I got somethin' to say!", { foo: 1 });
+          // this.boards.info(`${board.id}`, "I got somethin' to say!", { foo: 1 });
           // build_devices(board.id, this.shape )
 
           // call on board switch with in the deviceBank for each instance of board

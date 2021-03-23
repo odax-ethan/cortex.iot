@@ -34,7 +34,7 @@ class HYGROMETER {
     }
     build () {
         
-        this.device_container = new five.Hygrometer({id:this.uid, pin: this.device.pin, controller: this.device.controller, freq: process.env.HARDWARE_SAMPLE_RATE})
+        this.device_container = new five.Hygrometer({id:this.uid, pin: this.device.pin, controller: this.device.controller, freq: process.env.HARDWARE_SAMPLE_RATE, board: this.device.board})
         
         this.device_container.on("data" , (data) => {
             systemEmitter.emit('event', this.uid, 'trigger', 'OK', data.relativeHumidity, TIMESTAMP.local)
