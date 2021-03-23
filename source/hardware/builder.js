@@ -54,7 +54,7 @@ class HARDWARE {
           // build_devices(board.id, this.shape )
 
           // call on board switch with in the deviceBank for each instance of board
-          this.DEVICEBANK_class.device_switch(board.id)
+          this.DEVICEBANK_class.device_switch(board.id,board)
         
       }) // end of forEach board
 

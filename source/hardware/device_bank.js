@@ -96,7 +96,7 @@ class DEVICEBANK {
         
     }
 
-    device_switch (target_board) {
+    device_switch (target_board, board_shape ) {
 
         var target_device_array
 
@@ -117,17 +117,17 @@ class DEVICEBANK {
             //check which device class should be used to build the device
             switch (device.class) {
                 case 'relay':
-                    new RELAY(device, target_board).build()
+                    new RELAY(device, target_board).build(board_shape)
                     break;
                 case 'switch':
-                    new SWITCH(device, target_board).build()
+                    new SWITCH(device, target_board).build(board_shape)
                    
                 break;
                 case 'thermometer':
-                    new THERMOMETER(device, target_board).build()
+                    new THERMOMETER(device, target_board).build(board_shape)
                     break;
                 case 'hygrometer':
-                    new HYGROMETER(device, target_board).build()
+                    new HYGROMETER(device, target_board).build(board_shape)
                 break;
                 default:
                     break;
