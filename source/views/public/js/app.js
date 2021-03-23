@@ -8,6 +8,7 @@ App.state = {
       _target_uid: null,
       _target_shape: null,
       _target_history:null,
+      _page_title: "Cortex.iot",
       settings: null,
       deviceBank: null,
       stream_listener: null,
@@ -531,6 +532,16 @@ App.state = {
                 data_stream_block =''
                 device_class_icon = `<ion-icon style="color:${device.color}" name="thermometer-outline"></ion-icon>  `
               break;
+              case 'relay':
+                console.log('temp');
+                data_stream_block =''
+                device_class_icon = `<ion-icon style="color:${device.color}" name="power-outline"></ion-icon>  `
+              break;
+              case 'switch':
+                console.log('temp');
+                data_stream_block =''
+                device_class_icon = `<ion-icon style="color:${device.color}" name="toggle-outline"></ion-icon>  `
+              break;
               default:
                 break;
             }
@@ -706,15 +717,15 @@ App.state = {
         
                         <div>
                             <label for="example-input-text">Relay Name:</label>
-                            <input type="text" id="example-input-text">
+                            <input type="text" id="example-input-text" value="${target_shape.nid}">
                         </div>
                         <div>
                             <label for="example-input-text">Relay ID:</label>
-                            <input type="text" id="example-input-text">
+                            <input type="text" id="example-input-text" value="${target_shape.uid}">
                         </div>
                         <div>
                             <label for="example-input-text">Relay Color:</label>
-                            <input type="color" id="example-input-text">
+                            <input type="color" id="example-input-text" value="${target_shape.color}">
                         </div>
         
                         <div>
@@ -737,7 +748,7 @@ App.state = {
         
                         <div>
                             <label for="example-input-text">Relay Pin:</label>
-                            <input type="color" id="example-input-text">
+                            <input type="text" id="example-input-text" value="${target_shape.pin}">
                         </div>
         
                     </fieldset>
@@ -761,15 +772,15 @@ App.state = {
           
                           <div>
                               <label for="example-input-text">Switch Name:</label>
-                              <input type="text" id="example-input-text">
+                              <input type="text" id="example-input-text" value="${target_shape.nid}">
                           </div>
                           <div>
                               <label for="example-input-text">Switch ID:</label>
-                              <input type="text" id="example-input-text">
+                              <input type="text" id="example-input-text" value="${target_shape.uid}">
                           </div>
                           <div>
                               <label for="example-input-text">Switch Color:</label>
-                              <input type="color" id="example-input-text">
+                              <input type="color" id="example-input-text" value="${target_shape.color}">
                           </div>
           
                           <div>
@@ -783,7 +794,7 @@ App.state = {
           
                           <div>
                               <label for="example-input-text">Switch Pin:</label>
-                              <input type="text" id="example-input-text">
+                              <input type="text" id="example-input-text" value="${target_shape.pin}">
                           </div>
           
                       </fieldset>
@@ -853,7 +864,7 @@ App.state = {
             <img style='width:32px'src="./public/images/cortex.iot-brand-logo-mark-black.png" alt="">
           </div>
           <div>
-            ${App.state._to_render}</div>
+            ${App.state._page_title}</div>
           <div class='nav_right_links'> 
             <small>            
               <a onclick="App.state.change_view('dashboard')">Dashboard</a> |
@@ -910,10 +921,7 @@ App.state = {
           });
         });
 
-        
-
-        console.log(App.state._target_history);
-
+  
       },
       build_device_history_chart: (data_bundle) =>{
             // an array of objects used to defile the plylines
@@ -1139,22 +1147,28 @@ App.state = {
            return App.state.render_landing()
         }
         if (App.state._to_render === 'dashboard') {
+            App.state._page_title = 'Dashboard'
             App.state.stream_feed()
             return App.state.render_dashboard()
          }
         if (App.state._to_render === 'settings') {
+          App.state._page_title = 'Setting'
         return App.state.render_settings()
         }
         if (App.state._to_render === 'hardware_viewer') {   
+          App.state._page_title = `${App.state._target_uid} Dash`
           return  App.state.render_target_hardware_viewer1()
         }
         if (App.state._to_render === 'hardware_raw_data_viewer') {
+          App.state._page_title = `${App.state._target_uid} Raw`
           return App.state.render_target_hardware_raw_data_viewer()
         }
         if (App.state._to_render === 'device_bank') {
+          App.state._page_title = `Device Bank`
           return App.state.render_settings_device_bank()
         }
         if (App.state._to_render === 'settings_target_hardware') {
+          App.state._page_title = `${App.state._target_uid} Setting`
           return App.state.render_target_hardware_settings()
         }
 

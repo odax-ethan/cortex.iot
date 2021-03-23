@@ -33,6 +33,8 @@ class SWITCH {
 
         if (this.triggers) {
 
+            console.log('creating triggers');
+
             this.triggers.forEach(trigger => {
 
 

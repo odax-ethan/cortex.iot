@@ -121,6 +121,7 @@ class DEVICEBANK {
                     break;
                 case 'switch':
                     new SWITCH(device, target_board).build()
+                   
                 break;
                 case 'thermometer':
                     new THERMOMETER(device, target_board).build()

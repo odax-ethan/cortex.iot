@@ -61,7 +61,7 @@
                         "target": "tent_001_fan_combo",
                         "type": "burst",
                         "shape": " 0 */8 * * * * ",
-                        "length": 150000,
+                        "length": 165000,
                         "color": "#7def71"
                     }
                 ]
@@ -73,7 +73,8 @@
                 "comment": "Fan and Humidifier outlet combo",
                 "board": "Tent_001",
                 "class": "switch",
-                "pin": "11"
+                "pin": "11",
+                "type": "NO"
             }
         ]
     }
