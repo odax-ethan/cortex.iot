@@ -10,7 +10,7 @@ class THERMOMETER {
         this.SAMPLE_TEMP_SCALE = process.env.SAMPLE_TEMP_SCALE
     }
 
-    build () {
+    build (board) {
         
         this.device_container = new five.Thermometer({id:this.uid, pin: this.device.pin, controller: this.device.controller, freq: process.env.HARDWARE_SAMPLE_RATE ,  board: board})
 

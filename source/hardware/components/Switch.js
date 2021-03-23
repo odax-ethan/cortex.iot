@@ -12,7 +12,7 @@ class SWITCH {
         this.triggers = this.device.triggers
     }
 
-    build () {
+    build (board) {
         this.device_container = new five.Switch({id:this.uid, pin: this.device.pin, type: this.device.type,  board: board})
         let uid = this.uid
 

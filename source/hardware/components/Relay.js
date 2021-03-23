@@ -12,7 +12,7 @@ class RELAY {
         this.cron = this.device.cron
     }
 
-    build () {
+    build (board) {
         this.device_container = new five.Relay({id:this.uid, pin: this.device.pin,  type: this.device.type, board: board})
         this.device_container.close();
 
