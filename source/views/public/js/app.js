@@ -146,11 +146,12 @@ App.state = {
           var board_details = `
             <div class="board_details">
               <div><span>${board.uid}</span></div>
-              <div>
-                <ion-icon style="color:${board.color}" onclick='App.state.change_view("hardware_viewer","${board.uid}")' name="hardware-chip-outline"> </ion-icon>
+              <div style="margin: auto 0 auto auto; color:${board.color};">
+                  <div class="icon microchip" onclick='App.state.change_view("hardware_viewer","${board.uid}")' ></div>
               </div>
             </div>
           `
+          // <ion-icon style="color:${board.color}" onclick='App.state.change_view("hardware_viewer","${board.uid}")' name="hardware-chip-outline"> </ion-icon>
 
           var devices = ''
          
@@ -164,22 +165,24 @@ App.state = {
               case 'hygrometer':
                   console.log('hyrgo');
                   data_stream_block = ` <div class='data_stream_block ${device.class}'><span id="data_stream_ui_block_${device.uid}">00</span>%</div>`
-                  device_class_icon = `<ion-icon style="color:${device.color}"  onclick='App.state.change_view("hardware_viewer","${device.uid}")' name="water-outline"></ion-icon> `
+                  // <ion-icon style="color:${device.color}"  onclick='App.state.change_view("hardware_viewer","${device.uid}")' name="water-outline"></ion-icon>
+                  device_class_icon = ` <div class="icon water" style="color:${device.color}"  onclick='App.state.change_view("hardware_viewer","${device.uid}")'> </div> `
                 break;
               case 'thermometer':
                 console.log('temp');
                 data_stream_block = ` <div class='data_stream_block ${device.class}'><span id="data_stream_ui_block_${device.uid}">0.0</span>*C</div>`
-                device_class_icon = ` <ion-icon style="color:${device.color}" onclick='App.state.change_view("hardware_viewer","${device.uid}")' name="thermometer-outline"></ion-icon> `
+                // <ion-icon style="color:${device.color}" onclick='App.state.change_view("hardware_viewer","${device.uid}")' name="thermometer-outline"></ion-icon> 
+                device_class_icon = `<div class="icon thermometer" style="color:${device.color}"   onclick='App.state.change_view("hardware_viewer","${device.uid}")'> </div>  `
               break;
               case 'relay':
                 console.log('relay');
                 data_stream_block = ` <div class='data_stream_block ${device.class}'><span id="data_stream_ui_block_${device.uid}">state</div>`
-                device_class_icon = ` <ion-icon style="color:${device.color}" onclick='App.state.change_view("hardware_viewer","${device.uid}")' name="power-outline"></ion-icon> `
+                device_class_icon = ` <div class="icon power" style="color:${device.color}"  onclick='App.state.change_view("hardware_viewer","${device.uid}")'> </div> ` 
               break;
               case 'switch':
                 console.log('switch');
                 data_stream_block = ` <div class='data_stream_block ${device.class}'><span id="data_stream_ui_block_${device.uid}">state</div>`
-                device_class_icon = ` <ion-icon style="color:${device.color}" onclick='App.state.change_view("hardware_viewer","${device.uid}")' name="toggle-outline"></ion-icon> `
+                device_class_icon =  ` <div class="icon toggle" style="color:${device.color}"  onclick='App.state.change_view("hardware_viewer","${device.uid}")'> </div> `
               break;
               default:
                 break;
@@ -191,7 +194,7 @@ App.state = {
               <div class="device_container humidity">
                   ${data_stream_block}
                   <div>${device.nid}</div>
-                  <div>
+                  <div style="margin: auto 0 auto auto; color:${device.color};">
                     ${device_class_icon}
                   </div>
               </div>
