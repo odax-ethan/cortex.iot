@@ -12,6 +12,7 @@
   "author": "Odax Systems, LLC",
   "license": "SEE LICENCE IN license.txt",
   "dependencies": {
+    "compression": "^1.7.4",
     "cortex.iot.docs": "^0.0.2",
     "dateformat": "^4.5.1",
     "dotenv": "^8.2.0",

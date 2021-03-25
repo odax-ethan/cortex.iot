@@ -3,9 +3,10 @@ const path = require('path')// node.js path module
 const https = require('https'); // node.js https module
 const socket_io = require('socket.io') // socket.io 
 const express = require('express');// express.js the imidiatetly create an express app.
+var compression = require('compression') // addin compression
 const { WEBSOCKET, webSocketStructure } = require('./socket')
 const { systemEmitter } = require('../util/emitter/systemEmitter')
-var favicon = require('serve-favicon')
+var favicon = require('serve-favicon') //may not need
 
 // const os = require('os');
 var ip = require('ip'); // get the public ip address
@@ -35,6 +36,8 @@ let serverStructure = (DATABASE) => {
         expressApp.use(express.urlencoded({
         extended: true
         })) // for parsing application/x-www-form-urlencoded
+        expressApp.use(compression())   // compress all responses
+
 
         expressApp.disable('etag').disable('x-powered-by'); // minor security patch
 

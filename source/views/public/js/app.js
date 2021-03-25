@@ -190,11 +190,18 @@ App.state = {
 
             console.log(device);
 
+            var button_inline_style = `
+                height: 30px;
+                width: 30px;
+                margin: auto 0 auto auto;
+                color:${device.color};
+            `
+
             var device_html = `
-              <div class="device_container humidity">
+              <div class="device_container hud">
                   ${data_stream_block}
                   <div>${device.nid}</div>
-                  <div style="margin: auto 0 auto auto; color:${device.color};">
+                  <div style="${button_inline_style}">
                     ${device_class_icon}
                   </div>
               </div>
@@ -504,14 +511,23 @@ App.state = {
               <a onclick="App.state.change_view('device_bank')">Hardware Settings</a>
             `
 
+        var front_elemet_styles_boards= `
+          display: flex;
+          justify-content: left;
+          align-items: center;
+        `
+
         App.state.deviceBank.forEach(board => {
           var board_container
           var board_details = `
             <div class="board_details">
-              <div> <ion-icon style="color:${board.color}" name="hardware-chip-outline"> </ion-icon> <span>${board.uid}</span></div>
-              <div>
-                <ion-icon name="close-circle-outline" onclick='App.state.delete_hardware_from_deviceBank()'></ion-icon>
-                <ion-icon name="settings-outline" onclick='App.state.change_view("settings_target_hardware","${board.uid}")'></ion-icon>
+              <div style="${front_elemet_styles_boards}"> 
+                <div class="icon microchip"  style="color:${board.color}" onclick='App.state.delete_hardware_from_deviceBank()'> </div>
+                <span >${board.uid}</span>
+              </div>
+              <div style="margin: auto 0 auto auto;">
+                <div class="icon delete" onclick='App.state.delete_hardware_from_deviceBank()'> </div>
+                <div class="icon settings"  style="color:${board.color}" onclick='App.state.change_view("settings_target_hardware","${board.uid}")'> </div>
               </div>
             </div>
           `
@@ -528,36 +544,51 @@ App.state = {
               case 'hygrometer':
                   console.log('hyrgo');
                   data_stream_block =''
-                  device_class_icon =  `<ion-icon style="color:${device.color}" name="water-outline"></ion-icon>  `
+                  device_class_icon =  `<div class="icon water" style="color:${device.color}"> </div>  `
                 break;
               case 'thermometer':
                 console.log('temp');
                 data_stream_block =''
-                device_class_icon = `<ion-icon style="color:${device.color}" name="thermometer-outline"></ion-icon>  `
+                device_class_icon = `<div class="icon tempurature" style="color:${device.color}"> </div>   `
               break;
               case 'relay':
                 console.log('temp');
                 data_stream_block =''
-                device_class_icon = `<ion-icon style="color:${device.color}" name="power-outline"></ion-icon>  `
+                device_class_icon = `<div class="icon power" style="color:${device.color}"> </div>   `
               break;
               case 'switch':
                 console.log('temp');
                 data_stream_block =''
-                device_class_icon = `<ion-icon style="color:${device.color}" name="toggle-outline"></ion-icon>  `
-              break;
+                // device_class_icon = `<ion-icon style="color:${device.color}" name="toggle-outline"></ion-icon>  `
+                device_class_icon = `<div class="icon toggle" style="color:${device.color}"> </div> `
+                break;
               default:
                 break;
             }
 
 
+            var button_inline_style = `
+                color:${device.color};
+            `
+
+            var front_elemet_styles_devices= `
+              display: flex;
+              justify-content: center;
+              align-items: left;
+              margin: auto auto auto 0;
+              paddding-left: .3rem;
+            `
+
             var device_html = `
-              <div class="device_container">
-                  <div>${device_class_icon}</div>
-                  <div>${device.nid}</div>
-                  <div>
-                    <ion-icon name="close-circle-outline" onclick='App.state.delete_hardware_from_deviceBank()'></ion-icon>
-                    <ion-icon name="settings-outline" onclick='App.state.change_view("settings_target_hardware","${device.uid}")'></ion-icon>
-                  </div>
+            <div class="device_container setting">
+              <div style=" ${front_elemet_styles_devices}"> 
+                <div class="icon toggle" style="color:${device.color}; display: inline-block; "> </div>
+                <div style="color:${device.color}; display: inline-block; margin: 4px;  ">${board.nid}</div>
+              </div>
+              <div style="margin: auto 0 auto auto;">
+                <div class="icon delete"   style="${button_inline_style}" onclick='App.state.delete_hardware_from_deviceBank()'> </div>
+                <div class="icon settings" style="${button_inline_style}" onclick='App.state.change_view("settings_target_hardware","${device.uid}")'> </div>
+              </div>
               </div>
             `
 
@@ -1181,10 +1212,14 @@ App.state = {
 
   const updateTree = () => {
     document.querySelector(`body`).innerHTML = App();
-    setTimeout(() => {
-      App.state._target_shape = null
-      App.state._target_history = null
-    }, 10000);
+
+    // a memory handler is need to keed data in ram lower
+    // on data set larger than 25mb
+    // setTimeout(() => {
+    //   App.state._target_shape = null
+    //   App.state._target_history = null
+    // }, 10000);
+
   };
 
   App.state.get_system_settings();

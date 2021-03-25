@@ -14,13 +14,11 @@
     padding-left: .5rem;
 }
 
-.board_details{
-  height: 2.3rem;
-  padding-top: .5rem ;
-  
+.board_details{  
   /* internal grid layout */
   display: grid;
   grid-template-columns: 2.5fr 0.5fr;
+  grid-row: 2.3rem;
   gap: 0px 0px;
   grid-template-areas:
       ". .";
@@ -34,16 +32,30 @@
 
 .device_container{
     border: 1px solid var(--black);
-    /* color:blue; */
     padding-left: .5rem;
 
     margin-top: -1px;
     margin-right: -1px;
     margin-bottom: -1px;
 
-    /* place correctly in board container */
-    grid-area: devices;
+}
 
+
+.board_container .setting {
+    /* internal grid layout */
+    display: grid;
+    grid-template-columns: 1fr .5fr;
+    grid-template-rows: 2.4rem;
+    gap: 0px .2rem;
+    grid-template-areas:
+        ". .";
+    align-items: center;
+  
+}
+
+
+.board_container .hud {
+  /* internal grid layout */
     /* internal grid layout */
     display: grid;
     grid-template-columns: 0.5fr 2.5fr 1fr;
@@ -51,20 +63,14 @@
     gap: 0px .2rem;
     grid-template-areas:
         ". . .";
-
 }
+
+
 
 .device_container div {
-  padding-top: .4rem ;
+  margin: .4rem ;
 }
 
-.device_container div:last-child {
-    text-align: right;
-    margin-right: .3rem;
-  }
-
-
-
-  .device_container div:first-child {
-    font-weight: 700;
-  }
+.device_container div:first-child {
+  font-weight: 700;
+}
