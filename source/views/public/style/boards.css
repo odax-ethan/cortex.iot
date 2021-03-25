@@ -28,6 +28,7 @@
 .board_details div:last-child {
     text-align: right;
     margin-right: .3rem;
+    display: inline-flex;
   }
 
 .device_container{
@@ -46,7 +47,7 @@
     display: grid;
     grid-template-columns: 1fr .5fr;
     grid-template-rows: 2.4rem;
-    gap: 0px .2rem;
+    gap: .2rem .2rem;
     grid-template-areas:
         ". .";
     align-items: center;
@@ -60,7 +61,7 @@
     display: grid;
     grid-template-columns: 0.5fr 2.5fr 1fr;
     grid-template-rows: 2.4rem;
-    gap: 0px .2rem;
+    gap: .2rem .2rem;
     grid-template-areas:
         ". . .";
 }

@@ -509,6 +509,8 @@ App.state = {
               ${App.state.render_nav_bar()}
               <a onclick="App.state.change_view('settings')">System Settings</a>  |
               <a onclick="App.state.change_view('device_bank')">Hardware Settings</a>
+              <div class='boards_content'>
+             
             `
 
         var front_elemet_styles_boards= `
@@ -582,8 +584,8 @@ App.state = {
             var device_html = `
             <div class="device_container setting">
               <div style=" ${front_elemet_styles_devices}"> 
-                <div class="icon toggle" style="color:${device.color}; display: inline-block; "> </div>
-                <div style="color:${device.color}; display: inline-block; margin: 4px;  ">${board.nid}</div>
+                <div class="icon toggle" style="color:${device.color};  padding-left: 13px;"> </div>
+                <div style="color:${device.color};  margin: 4px;  ">${board.nid}</div>
               </div>
               <div style="margin: auto 0 auto auto;">
                 <div class="icon delete"   style="${button_inline_style}" onclick='App.state.delete_hardware_from_deviceBank()'> </div>
@@ -607,7 +609,7 @@ App.state = {
           
         });
 
-        return output
+        return output + `</div>`
 
 
 
