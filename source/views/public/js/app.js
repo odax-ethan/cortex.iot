@@ -536,29 +536,25 @@ App.state = {
 
       board.devices.forEach(device => {
 
-        var data_stream_block = " "
+        
         var device_class_icon = " "
 
         switch (device.class) {
           case 'hygrometer':
             console.log('hyrgo');
-            data_stream_block = ''
-            device_class_icon = `<div class="icon water" style="color:${device.color}"> </div>  `
+                      device_class_icon = `<div class="icon water" style="color:${device.color}"> </div>  `
             break;
           case 'thermometer':
             console.log('temp');
-            data_stream_block = ''
-            device_class_icon = `<div class="icon tempurature" style="color:${device.color}"> </div>   `
+                      device_class_icon = `<div class="icon tempurature" style="color:${device.color}"> </div>   `
             break;
           case 'relay':
-            console.log('temp');
-            data_stream_block = ''
-            device_class_icon = `<div class="icon power" style="color:${device.color}"> </div>   `
+            console.log('relay');
+                      device_class_icon = `<div class="icon power" style="color:${device.color}"> </div>   `
             break;
           case 'switch':
-            console.log('temp');
-            data_stream_block = ''
-            // device_class_icon = `<ion-icon style="color:${device.color}" name="toggle-outline"></ion-icon>  `
+            console.log('relay');
+                      // device_class_icon = `<ion-icon style="color:${device.color}" name="toggle-outline"></ion-icon>  `
             device_class_icon = `<div class="icon toggle" style="color:${device.color}"> </div> `
             break;
           default:
@@ -581,8 +577,8 @@ App.state = {
         var device_html = `
             <div class="device_container setting">
               <div style=" ${front_elemet_styles_devices}"> 
-                <div class="icon toggle" style="color:${device.color};  padding-left: 13px;"> </div>
-                <div style="color:${device.color};  margin: 4px;  ">${board.nid}</div>
+                ${device_class_icon}
+                <div style="color:${device.color};  margin: 4px; ">${device.nid}</div>
               </div>
               <div style="margin: auto 0 auto auto;">
                 <div class="icon delete"   style="${button_inline_style}" onclick='App.state.delete_hardware_from_deviceBank()'> </div>
