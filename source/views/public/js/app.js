@@ -546,7 +546,7 @@ App.state = {
             break;
           case 'thermometer':
             console.log('temp');
-                      device_class_icon = `<div class="icon tempurature" style="color:${device.color}"> </div>   `
+                      device_class_icon = `<div class="icon thermometer" style="color:${device.color}"> </div>   `
             break;
           case 'relay':
             console.log('relay');
@@ -554,8 +554,7 @@ App.state = {
             break;
           case 'switch':
             console.log('relay');
-                      // device_class_icon = `<ion-icon style="color:${device.color}" name="toggle-outline"></ion-icon>  `
-            device_class_icon = `<div class="icon toggle" style="color:${device.color}"> </div> `
+                     device_class_icon = `<div class="icon toggle" style="color:${device.color}"> </div> `
             break;
           default:
             break;
