@@ -312,7 +312,7 @@ App.state = {
     }
 
     // test if its an event type
-    if (App.state._target_shape.class === 'relay' || App.state._target_shape.class === 'swicth' ) {
+    if (App.state._target_shape.class === 'relay' || App.state._target_shape.class === 'switch' ) {
         viewer_html = `
         Work in progress...
         to see history view raw data
