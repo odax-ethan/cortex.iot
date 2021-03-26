@@ -260,18 +260,33 @@ App.state = {
         var viewer_html = ``
         var target_shape = App.state._target_shape;
 
-        var data_bundle_array = []
+        var master_data_bundle_array = []
         //remove data from date
 
         App.state._target_history.forEach(data_bundle => {
-          data_bundle_array.push(data_bundle[1])
+          master_data_bundle_array.push(data_bundle[1])
         });
 
-        // calculate avrge
-        var data_bundle_array_length = data_bundle_array.length
+        // calculate avrge of all readings
+        var calculate_avrg_all_array = master_data_bundle_array
+        var data_bundle_array_length = calculate_avrg_all_array.length
         var data_bundle_array_sum = data_bundle_array.reduce((a, b) => a + b)
         var data_bundle_array_sum_avrg = data_bundle_array_sum/data_bundle_array_length
 
+        // calculate the current delta
+        var calculate_Delta_array = master_data_bundle_array
+        var calculate_Delta_array_length = calculate_Delta_array.length
+        var calculate_Delta = calculate_Delta_array[calculate_Delta_array_length-1]  - calculate_Delta_array[calculate_Delta_array_length]
+
+        //calculate 24 avrg
+        var sample_rate_for_24h = 86400000 / App.state.settings.HARDWARE_SAMPLE_RATE
+        var calculate_24_avrg_array = master_data_bundle_array
+        var calculate_24_avrg_array_length = master_data_bundle_array.length
+        var calculate_24_avrg_sum = 0
+        for (let index = 0; index < sample_rate_for_24h; index++) {
+          calculate_24_avrg_sum += calculate_24_avrg_array[calculate_24_avrg_array_length - index]
+        }
+        var calculate_24_avrg = calculate_24_avrg_sum / sample_rate_for_24h
 
         var line_chart = App.state.build_device_history_chart(App.state._target_history) 
 
@@ -279,12 +294,16 @@ App.state = {
         switch (App.state._target_shape.class) {
           case 'thermometer':
             viewer_html =`
+              <p>24 avrg : ${calculate_24_avrg}</p>
               <p>Average Reading: ${data_bundle_array_sum_avrg}</p>
+              <p>Current Delta : ${calculate_Delta}</p>
             `
             break;
             case 'hygrometer':
               viewer_html =`
+              <p>24 avrg : ${calculate_24_avrg}</p>
               <p>Average Reading: ${data_bundle_array_sum_avrg}</p>
+              <p>Current Delta : ${calculate_Delta}</p>
             `
         }
 
