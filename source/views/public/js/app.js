@@ -300,7 +300,7 @@ App.state = {
     if (App.state._target_shape.class === 'thermometer' || App.state._target_shape.class === 'hygrometer' ) {
         viewer_html = `
         <small>
-          <a>Current Delta: ${calculate_Delta}</a> |          
+          <a>Current Delta: ${moving_delta}</a> |          
           <a>1H Average: ${average_1H}</a> |
           <a>6H Average: ${average_6H}</a> |
           <a>24H Average: ${average_24H}</a> |
