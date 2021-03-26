@@ -270,41 +270,53 @@ App.state = {
 
 
     // calculate avrge of all readings
-    var calculate_avrg_all_array = master_data_bundle_array
-    var all_average_length = calculate_avrg_all_array.length
-    var all_average_sum = calculate_avrg_all_array.reduce((a, b) => a + b)
-    var total_avrg = all_average_sum / all_average_length
+    var total_average = App.state.calc_total_average(master_data_bundle_array)
+    // var calculate_avrg_all_array = master_data_bundle_array
+
+    // var all_average_length = calculate_avrg_all_array.length
+    // var all_average_sum = calculate_avrg_all_array.reduce((a, b) => a + b)
+    // var total_avrg = all_average_sum / all_average_length
 
     // calculate the current delta
-    var calculate_Delta_array = master_data_bundle_array
-    var calculate_Delta_array_length = calculate_Delta_array.length
-    var calculate_Delta = calculate_Delta_array[calculate_Delta_array_length - 1] - calculate_Delta_array[calculate_Delta_array_length]
+    var moving_delta = App.state.calc_moving_delta(master_data_bundle_array)
+    // var calculate_Delta_array = master_data_bundle_array
+    // var calculate_Delta_array_length = calculate_Delta_array.length
+    // var calculate_Delta = calculate_Delta_array[calculate_Delta_array_length - 1] - calculate_Delta_array[calculate_Delta_array_length]
 
     //calculate 24 avrg
-    var sample_rate_for_24h = 86400000 / App.state.settings.HARDWARE_SAMPLE_RATE
-    var calculate_24_avrg_array = master_data_bundle_array
-    var calculate_24_avrg_array_length = master_data_bundle_array.length
-    var calculate_24_avrg_sum = 0
-    for (let index = 0; index < sample_rate_for_24h; index++) {
-      calculate_24_avrg_sum += calculate_24_avrg_array[calculate_24_avrg_array_length - index]
+    var average_24H = App.state.calc_time_period_average( 86400000 , master_data_bundle_array)
+    var average_1H  = App.state.calc_time_period_average( 3600000 , master_data_bundle_array)
+    var average_6H  = App.state.calc_time_period_average( 21600000 , master_data_bundle_array)
+    // var sample_rate_for_24h = 86400000 / App.state.settings.HARDWARE_SAMPLE_RATE
+    // var calculate_24_avrg_array = master_data_bundle_array
+    // var calculate_24_avrg_array_length = master_data_bundle_array.length
+    // var calculate_24_avrg_sum = 0
+    // for (let index = 0; index < sample_rate_for_24h; index++) {
+    //   calculate_24_avrg_sum += calculate_24_avrg_array[calculate_24_avrg_array_length - index]
+    // }
+    // var calculate_24_avrg = calculate_24_avrg_sum / sample_rate_for_24h
+
+    // test if its a sensor type
+    if (App.state._target_shape.class === 'thermometer' || App.state._target_shape.class === 'hygrometer' ) {
+        viewer_html = `
+        <small>
+          <a>Current Delta: ${calculate_Delta}</a> |          
+          <a>1H Average: ${average_1H}</a> |
+          <a>6H Average: ${average_6H}</a> |
+          <a>24H Average: ${average_24H}</a> |
+          <a>Average Total Reading: ${total_average}</a> |
+          
+        </small> 
+        <div id="target_device_history_chart" style="height:350px;"></div>
+      `
     }
-    var calculate_24_avrg = calculate_24_avrg_sum / sample_rate_for_24h
 
-
-    switch (App.state._target_shape.class) {
-      case 'thermometer' || 'hygrometer':
+    // test if its an event type
+    if (App.state._target_shape.class === 'relay' || App.state._target_shape.class === 'swicth' ) {
         viewer_html = `
-              <small>            
-                <a>24H Average: ${calculate_24_avrg}</a> |
-                <a>Average Total Reading: ${total_avrg}</a> |
-                <a>Current Delta: ${calculate_Delta}</a> |
-              </small> 
-            `
-        break;
-      case "relays" || "swicth":
-        viewer_html = `
-              Work in progress...
-            `
+        Work in progress...
+        to see history view raw data
+      `
     }
 
     //render after the fact with a timetout
@@ -319,14 +331,35 @@ App.state = {
         <section id="hardware_settings">
             <fieldset>
                 <legend><a href="#hardware_settings">#</a> Device Details: ${target_shape.nid} </legend>
-
-                <div>
-                  ${viewer_html}
-                </div>
-                <div id="target_device_history_chart" style="height:350px;"></div>
+                <div>${viewer_html}</div>
             </fieldset>
         </section>
         `
+  },
+  calc_moving_delta: (data_array)=>{
+    var length = data_array.length - 1
+    var length_less = data_array.length - 2
+    return data_array[length_less] - data_array[length]
+  },
+  calc_total_average: (data_array)=>{
+
+    // reduce array add at each steap
+    var data_sum = data_array.reduce((a, b) => a + b)
+    // divide sume by length of array
+    return data_sum / data_array.length
+
+  },
+  calc_time_period_average: (Period_in_milliseconds,data_array)=>{
+
+    var sample_rate_for_24h = Period_in_milliseconds / App.state.settings.HARDWARE_SAMPLE_RATE
+    var calculate_24_avrg_sum = 0
+    for (let index = 0; index < sample_rate_for_24h; index++) {
+      calculate_24_avrg_sum += data_array[data_array.length - index  - 1]
+    }
+
+    return calculate_24_avrg_sum / sample_rate_for_24h
+
+
   },
   render_target_hardware_raw_data_viewer: () => {
 
