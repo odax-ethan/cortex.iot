@@ -272,7 +272,7 @@ App.state = {
     // calculate avrge of all readings
     var calculate_avrg_all_array = master_data_bundle_array
     var all_average_length = calculate_avrg_all_array.length
-    var all_average_sum = all_average.reduce((a, b) => a + b)
+    var all_average_sum = calculate_avrg_all_array.reduce((a, b) => a + b)
     var total_avrg = all_average_sum / all_average_length
 
     // calculate the current delta
