@@ -23,11 +23,13 @@ class timestamp {
         let offset = this.UTC_offset
         // let utc =  d.getTime() + (d.getTimezoneOffset() * minuteToMilli);
         var nd = new Date(d);
-        return dateFormat(nd, "yyyy-mm-dd HH:MM:ss");
+        return dateFormat(nd, "dd-mm-yyyy HH:MM:ss");
     }
 
   }
 
 TIMESTAMP = new timestamp(-5)
+
+console.log(TIMESTAMP.local);
 
 module.exports = { TIMESTAMP };
