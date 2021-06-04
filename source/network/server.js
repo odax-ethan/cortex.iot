@@ -6,7 +6,7 @@ const express = require('express');// express.js the imidiatetly create an expre
 var compression = require('compression') // addin compression
 const { WEBSOCKET, webSocketStructure } = require('./socket')
 const { systemEmitter } = require('../util/emitter/systemEmitter')
-var favicon = require('serve-favicon') //may not need
+// var favicon = require('serve-favicon') //may not need
 
 // const os = require('os');
 var ip = require('ip'); // get the public ip address
@@ -43,7 +43,7 @@ let serverStructure = (DATABASE) => {
 
         //public client view assets
         expressApp.use('/public', express.static(path.join(__dirname, '../views/public')))
-        expressApp.use(favicon(path.join(__dirname, '../views/public/images/favicon.ico')));
+        // expressApp.use(favicon(path.join(__dirname, '../views/public/images/favicon.ico')));
 
         // expressApp.use(favicon(path.join(__dirname + '../views/public/images/favicon.ico')));
 

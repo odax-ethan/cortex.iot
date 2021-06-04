@@ -3,58 +3,19 @@
     {
         "uid": "tent_board",
         "nid": "Tent Sensor Board",
-        "port": "/dev/ttyACM0",
-        "color": "#cd770e",
+        "port": "COM4",
+        "color": "#734f8c",
         "comment": "",
-        "devices": [
-            {
-                "uid": "tent_hygro_000",
-                "nid": "Tent Hygrometer",
-                "color": "#4EC5F1",
-                "comment": "",
-                "board": "tent_board",
-                "class": "hygrometer",
-                "controller": "SHT31D"
-            },
-            {
-                "uid": "tent_temp_000",
-                "nid": "Tent Thermometer",
-                "color": "#0df2c9",
-                "comment": "",
-                "board": "tent_board",
-                "class": "thermometer",
-                "controller": "DS18B20",
-                "pin": "6"
-            }, 
-            {
-                "uid": "water_trigger",
-                "nid": "Humidifier Water Trigger",
-                "color": "#20272F",
-                "comment": "Fan and Humidifier outlet combo",
-                "board": "tent_board",
-                "class": "switch",
-                "pin": "11",
-                "type": "NO"
-            }
-        ]
-    },
-    {
-        "uid": "pi_controller_tent",
-        "nid": "Grow_Tent",
-        "port": "pi_io",
-        "color": "#0ad149",
-        "comment": "This is a Pi host",
-        "index": null,
         "devices": [
             {
                 "uid": "pi_controller_tent_light",
                 "nid": "Light",
-                "color": "#871c1c",
+                "color": "#0fbd0f",
                 "comment": "This is a grow light.",
                 "board": "pi_controller_tent",
                 "class": "relay",
                 "type": "NO",
-                "pin": "P1-31",
+                "pin": "3",
                 "cron": [
                     {
                         "id":"light_cycle", 
@@ -62,7 +23,7 @@
                        "target": "pi_controller_tent_light",
                        "type": "on/off",
                        "shape": [" 0 0 6 * * * " , " 0 59 23 * * * "],
-                       "color": "#7def71"
+                       "color": "#50f7c7"
                    }
                 ]
             },
@@ -74,7 +35,7 @@
                 "board": "pi_controller_tent",
                 "class": "relay",
                 "type": "NO",
-                "pin": "P1-37",
+                "pin": "5",
                 "cron": [
                     {
                         "id":"air_cycle", 
@@ -83,9 +44,19 @@
                         "type": "burst",
                         "shape": " 0 */8 * * * * ",
                         "length": 150000,
-                        "color": "#7def71"
+                        "color": "#c71f1f"
                     }
                 ]
+            },
+            {
+                "uid": "water_trigger",
+                "nid": "Humidifier Water Trigger",
+                "color": "#20272F",
+                "comment": "Fan and Humidifier outlet combo",
+                "board": "tent_board",
+                "class": "switch",
+                "pin": "11",
+                "type": "NO"
             }
         ]
     }
