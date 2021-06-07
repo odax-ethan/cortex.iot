@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap');
+
+:root {
+    --black: #1D1D1D;
+    font-family: 'Titillium Web',  Helvetica, Arial, sans-serif;
+    color: var(--black);
+    /* padding: 1% 5% 2% 5%; */
+}
+
+
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    body {
+        /* padding: 0% 25% 2% 25%; */
+    }
+   
+}
