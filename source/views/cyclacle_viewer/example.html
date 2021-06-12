@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>example cyclical viewer</title>
+    <link rel="stylesheet" href="./cyclical_viewer.css">
+    <script src="./utility.js"></script>
+    <script src="./fake_date.js"></script>
+</head>
+<body>
+    
+
+
+    <div class="view_container" id="view_container_111" style="width: 100%; height: 350px;">
+        
+        <svg class="cycacle_visual_svg" id="cycacle_visual_111" position: absolute; preserveAspectRatio="none" shape-rendering="auto">
+  
+        </svg>
+
+        <div class="view_container_controller" id="view_container_controller_111">
+
+            # of readings a cycle
+            <input type="number" placeholder="readings/hour" id="readings_an_hour_input" value ="94" step="1" min="1">
+            |  
+            number of cycles
+            <input type="number" placeholder="cycle/set" id="number_of_cycles_input" value ="140" step="1" min="1">
+            <button onclick="render_cycacle_viewer(111, fake_data)" >Reload UI</button>
+        </div>
+
+        
+
+    </div>
+
+    
+</body>
+<script src="./cyclical _view.js"></script>
+<script>
+ let go =   () => {
+        render_cycacle_viewer(111, fake_data)
+    }
+go()
+</script>
+</html>

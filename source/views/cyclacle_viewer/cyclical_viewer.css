@@ -1,0 +1,25 @@
+.view_container {
+    width: 100%;
+    /* background:#b6fbb2  2px; */
+    position: relative;
+    z-index: 99;
+}
+
+.view_container_controller {
+    width: 100%;
+   /* background: cornflowerblue; */
+   position: absolute;
+   font-size: x-small;
+   bottom: 0;
+   text-align: right;
+   z-index: 101;
+}
+
+.view_container_controller input {
+    width: 54px;
+} 
+
+.cycacle_visual_svg {
+    position: absolute;
+    z-index: 100;
+}

@@ -9,9 +9,18 @@
 </head>
 <body >
     
-    <div id="view_container" style="height: 100%; width:100%;">
 
-        <svg >
+    <div id="view_container_controller">
+
+        <label for="">number of readings an hour</label>
+        <input type="number" placeholder="number of readings an hour" id="readings_an_hour_input">
+        <br>
+        <label for="">number of cycles</label>
+        <input type="number" placeholder="number of cycles in set" id="number_of_cycles_input">
+    </div>
+    <div id="view_container">
+        
+        <svg>
   
         </svg>
 
@@ -38,6 +47,11 @@
             svg.setAttribute('viewBox',"0 -20 1445 300") // set points in svg viewer
             svg.offsetWidth = current_view_width;
             svg.offsetHeight = current_view_height;
+
+
+            // set up controller
+            let view_container_controller_readings_input_value = document.querySelector('#readings_an_hour_input')
+            let view_container_controller_cycles_input_value = document.querySelector('#number_of_cycles_input')
         
             let html = '' //svg html output 
 
