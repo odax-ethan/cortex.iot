@@ -29,6 +29,6 @@
     "johnny-five": "^2.0.0",
     "node-fetch": "^2.6.1",
     "pouchdb": "^7.2.2",
-    "socket.io": "^2.4.0"
+    "socket.io": "^2.5.0"
   }
 }
